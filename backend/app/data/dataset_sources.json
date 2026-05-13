@@ -1,0 +1,130 @@
+{
+  "malaria": [
+    {
+      "name": "CDC Malaria About",
+      "url": "https://www.cdc.gov/malaria/about/index.html",
+      "symptoms_used": ["fever", "flu-like illness", "chills", "headache", "muscle aches", "tiredness", "nausea", "vomiting", "diarrhea"]
+    },
+    {
+      "name": "WHO Malaria Fact Sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/malaria",
+      "symptoms_used": ["fever", "headache", "chills", "fatigue", "confusion", "difficulty breathing", "dark or bloody urine", "jaundice"]
+    }
+  ],
+  "typhoid fever": [
+    {
+      "name": "WHO Typhoid Fact Sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/typhoid",
+      "symptoms_used": ["prolonged high fever", "fatigue", "headache", "nausea", "abdominal pain", "constipation", "diarrhoea", "rash"]
+    },
+    {
+      "name": "CDC Typhoid Symptoms",
+      "url": "https://www.cdc.gov/typhoid-fever/signs-symptoms/index.html",
+      "symptoms_used": ["fever", "weakness", "stomach pain", "headache", "constipation", "diarrhea", "cough", "loss of appetite", "rose-colored spots"]
+    }
+  ],
+  "tuberculosis": [
+    {
+      "name": "CDC TB Signs and Symptoms",
+      "url": "https://www.cdc.gov/tb/signs-symptoms/index.html",
+      "symptoms_used": ["bad cough lasting 3 weeks or longer", "chest pain", "coughing up blood or sputum", "weakness", "fatigue", "weight loss", "no appetite", "chills", "fever", "sweating at night"]
+    },
+    {
+      "name": "WHO Tuberculosis Fact Sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/tuberculosis",
+      "symptoms_used": ["prolonged cough", "blood", "chest pain", "weakness", "fatigue", "weight loss", "fever", "night sweats"]
+    }
+  ],
+  "hiv": [
+    {
+      "name": "WHO HIV and AIDS Fact Sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/hiv-aids",
+      "symptoms_used": ["fever", "headache", "rash", "sore throat", "swollen lymph nodes", "weight loss", "diarrhoea", "cough"]
+    },
+    {
+      "name": "CDC HIV About",
+      "url": "https://www.cdc.gov/hiv/about/index.html",
+      "symptoms_used": ["flu-like symptoms", "no symptoms", "testing required"]
+    }
+  ],
+  "flu": [
+    {
+      "name": "CDC Flu Signs and Symptoms",
+      "url": "https://www.cdc.gov/flu/signs-symptoms/index.html",
+      "symptoms_used": ["fever", "feverish", "chills", "cough", "sore throat", "runny nose", "stuffy nose", "muscle aches", "body aches", "headache", "fatigue", "vomiting", "diarrhea"]
+    }
+  ],
+  "common cold": [
+    {
+      "name": "CDC Common Cold About",
+      "url": "https://www.cdc.gov/common-cold/about/index.html",
+      "symptoms_used": ["runny nose", "nasal congestion", "cough", "sneezing", "sore throat", "headache", "mild body aches", "low-grade fever"]
+    },
+    {
+      "name": "CDC Flu Signs and Symptoms",
+      "url": "https://www.cdc.gov/flu/signs-symptoms/index.html",
+      "symptoms_used": ["gradual onset", "sneezing", "stuffy nose", "sore throat", "mild cough"]
+    }
+  ],
+  "gastroenteritis": [
+    {
+      "name": "CDC Norovirus About",
+      "url": "https://www.cdc.gov/norovirus/about/index.html",
+      "symptoms_used": ["diarrhea", "vomiting", "nausea", "stomach pain", "fever", "headache", "body aches", "dehydration"]
+    },
+    {
+      "name": "WHO Diarrhoeal Disease Fact Sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/diarrhoeal-disease",
+      "symptoms_used": ["loose or liquid stools", "vomiting", "dehydration", "fluid loss", "blood in stool"]
+    }
+  ],
+  "covid-like illness": [
+    {
+      "name": "CDC COVID Symptoms",
+      "url": "https://www.cdc.gov/covid/signs-symptoms/index.html",
+      "symptoms_used": ["fever", "chills", "cough", "shortness of breath", "difficulty breathing", "sore throat", "congestion", "runny nose", "loss of taste", "loss of smell", "fatigue", "muscle aches", "body aches", "headache", "nausea", "vomiting", "diarrhea"]
+    }
+  ],
+  "dengue": [
+    {
+      "name": "WHO Dengue Fact Sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue",
+      "symptoms_used": ["high fever", "severe headache", "pain behind the eyes", "muscle and joint pains", "nausea", "vomiting", "swollen glands", "rash", "severe abdominal pain", "persistent vomiting", "rapid breathing", "bleeding gums or nose", "fatigue", "restlessness", "blood in vomit or stool"]
+    }
+  ],
+  "cholera": [
+    {
+      "name": "WHO Cholera Fact Sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/cholera",
+      "symptoms_used": ["severe acute watery diarrhoea", "mild or moderate diarrhoea", "life-threatening dehydration", "rapid progression"]
+    }
+  ],
+  "pneumonia": [
+    {
+      "name": "CDC Pneumonia About",
+      "url": "https://www.cdc.gov/pneumonia/about/index.html",
+      "symptoms_used": ["chest pain when breathing or coughing", "altered mental status", "cough", "fatigue", "fever", "chills", "nausea", "vomiting", "diarrhea", "shortness of breath"]
+    }
+  ],
+  "meningitis": [
+    {
+      "name": "CDC Meningitis About",
+      "url": "https://www.cdc.gov/meningitis/about/index.html",
+      "symptoms_used": ["fever", "headache", "stiff neck", "nausea", "vomiting", "photophobia", "altered mental status", "infant irritability", "poor feeding", "bulging fontanelle"]
+    }
+  ],
+  "hepatitis b": [
+    {
+      "name": "WHO Hepatitis B Fact Sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/hepatitis-b",
+      "symptoms_used": ["yellowing of the skin and eyes", "dark urine", "very tired", "nausea", "vomiting", "pain in the abdomen", "no symptoms when newly infected"]
+    }
+  ],
+  "measles": [
+    {
+      "name": "CDC Measles Symptoms",
+      "url": "https://www.cdc.gov/measles/signs-symptoms/index.html",
+      "symptoms_used": ["high fever", "cough", "runny nose", "red watery eyes", "Koplik spots", "rash", "flat red spots", "diarrhea", "ear infections"]
+    }
+  ]
+}

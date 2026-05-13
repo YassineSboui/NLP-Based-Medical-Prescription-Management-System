@@ -1,0 +1,29 @@
+Best model: linear_svc_calibrated
+Accuracy: 0.844
+Macro F1: 0.837
+
+Candidate comparison:
+- logistic_regression: accuracy=0.812, macro_f1=0.776
+- linear_svc_calibrated: accuracy=0.844, macro_f1=0.837
+- complement_naive_bayes: accuracy=0.844, macro_f1=0.826
+
+                    precision    recall  f1-score   support
+
+           cholera       0.67      1.00      0.80         2
+       common cold       1.00      1.00      1.00         2
+covid-like illness       1.00      0.50      0.67         2
+            dengue       0.67      1.00      0.80         2
+               flu       1.00      0.67      0.80         3
+   gastroenteritis       1.00      0.33      0.50         3
+       hepatitis b       1.00      1.00      1.00         2
+               hiv       1.00      1.00      1.00         3
+           malaria       0.67      1.00      0.80         2
+           measles       1.00      1.00      1.00         2
+        meningitis       1.00      1.00      1.00         2
+         pneumonia       0.50      0.50      0.50         2
+      tuberculosis       0.75      1.00      0.86         3
+     typhoid fever       1.00      1.00      1.00         2
+
+          accuracy                           0.84        32
+         macro avg       0.88      0.86      0.84        32
+      weighted avg       0.88      0.84      0.83        32

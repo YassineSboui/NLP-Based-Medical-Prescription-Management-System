@@ -1,0 +1,38 @@
+{
+  "best_model": "linear_svc_calibrated",
+  "dataset_rows": 128,
+  "label_count": 14,
+  "labels": [
+    "cholera",
+    "common cold",
+    "covid-like illness",
+    "dengue",
+    "flu",
+    "gastroenteritis",
+    "hepatitis b",
+    "hiv",
+    "malaria",
+    "measles",
+    "meningitis",
+    "pneumonia",
+    "tuberculosis",
+    "typhoid fever"
+  ],
+  "candidate_results": [
+    {
+      "model": "logistic_regression",
+      "accuracy": 0.8125,
+      "macro_f1": 0.7761904761904762
+    },
+    {
+      "model": "linear_svc_calibrated",
+      "accuracy": 0.84375,
+      "macro_f1": 0.8374149659863946
+    },
+    {
+      "model": "complement_naive_bayes",
+      "accuracy": 0.84375,
+      "macro_f1": 0.8261904761904761
+    }
+  ]
+}

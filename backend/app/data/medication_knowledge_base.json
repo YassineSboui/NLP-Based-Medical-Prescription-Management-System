@@ -1,0 +1,334 @@
+{
+  "malaria": {
+    "actions": [
+      "Seek rapid diagnostic testing or microscopy before antimalarial treatment when possible.",
+      "Urgent medical care is needed for confusion, repeated vomiting, pregnancy, severe weakness, or signs of severe malaria.",
+      "Drink fluids and monitor fever while waiting for clinical evaluation."
+    ],
+    "medications": [
+      {
+        "name": "Artemether-lumefantrine",
+        "standard_dosage": "Common adult regimen: 6-dose course over 3 days; exact dose depends on age and body weight.",
+        "administration": "Usually taken with food or milk to improve absorption. Must be prescribed or confirmed by a clinician.",
+        "warnings": [
+          "Do not self-medicate without malaria confirmation where testing is available.",
+          "Dose varies by weight, pregnancy status, age, and local treatment guidelines.",
+          "Severe malaria requires emergency treatment and may need injectable therapy."
+        ]
+      },
+      {
+        "name": "Paracetamol",
+        "standard_dosage": "Adults often use 500-1000 mg every 6-8 hours as needed; maximum daily dose depends on local guidance and liver risk.",
+        "administration": "Used for fever or pain relief, not as malaria treatment.",
+        "warnings": [
+          "Avoid overdose and avoid combining multiple products containing paracetamol.",
+          "Use caution with liver disease or heavy alcohol use."
+        ]
+      }
+    ]
+  },
+  "typhoid fever": {
+    "actions": [
+      "Consult a healthcare professional for blood culture or appropriate diagnostic testing.",
+      "Maintain hydration and seek urgent care for persistent high fever, confusion, bleeding, or severe abdominal pain.",
+      "Antibiotic choice should follow local resistance patterns."
+    ],
+    "medications": [
+      {
+        "name": "Ceftriaxone or azithromycin",
+        "standard_dosage": "Dose and duration vary by severity, age, pregnancy status, and local antimicrobial resistance.",
+        "administration": "Antibiotics must be selected and prescribed by a clinician after assessment.",
+        "warnings": [
+          "Do not start antibiotics without medical advice because resistance is common.",
+          "Report allergy history before taking any antibiotic.",
+          "Severe disease may require hospitalization."
+        ]
+      },
+      {
+        "name": "Oral rehydration salts",
+        "standard_dosage": "Use according to sachet instructions after each loose stool or as advised.",
+        "administration": "Dissolve the full sachet in the correct volume of clean water.",
+        "warnings": [
+          "Incorrect dilution can be harmful.",
+          "Seek care if unable to drink, very drowsy, or showing dehydration signs."
+        ]
+      }
+    ]
+  },
+  "tuberculosis": {
+    "actions": [
+      "Seek clinical evaluation, sputum testing, chest imaging, and public health follow-up.",
+      "Wear a mask and reduce close contact if infectious tuberculosis is suspected.",
+      "Treatment must be supervised because incomplete therapy causes resistance."
+    ],
+    "medications": [
+      {
+        "name": "Standard TB combination therapy",
+        "standard_dosage": "Common first-line treatment uses multiple drugs such as isoniazid, rifampicin, pyrazinamide, and ethambutol; dosing is weight-based.",
+        "administration": "Must be prescribed, monitored, and completed under a tuberculosis program or qualified clinician.",
+        "warnings": [
+          "Never take single-drug TB treatment or stop early.",
+          "Monitoring is needed for liver toxicity, vision effects, interactions, pregnancy, and HIV co-infection.",
+          "Possible TB symptoms require medical testing, not symptom-only treatment."
+        ]
+      }
+    ]
+  },
+  "hiv": {
+    "actions": [
+      "Get confidential HIV testing and counseling if exposure or compatible symptoms are present.",
+      "Seek urgent care for suspected recent exposure because post-exposure prophylaxis is time-sensitive.",
+      "If positive, treatment and monitoring should start through a qualified HIV care service."
+    ],
+    "medications": [
+      {
+        "name": "Antiretroviral therapy",
+        "standard_dosage": "Regimen is individualized; common first-line combinations may include tenofovir, lamivudine, and dolutegravir depending on guidelines.",
+        "administration": "Taken daily only after confirmed diagnosis and clinician selection of an appropriate regimen.",
+        "warnings": [
+          "HIV cannot be diagnosed from symptoms alone.",
+          "Drug interactions, kidney function, pregnancy, resistance, and co-infections must be assessed.",
+          "Do not share or start antiretroviral medicines without medical supervision."
+        ]
+      }
+    ]
+  },
+  "flu": {
+    "actions": [
+      "Rest, drink fluids, and monitor symptoms.",
+      "Seek care for breathing difficulty, chest pain, dehydration, pregnancy, very young/older age, or chronic illness.",
+      "A clinician may consider antiviral treatment early for high-risk patients."
+    ],
+    "medications": [
+      {
+        "name": "Paracetamol",
+        "standard_dosage": "Adults often use 500-1000 mg every 6-8 hours as needed; maximum daily dose depends on local guidance and liver risk.",
+        "administration": "Used for fever and body pain relief.",
+        "warnings": [
+          "Avoid overdose and duplicate paracetamol-containing products.",
+          "Children, pregnancy, liver disease, and chronic illness require professional advice."
+        ]
+      }
+    ]
+  },
+  "common cold": {
+    "actions": [
+      "Rest, drink fluids, and consider saline nasal rinses or steam for congestion.",
+      "Seek care if symptoms worsen, fever is high, breathing is difficult, or symptoms last more than 10 days.",
+      "Antibiotics are not useful for uncomplicated viral colds."
+    ],
+    "medications": [
+      {
+        "name": "Paracetamol",
+        "standard_dosage": "Adults often use 500-1000 mg every 6-8 hours as needed; maximum daily dose depends on local guidance and liver risk.",
+        "administration": "Used for pain or fever if present.",
+        "warnings": [
+          "Avoid overdose and check other cold medicines for paracetamol.",
+          "Children need age- and weight-appropriate dosing from a professional source."
+        ]
+      }
+    ]
+  },
+  "gastroenteritis": {
+    "actions": [
+      "Prioritize oral rehydration and monitor for dehydration.",
+      "Seek urgent care for blood in stool, severe dehydration, persistent vomiting, high fever, infants, pregnancy, or elderly patients.",
+      "Avoid unnecessary antibiotics unless a clinician identifies a bacterial cause."
+    ],
+    "medications": [
+      {
+        "name": "Oral rehydration salts",
+        "standard_dosage": "Use according to sachet instructions after each loose stool or as advised by a clinician.",
+        "administration": "Mix the full sachet with the exact amount of clean water printed on the packet.",
+        "warnings": [
+          "Do not dilute incorrectly.",
+          "Seek care if unable to keep fluids down or if signs of dehydration appear."
+        ]
+      }
+    ]
+  },
+  "covid-like illness": {
+    "actions": [
+      "Consider COVID testing according to local availability and guidance.",
+      "Isolate or wear a mask while symptomatic to reduce transmission.",
+      "Seek urgent care for shortness of breath, chest pain, confusion, blue lips, pregnancy, or high-risk conditions."
+    ],
+    "medications": [
+      {
+        "name": "Paracetamol",
+        "standard_dosage": "Adults often use 500-1000 mg every 6-8 hours as needed; maximum daily dose depends on local guidance and liver risk.",
+        "administration": "Used for fever, headache, or body pain relief.",
+        "warnings": [
+          "COVID-like symptoms require testing and risk assessment.",
+          "Avoid overdose and duplicate paracetamol-containing products."
+        ]
+      }
+    ]
+  },
+  "dengue": {
+    "actions": [
+      "Seek medical assessment and diagnostic testing if dengue is possible, especially in areas where dengue circulates.",
+      "Drink fluids and monitor for warning signs such as severe abdominal pain, persistent vomiting, bleeding, rapid breathing, restlessness, or extreme weakness.",
+      "Urgent care is needed for bleeding, shock signs, severe dehydration, pregnancy, infants, elderly patients, or worsening symptoms after fever improves."
+    ],
+    "medications": [
+      {
+        "name": "Paracetamol",
+        "standard_dosage": "Adults often use 500-1000 mg every 6-8 hours as needed; maximum daily dose depends on local guidance and liver risk.",
+        "administration": "Used for fever or pain relief while awaiting clinical evaluation.",
+        "warnings": [
+          "Avoid aspirin, ibuprofen, and other non-steroidal anti-inflammatory drugs unless a clinician says otherwise because dengue can increase bleeding risk.",
+          "Do not exceed the recommended paracetamol dose, especially with liver disease or alcohol use.",
+          "Dengue has no specific antiviral treatment; severe dengue requires hospital care."
+        ]
+      },
+      {
+        "name": "Oral rehydration salts",
+        "standard_dosage": "Use according to sachet instructions or clinician guidance if oral hydration is possible.",
+        "administration": "Mix the full sachet with the exact amount of clean water printed on the packet.",
+        "warnings": [
+          "Incorrect dilution can be harmful.",
+          "Persistent vomiting, dizziness, bleeding, or severe weakness needs urgent medical care."
+        ]
+      }
+    ]
+  },
+  "cholera": {
+    "actions": [
+      "Treat suspected cholera as urgent because severe dehydration can become life-threatening quickly.",
+      "Start oral rehydration while seeking medical care if the patient can drink safely.",
+      "Report possible cholera according to local public health guidance and use safe water, sanitation, and hand hygiene measures."
+    ],
+    "medications": [
+      {
+        "name": "Oral rehydration salts",
+        "standard_dosage": "Use according to sachet instructions; frequent replacement of fluid losses is critical.",
+        "administration": "Mix the full sachet with the exact amount of clean water printed on the packet.",
+        "warnings": [
+          "Incorrect dilution can be harmful.",
+          "Severe dehydration, lethargy, inability to drink, or shock signs require emergency IV fluids."
+        ]
+      },
+      {
+        "name": "Antibiotics for severe cholera",
+        "standard_dosage": "Antibiotic choice and dose depend on age, pregnancy status, severity, and local resistance patterns.",
+        "administration": "Only a clinician or cholera treatment center should decide whether antibiotics are needed.",
+        "warnings": [
+          "Do not use antibiotics for prevention or without clinical guidance.",
+          "Rehydration is the most important treatment and should not be delayed."
+        ]
+      }
+    ]
+  },
+  "pneumonia": {
+    "actions": [
+      "Seek clinical evaluation for cough with fever, chest pain, confusion, or shortness of breath.",
+      "Urgent care is needed for breathing difficulty, blue lips, severe chest pain, confusion, dehydration, infants, elderly patients, pregnancy, or chronic illness.",
+      "A clinician may need oxygen assessment, chest examination, imaging, and tests to decide whether antibiotics or hospital care are required."
+    ],
+    "medications": [
+      {
+        "name": "Clinician-selected antibiotic if bacterial pneumonia is suspected",
+        "standard_dosage": "Antibiotic selection, dose, and duration depend on age, severity, comorbidities, allergies, and local resistance patterns.",
+        "administration": "Must be prescribed after clinical assessment; viral pneumonia may not need antibiotics.",
+        "warnings": [
+          "Do not self-start leftover antibiotics.",
+          "Emergency care is needed for shortness of breath, confusion, chest pain, or oxygen problems.",
+          "Children and older adults can worsen quickly."
+        ]
+      },
+      {
+        "name": "Paracetamol",
+        "standard_dosage": "Adults often use 500-1000 mg every 6-8 hours as needed; maximum daily dose depends on local guidance and liver risk.",
+        "administration": "Used for fever or pain relief, not as pneumonia treatment.",
+        "warnings": [
+          "Avoid overdose and duplicate paracetamol-containing products.",
+          "Fever relief does not replace evaluation of breathing symptoms."
+        ]
+      }
+    ]
+  },
+  "meningitis": {
+    "actions": [
+      "Possible meningitis is a medical emergency; seek urgent care immediately.",
+      "Do not wait at home if fever, severe headache, stiff neck, confusion, photophobia, repeated vomiting, seizure, or infant warning signs are present.",
+      "Diagnosis and treatment depend on the cause and may require blood tests, cerebrospinal fluid testing, IV medicines, and hospital monitoring."
+    ],
+    "medications": [
+      {
+        "name": "Emergency hospital treatment",
+        "standard_dosage": "Treatment depends on the cause; bacterial meningitis often requires urgent IV antibiotics selected by clinicians.",
+        "administration": "Must be given in a medical facility after urgent assessment.",
+        "warnings": [
+          "Do not try to treat suspected meningitis at home.",
+          "Delays can cause death or permanent neurologic injury.",
+          "Treatment differs for bacterial, viral, fungal, and other causes."
+        ]
+      }
+    ]
+  },
+  "hepatitis b": {
+    "actions": [
+      "Seek blood testing for hepatitis B if jaundice, dark urine, abdominal pain, or exposure risk is present.",
+      "Avoid alcohol and unnecessary liver-stressing medicines until evaluated by a clinician.",
+      "Urgent care is needed for severe abdominal pain, confusion, bleeding, severe vomiting, dehydration, or worsening jaundice."
+    ],
+    "medications": [
+      {
+        "name": "Supportive care for acute hepatitis B",
+        "standard_dosage": "No specific medicine is usually used for uncomplicated acute hepatitis B; care focuses on hydration, nutrition, and monitoring.",
+        "administration": "A clinician should confirm diagnosis and monitor liver function.",
+        "warnings": [
+          "Do not self-medicate with herbal or over-the-counter products that may affect the liver.",
+          "Paracetamol and other liver-metabolized medicines require clinician advice when hepatitis is suspected.",
+          "Vaccination and testing of contacts may be needed."
+        ]
+      },
+      {
+        "name": "Antiviral therapy for chronic hepatitis B",
+        "standard_dosage": "Medicines such as tenofovir or entecavir may be used for chronic hepatitis B when eligibility criteria are met.",
+        "administration": "Requires confirmed diagnosis, liver assessment, and long-term clinician monitoring.",
+        "warnings": [
+          "Do not start or stop antiviral treatment without specialist guidance.",
+          "Treatment decisions depend on viral load, liver tests, pregnancy status, kidney function, and co-infections."
+        ]
+      }
+    ]
+  },
+  "measles": {
+    "actions": [
+      "Call a healthcare provider before going to a clinic if measles is possible because it is highly contagious.",
+      "Isolate from others and avoid exposing infants, pregnant people, and immunocompromised people.",
+      "Urgent care is needed for breathing difficulty, dehydration, confusion, severe weakness, pneumonia signs, seizures, pregnancy, or very young children."
+    ],
+    "medications": [
+      {
+        "name": "Supportive care",
+        "standard_dosage": "No specific antiviral treatment is used for routine measles; care focuses on fluids, fever control, and monitoring complications.",
+        "administration": "Clinical evaluation is needed to confirm measles and manage complications.",
+        "warnings": [
+          "Measles is reportable in many settings; follow local public health instructions.",
+          "Do not give aspirin to children or teenagers with viral illnesses.",
+          "Complications such as pneumonia, ear infection, diarrhea, and encephalitis require medical care."
+        ]
+      },
+      {
+        "name": "Vitamin A when clinically indicated",
+        "standard_dosage": "Vitamin A may be recommended for children with measles in some guidelines; dose depends on age and clinical context.",
+        "administration": "Use only according to clinician or public health guidance.",
+        "warnings": [
+          "Excess vitamin A can be toxic.",
+          "Vaccination status and exposure management should be reviewed by a healthcare professional."
+        ]
+      }
+    ]
+  },
+  "unknown": {
+    "actions": [
+      "The symptoms are not specific enough for a reliable educational suggestion.",
+      "Consult a qualified healthcare professional for examination and diagnostic testing.",
+      "Seek urgent care for severe pain, breathing difficulty, confusion, fainting, pregnancy complications, dehydration, or symptoms in young children."
+    ],
+    "medications": []
+  }
+}

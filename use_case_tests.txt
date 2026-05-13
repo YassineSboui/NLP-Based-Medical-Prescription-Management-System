@@ -1,0 +1,64 @@
+NLP-Based Medical Prescription Management System - Use Case Tests
+=================================================================
+
+Use these examples in the Streamlit frontend or FastAPI `/analyze` endpoint.
+
+1. Malaria
+Input: I have fever, headache, chills, sweating and body pain for 3 days.
+Expected: malaria
+
+2. Typhoid fever
+Input: I have prolonged high fever, fatigue, headache, nausea and abdominal pain.
+Expected: typhoid fever
+
+3. Tuberculosis
+Input: I have had a cough for more than three weeks, night sweats, fever and weight loss.
+Expected: tuberculosis
+
+4. HIV
+Input: I have flu-like symptoms after possible exposure, fever, sore throat, rash and swollen lymph nodes.
+Expected: hiv
+
+5. Dengue
+Input: I have high fever, severe headache, pain behind the eyes, joint pain and rash.
+Expected: dengue
+
+6. Cholera
+Input: I have severe watery diarrhea, vomiting, thirst and dehydration after drinking unsafe water.
+Expected: cholera
+
+7. Pneumonia
+Input: I have cough, fever, chills, chest pain when breathing and shortness of breath.
+Expected: pneumonia
+
+8. Meningitis
+Input: I have fever, severe headache, stiff neck, vomiting and light sensitivity.
+Expected: meningitis
+
+9. Hepatitis B
+Input: I have yellow eyes, dark urine, nausea, vomiting and abdominal pain.
+Expected: hepatitis b
+
+10. Measles
+Input: My child has high fever, cough, runny nose, red watery eyes and a rash spreading from the face.
+Expected: measles
+
+11. COVID-like illness
+Input: I have fever, dry cough, shortness of breath, fatigue and loss of taste.
+Expected: covid-like illness
+
+12. Common cold
+Input: I have runny nose, sneezing, sore throat, nasal congestion and mild cough.
+Expected: common cold
+
+13. Gastroenteritis
+Input: I have diarrhea, vomiting, nausea and stomach pain after eating suspicious food.
+Expected: gastroenteritis
+
+14. Flu
+Input: I suddenly developed fever, chills, cough, sore throat, muscle aches and fatigue.
+Expected: flu
+
+Negation test
+Input: I have cough and chest pain but no fever and no chills.
+Expected: extract cough and chest pain, but not fever or chills.
