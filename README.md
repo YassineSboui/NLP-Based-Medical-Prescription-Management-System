@@ -73,6 +73,9 @@ Detailed documentation is available in:
 - `docs/full_project_documentation.md`: full explanation of every module and design choice.
 - `docs/teacher_q_and_a.md`: likely teacher questions with prepared answers.
 - `docs/demo_script.md`: short demo flow for presentation.
+- `docs/technical_report.md`: English technical report draft.
+- `docs/presentation_plan.md`: slide-by-slide 10-15 minute presentation plan.
+- `docs/teacher_validation_documentation.md`: folder-by-folder documentation for teacher validation.
 - `docs/architecture.md`: architecture and request flow.
 - `docs/dataset_description.md`: dataset, labels, preprocessing, and sources.
 - `use_case_tests.txt`: ready-to-paste test cases with expected results.
