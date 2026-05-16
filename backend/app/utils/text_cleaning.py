@@ -24,6 +24,10 @@ STOP_WORDS = {
 }
 
 PHRASE_NORMALIZATIONS = {
+    r"\bcovid[\s-]?19\b": "covid",
+    r"\bcorona\s+virus\b": "covid",
+    r"\bcoronavirus\b": "covid",
+    r"\bsars[\s-]?cov[\s-]?2\b": "covid",
     r"\bdiarrhoea\b": "diarrhea",
     r"\bcoryza\b": "runny nose",
     r"\bconjunctivitis\b": "red watery eyes",
@@ -53,7 +57,6 @@ PHRASE_NORMALIZATIONS = {
 def clean_text(text: str) -> str:
     normalized = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
     normalized = normalized.lower()
-    normalized = normalized.replace("covid-19", "covid")
     for pattern, replacement in PHRASE_NORMALIZATIONS.items():
         normalized = re.sub(pattern, replacement, normalized)
     normalized = re.sub(r"[^a-z0-9\s\-]", " ", normalized)
