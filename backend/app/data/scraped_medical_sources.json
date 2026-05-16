@@ -1,0 +1,698 @@
+[
+  {
+    "disease": "cholera",
+    "source_name": "WHO Cholera Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/cholera",
+    "status_code": 200,
+    "title": "Cholera",
+    "fetched_at": "2026-05-16T13:33:49.020036+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "Cholera is a severe diarrheal disease that can be fatal within hours if not treated. Quick access to treatment is crucial.",
+          "Most people with cholera have no or mild symptoms and can be treated with oral rehydration solution. Severe cases need intravenous fluids, oral rehydration solution and antibiotics.",
+          "The oral cholera vaccine (OCV) can help prevent and control cholera."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "Cholera is an acute diarrheal infection caused by consuming food or water contaminated with the bacterium Vibrio cholerae . It is a global public health threat and indicates inequity and lack of social and economic development. Access to safe water, basic sanitation and hygiene is essential to prevent cholera and other waterborne diseases.",
+          "Most people with cholera have mild or moderate diarrhoea and can be treated with oral rehydration solution (ORS). However, the disease can progress rapidly, so starting treatment quickly is vital to save lives. Patients with severe disease need intravenous fluids, ORS and antibiotics."
+        ]
+      },
+      {
+        "heading": "Symptoms",
+        "items": [
+          "Cholera can cause severe acute watery diarrhoea, which can be fatal within hours if untreated. Most people infected with V. cholerae do not develop symptoms but can spread the bacteria through their faeces for 1–10 days. Symptoms appear 12 hours to 5 days after infection (2) .",
+          "Most people with the disease have mild or moderate symptoms. A minority of patients develop severe acute watery diarrhoea and life-threatening dehydration."
+        ]
+      },
+      {
+        "heading": "Prevention and control",
+        "items": [
+          "Preventing and controlling cholera involves a combination of strengthening surveillance, improving water, sanitation and hygiene, increasing risk communication and community engagement, improving access to quality treatment and implementing oral cholera vaccine campaigns."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "Cholera is an easily treatable disease. Most people can be treated successfully with prompt ORS administration. Severely dehydrated patients are at risk of dying from dehydration and need rapid intravenous fluids. They also receive oral rehydration solution and antibiotics. Patients with underlying conditions or comorbidities may require additional care in specific treatment centres. The case fatality rate in treatment centres should remain below 1%.",
+          "Community access to ORS is essential during a cholera outbreak. Mass administration of antibiotics to prevent cholera (chemoprophylaxis) is not recommended, as it has no proven effect on the spread of cholera and may contribute to antimicrobial resistance."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "common cold",
+    "source_name": "CDC Common Cold About",
+    "source_url": "https://www.cdc.gov/common-cold/about/index.html",
+    "status_code": 200,
+    "title": "About Common Cold",
+    "fetched_at": "2026-05-16T13:33:52.123544+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "Cough",
+          "Headache",
+          "Fever (usually low grade in older children and adults)"
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "common cold",
+    "source_name": "CDC Flu Signs and Symptoms",
+    "source_url": "https://www.cdc.gov/flu/signs-symptoms/index.html",
+    "status_code": 200,
+    "title": "Signs and Symptoms of Flu",
+    "fetched_at": "2026-05-16T13:33:53.163292+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Symptoms",
+        "items": [
+          "fever* or feeling feverish/chills",
+          "cough",
+          "headaches",
+          "fatigue (tiredness)",
+          "some people may have vomiting and diarrhea, though this is more common in children than adults.",
+          "*It's important to note that not everyone with flu will have a fever."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "covid-like illness",
+    "source_name": "CDC COVID Symptoms",
+    "source_url": "https://www.cdc.gov/covid/signs-symptoms/index.html",
+    "status_code": 200,
+    "title": "Symptoms of COVID-19",
+    "fetched_at": "2026-05-16T13:33:54.712543+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Signs and Symptoms",
+        "items": [
+          "Fever or chills",
+          "Cough",
+          "Shortness of breath or difficulty breathing",
+          "Fatigue",
+          "Headache",
+          "Nausea or vomiting",
+          "Diarrhea"
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "dengue",
+    "source_name": "WHO Dengue Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue",
+    "status_code": 200,
+    "title": "Dengue",
+    "fetched_at": "2026-05-16T13:33:57.482219+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "Prevention and control of dengue rely on vector control. There is no specific treatment for dengue/severe dengue, and early detection and access to proper medical care greatly lower fatality rates of severe dengue."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "Dengue (break-bone fever) is a viral infection that is spread from mosquitoes to people. It is more common in tropical and subtropical than in temperate climates.",
+          "Most people who get dengue do not have symptoms. For those who do, the most common symptoms are high fever, headache, body aches, nausea and rash. Most get better in 1–2 weeks. Some develop severe dengue and need care in a hospital.",
+          "Dengue is treated through pain management as there is no specific treatment currently."
+        ]
+      },
+      {
+        "heading": "Symptoms",
+        "items": [
+          "high fever (40°C/104°F)",
+          "severe headache",
+          "pain behind the eyes",
+          "muscle and joint pains",
+          "nausea",
+          "vomiting",
+          "rash.",
+          "Individuals who are infected for the second time are at greater risk of severe dengue. The symptoms of severe dengue often come after the fever has gone away and may include:",
+          "severe abdominal pain",
+          "persistent vomiting",
+          "rapid breathing",
+          "fatigue",
+          "blood in vomit or stool",
+          "After recovery, people who have had dengue may experience fatigue for several weeks."
+        ]
+      },
+      {
+        "heading": "Diagnostics and treatment",
+        "items": [
+          "Laboratory-based and point of care diagnostics are critical to control and manage dengue, yet global disparities in laboratory capabilities present significant challenges. The diagnostic algorithms, testing strategies and test methodologies employed vary, depending on the capabilities of national laboratory systems. The wide range of available tests – including nucleic acid amplification tests (NAATs), enzyme-linked immunosorbent assays (ELISAs) and rapid diagnostic tests (RDTs) – vary significantly in quality and performance.",
+          "Laboratory testing for arboviruses can be accomplished through either direct detection methods such as virus isolation, molecular detection of nucleic acid or antigen testing, including rapid diagnostic tests (RDTs) within the first week of illness.",
+          "There is no specific treatment for dengue, although pain can be managed with medication such as paracetamol (acetaminophen). Non-steroidal anti-inflammatory medicines such as ibuprofen and aspirin should be avoided as they can increase the risk of bleeding.",
+          "Dengue is spreading to new areas, including the European and Eastern Mediterranean regions. In 2024, 308 cases were reported to WHO from three European countries (France, Italy and Spain) and an additional 1291 cases and four deaths were recorded in the French overseas territories of Mayotte and Réunion."
+        ]
+      },
+      {
+        "heading": "Prevention and control",
+        "items": [
+          "use acetaminophen (paracetamol) for pain;",
+          "Currently, one vaccine (QDenga) is available and licensed in some countries. However, it is recommended only for those aged 6–16 years in high transmission settings. Several additional vaccines are under evaluation.",
+          "providing training on clinical management, diagnosis and vector control at the country and regional levels in collaboration with its collaborating centres;",
+          "publishing guidance and handbooks for surveillance, case management, diagnosis, dengue prevention and control for Member States.",
+          "Lim A, Shearer FM, Sewalk K, Pigott DM, Clarke J, Ghouse A, et al. The overlapping global distribution of dengue, chikungunya, Zika and yellow fever. Nat Commun. 2025;16(1):3418. doi: 10.1038/s41467-025-58609-5."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "gastroenteritis",
+    "source_name": "CDC Norovirus About",
+    "source_url": "https://www.cdc.gov/norovirus/about/index.html",
+    "status_code": 200,
+    "title": "About Norovirus",
+    "fetched_at": "2026-05-16T13:33:59.764844+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "Most common symptoms: Diarrhea, vomiting, nausea, stomach pain",
+          "Other symptoms: Fever, headache, and body aches"
+        ]
+      },
+      {
+        "heading": "Treatment and recovery",
+        "items": [
+          "Most people with norovirus illness get better within 1 to 3 days. There is no specific medicine to treat people with norovirus illness. Antibiotic drugs will not help treat norovirus infections because they fight bacteria, not viruses."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "gastroenteritis",
+    "source_name": "WHO Diarrhoeal Disease Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/diarrhoeal-disease",
+    "status_code": 200,
+    "title": "Diarrhoeal disease",
+    "fetched_at": "2026-05-16T13:34:02.234926+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "Diarrhoeal disease is the third leading cause of death in children 1–59 months of age. It is both preventable and treatable.",
+          "Each year diarrhoea kills around 443 832 children under 5 and an additional 50 851 children aged 5 to 9 years.",
+          "A significant proportion of diarrhoeal disease can be prevented through safe drinking-water and adequate sanitation and hygiene.",
+          "Globally, there are nearly 1.7 billion cases of childhood diarrhoeal disease every year.",
+          "Diarrhoea is a leading cause of malnutrition in children under 5 years old."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "Diarrhoeal disease is the third leading cause of death in children under 5 years old and is responsible for killing around 443 832 children every year. Diarrhoea can last several days and can leave the body without the water and salts that are necessary for survival. In the past, for most people, severe dehydration and fluid loss were the main causes of diarrhoea-associated deaths. Now, other causes such as septic bacterial infections are likely to account for an increasing proportion of all diarrhoea-associated deaths. Children who are malnourished or have impaired immunity, as well as people living with HIV, are most at risk of life-threatening diarrhoea.",
+          "Diarrhoea is defined as the passage of 3 or more loose or liquid stools per day (or more frequent passage than is normal for the individual). Frequent passing of formed stools is not diarrhoea, nor is the passing of loose, pasty stools by breastfed babies.",
+          "Diarrhoea is usually a symptom of an infection in the intestinal tract, which can be caused by a variety of bacterial, viral and parasitic organisms. Infection is spread through contaminated food or drinking-water, or from person-to-person as a result of poor hygiene.",
+          "Interventions to prevent diarrhoea, including safe drinking-water, use of improved sanitation and hand washing with soap, can reduce disease risk. Diarrhoea should be treated with oral rehydration solution (ORS), a solution of clean water, sugar and salt. In addition, a 10–14 day supplemental treatment course of dispersible zinc tablets shortens diarrhoea duration and improves outcomes.",
+          "There are 3 clinical types of diarrhoea:",
+          "acute watery diarrhoea – lasts several hours or days and includes cholera",
+          "acute bloody diarrhoea – also called dysentery",
+          "persistent diarrhoea – lasts 14 days or longer."
+        ]
+      },
+      {
+        "heading": "Prevention and treatment",
+        "items": [
+          "Key measures to prevent diarrhoea include:",
+          "Key measures to treat diarrhoea include the following.",
+          "Rehydration with oral rehydration salts (ORS) solution. ORS is a mixture of clean water, salt and sugar. It costs a few cents per treatment. ORS is absorbed in the small intestine and replaces the water and electrolytes lost in the faeces.",
+          "Zinc supplements reduce the duration of a diarrhoea episode by 25% and are associated with a 30% reduction in stool volume.",
+          "Rehydration with intravenous fluids in case of severe dehydration or shock.",
+          "Nutrient-rich foods. The vicious circle of malnutrition and diarrhoea can be broken by continuing to give nutrient-rich foods – including breast milk – during an episode, and by giving a nutritious diet – including exclusive breastfeeding for the first 6 months of life – to children when they are well.",
+          "Consulting a health professional, in particular for management of persistent diarrhoea or when there is blood in stool or if there are signs of dehydration."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "hepatitis b",
+    "source_name": "WHO Hepatitis B Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/hepatitis-b",
+    "status_code": 200,
+    "title": "Hepatitis B",
+    "fetched_at": "2026-05-16T13:34:04.475828+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "The virus is most commonly transmitted from mother to child during birth and delivery, in early childhood, as well as through contact with blood or other body fluids during sex with an infected partner, unsafe injections or exposures to sharp instruments.",
+          "Hepatitis B can be prevented by vaccines that are safe, available and effective."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "It can spread through contact with infected body fluids like blood, saliva, vaginal fluids and semen. It can also be passed from a mother to her baby.",
+          "Hepatitis B can be prevented with a safe and effective vaccine. The vaccine is usually given soon after birth with boosters a few weeks later. It offers nearly 100% protection against the virus."
+        ]
+      },
+      {
+        "heading": "Diagnosis",
+        "items": [
+          "It is not possible on clinical grounds to differentiate hepatitis B from hepatitis caused by other viral agents; hence laboratory confirmation of the diagnosis is essential. Several blood tests are available to diagnose and monitor people with hepatitis B. Some laboratory tests can be used to distinguish acute and chronic infections, whilst other can assess and monitor the severity of liver disease. Physical examination, ultrasound and elastography can also be performed to assess degree of liver fibrosis and scarring and monitor progression of liver disease. WHO recommends that all blood donations be tested for hepatitis B to ensure blood safety and avoid accidental transmission.",
+          "As of 2022, 13% of all people estimated to be living with hepatitis B were aware of their infection, while 3% (7 million) of the people living with chronic hepatitis B were on treatment. According to latest WHO estimates, the proportion of children under five years of age chronically infected with HBV dropped to just under 1% in 2019 down from around 5% in the pre-vaccine era ranging from the 1980s to the early 2000s.",
+          "In settings with intermediate and high Hepatitis B surface antigen (HBsAg) seroprevalence in the general population (defined as > 2% HBsAg seroprevalence), WHO recommends that all adults have access to and be offered HBsAg testing with linkage to prevention and care and treatment services as needed. WHO also recommends targeted testing, in all settings, of people with suspicions of liver disease, blood donors, and all pregnant women, the latter in order to provide the opportunity to institute measures for prevention of mother-to-child transmission (MTCT). In addition, WHO recommends testing among specific high-risk groups, including migrants from endemic regions, partners or family members of infected persons, health-care workers, people who inject drugs (PWID), people in prisons and other closed settings, men who have sex with men (MSM) sex workers, transgender people and people living with HIV."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "There is no specific treatment for acute hepatitis B. Chronic hepatitis B can be treated with antiviral medications.",
+          "Care for people with acute hepatitis B should focus on managing sympoms. They should eat a healthy diet and drink plenty of liquids to prevent dehydration from vomiting and diarrhoea.",
+          "Chronic hepatitis B infection can be treated with oral medicines, including tenofovir or entecavir.",
+          "Treatment can",
+          "Most people who start hepatitis B treatment must continue it for life.",
+          "With the updated Guidelines for the prevention, diagnosis, care and treatment for people with chronic hepatitis B infection , released in 2024, it is estimated that more than 50% of people with chronic hepatitis B infection will require treatment, depending on setting and eligibility criteria.",
+          "In low-income settings, most people with liver cancer present late in the course of the disease and die within months of diagnosis. In high-income countries, patients present to hospital earlier in the course of the disease and have access to surgery and chemotherapy, which can prolong life for several months to a few years. Liver transplantation is sometimes used in people with cirrhosis or liver cancer in technologically advanced countries, with varying success."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "Hepatitis B is preventable with a vaccine.",
+          "All babies should receive the hepatitis B vaccine as soon as possible after birth (within 24 hours). This is followed by two or three doses of hepatitis B vaccine at least four weeks apart.",
+          "Booster vaccines are not usually required for people who have completed the three-dose vaccination series.",
+          "The vaccine protects against hepatitis B for at least 20 years and probably for life.",
+          "Hepatitis B can be passed from mother to child. This can be prevented by taking antiviral medicines to prevent transmission, in addition to the vaccine shortly after birth.",
+          "wash your hands thoroughly with soap and water after coming into contact with blood, body fluids, or contaminated surfaces; and",
+          "get a hepatitis B vaccine if working in a health-care setting."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "hiv",
+    "source_name": "CDC HIV About",
+    "source_url": "https://www.cdc.gov/hiv/about/index.html",
+    "status_code": 200,
+    "title": "About HIV",
+    "fetched_at": "2026-05-16T13:34:06.573373+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Overview",
+        "items": [
+          "HIV (human immunodeficiency virus) is a virus that attacks the body's immune system. Without treatment, it can lead to AIDS (acquired immunodeficiency syndrome).",
+          "People with HIV who get on and stay on effective HIV treatment can live long, healthy lives and protect their partners."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "If you have HIV, there are many ways to prevent transmitting HIV to others, including taking HIV treatment to get and keep an undetectable viral load."
+        ]
+      },
+      {
+        "heading": "Testing",
+        "items": [
+          "There are many options for quick, free, and painless HIV testing. If your test result is positive , you can take medicine to treat HIV to help you live a long, healthy life and protect others. If your test result is negative , you can take actions to prevent HIV."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "HIV treatment (antiretroviral therapy or ART) involves taking medicine as prescribed by a health care provider. You should start HIV treatment as soon as possible after diagnosis.",
+          "HIV treatment reduces the amount of HIV in the blood ( viral load ). HIV treatment can make the viral load so low that a test can't detect it ( undetectable viral load ). If you have an undetectable viral load, you will not transmit HIV to others through sex. Having an undetectable viral load also reduces the risk of HIV transmission through sharing drug injection equipment, and during pregnancy, labor, and delivery."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "hiv",
+    "source_name": "WHO HIV and AIDS Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/hiv-aids",
+    "status_code": 200,
+    "title": "HIV and AIDS",
+    "fetched_at": "2026-05-16T13:34:08.688020+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "There is no cure for HIV infection. However, with access to effective HIV prevention, diagnosis, treatment and care, including for opportunistic infections, HIV infection has become a manageable chronic health condition, enabling people living with HIV to lead long and healthy lives."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "HIV targets the body’s white blood cells, weakening the immune system. This makes it easier to get sick with diseases like tuberculosis, infections and some cancers.",
+          "HIV is spread from the body fluids of an infected person, including blood, breast milk, semen and vaginal fluids. It is not spread by kisses, hugs or sharing food. It can also spread from a mother to her baby."
+        ]
+      },
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "fever",
+          "headache",
+          "rash",
+          "diarrhoea",
+          "cough.",
+          "Without treatment, people living with HIV infection can also develop severe illnesses:"
+        ]
+      },
+      {
+        "heading": "Diagnosis",
+        "items": [
+          "HIV can be diagnosed through rapid diagnostic tests that provide same-day results. This greatly facilitates early diagnosis and linkage with treatment and prevention. People can also use HIV self-tests to test themselves. However, no single test can provide a full HIV positive diagnosis; confirmatory testing is required, conducted by a qualified and trained health worker or community worker. HIV infection can be detected with great accuracy using WHO prequalified tests within a nationally approved testing strategy and algorithm.",
+          "Following a positive diagnosis, people should be retested before they are enrolled in treatment and care to rule out any potential testing or reporting error. While testing for adolescents and adults has been made simple and efficient, this is not the case for babies born to HIV-positive mothers. For children less than 18 months of age, rapid antibody testing is not sufficient to identify HIV infection – virological testing must be provided as early as birth or at 6 weeks of age. New technologies are now available to perform this test at the point of care and enable same-day results, which will accelerate appropriate linkage with treatment and care."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "People taking antiretroviral therapy (ART) and who have no evidence of virus in the blood will not pass HIV to their sexual partners. Access to testing and ART is an important part of preventing HIV."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "ART lowers the amount of the virus in a person’s body. This stops symptoms and allows people to live full and healthy lives. People living with HIV who are taking ART and who have no evidence of virus in the blood will not spread the virus to their sexual partners.",
+          "Advanced HIV disease remains a persistent problem in the HIV response. WHO is supporting countries to implement the advanced HIV disease package of care to reduce illness and death. Newer HIV medicines and short course treatments for opportunistic infections like cryptococcal meningitis are being developed that may change the way people take ART and prevention medicines, including access to long-acting injectable formulations, such as lenacapavir which now has been approved by the FDA for HIV prevention.",
+          "More information on HIV treatments"
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "malaria",
+    "source_name": "CDC Malaria About",
+    "source_url": "https://www.cdc.gov/malaria/about/index.html",
+    "status_code": 200,
+    "title": "About Malaria",
+    "fetched_at": "2026-05-16T13:34:10.454954+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Symptoms",
+        "items": [
+          "Fever and flu-like illness",
+          "Chills",
+          "Headache, muscle aches, and tiredness",
+          "Nausea, vomiting, and diarrhea may also occur"
+        ]
+      },
+      {
+        "heading": "Testing and diagnosis",
+        "items": [
+          "Only a healthcare provider can diagnose malaria. A lab test will confirm malaria using a small sample of your blood."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "Prescription drugs can treat and cure malaria. The types of drugs and length of treatment depends on",
+          "How sick they are when treatment starts."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "malaria",
+    "source_name": "WHO Malaria Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/malaria",
+    "status_code": 200,
+    "title": "Malaria",
+    "fetched_at": "2026-05-16T13:34:12.754850+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Overview",
+        "items": [
+          "Symptoms can be mild or life-threatening. Mild symptoms are fever, chills and headache. Severe symptoms include fatigue, confusion, seizures, and difficulty breathing.",
+          "Malaria can be prevented by avoiding mosquito bites and with medicines. Treatments can stop mild cases from getting worse.",
+          "Malaria mostly spreads to people through the bites of some infected female Anopheles mosquitoes. Blood transfusion and contaminated needles may also transmit malaria. The first symptoms may be mild, similar to many febrile illnesses, and difficulty to recognize as malaria. Left untreated, P. falciparum malaria can progress to severe illness and death within 24 hours."
+        ]
+      },
+      {
+        "heading": "Symptoms",
+        "items": [
+          "The most common early symptoms of malaria are fever, headache and chills.",
+          "extreme tiredness and fatigue",
+          "difficulty breathing",
+          "dark or bloody urine",
+          "jaundice (yellowing of the eyes and skin)",
+          "People with severe symptoms should get emergency care right away. Getting treatment early for mild malaria can stop the infection from becoming severe."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "Malaria can be prevented by avoiding mosquito bites and by taking medicines. Talk to a doctor about taking medicines such as chemoprophylaxis before travelling to areas where malaria is common."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "Early diagnosis and treatment of malaria reduces disease, prevents deaths and contributes to reducing transmission. WHO recommends that all suspected cases of malaria be confirmed using parasite-based diagnostic testing (through either microscopy or a rapid diagnostic test).",
+          "Malaria is a serious infection and always requires treatment with medicine.",
+          "Multiple medicines are used to prevent and treat malaria. Doctors will choose one or more based on:",
+          "whether a malaria parasite is resistant to a medicine",
+          "These are the most common medicines for malaria:",
+          "Artemisinin-based combination therapy medicines are the most effective treatment for P. falciparum malaria.",
+          "Chloroquine is recommended for treatment of infection with the P. vivax parasite only in places where it is still sensitive to this medicine.",
+          "Primaquine should be added to the main treatment to prevent relapses of infection with the P. vivax and P. ovale parasites.",
+          "Most medicines used are in pill form. Some people may need to go to a health centre or hospital for injectable medicines."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "measles",
+    "source_name": "CDC Measles Symptoms",
+    "source_url": "https://www.cdc.gov/measles/signs-symptoms/index.html",
+    "status_code": 200,
+    "title": "Measles Symptoms and Complications",
+    "fetched_at": "2026-05-16T13:34:14.711176+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "Measles isn't just a little rash. Measles can be dangerous for anyone but especially for babies and young children."
+        ]
+      },
+      {
+        "heading": "7–14 days after a measles infection: first symptoms show",
+        "items": [
+          "High fever (may spike to more than 104°)",
+          "Cough"
+        ]
+      },
+      {
+        "heading": "3–5 days after symptoms begin: measles rash",
+        "items": [
+          "Measles rash appears 3 to 5 days after the first symptoms. It usually begins as flat red spots that appear on the face at the hairline. They then spread downward to the neck, trunk, arms, legs, and feet.",
+          "When the rash appears, a person's fever may spike to more than 104° Fahrenheit."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "meningitis",
+    "source_name": "CDC Meningitis About",
+    "source_url": "https://www.cdc.gov/meningitis/about/index.html",
+    "status_code": 200,
+    "title": "About Meningitis",
+    "fetched_at": "2026-05-16T13:34:16.679957+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Symptoms",
+        "items": [
+          "Fever",
+          "Headache",
+          "Nausea",
+          "Vomiting"
+        ]
+      },
+      {
+        "heading": "Testing and diagnosis",
+        "items": [
+          "If healthcare providers suspect meningitis, they may collect samples of blood or cerebrospinal fluid (fluid surrounding the spinal cord). Then laboratories can perform specific tests, depending on the type of infection suspected. Knowing the specific cause is important because treatment differs depending on the cause."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "pneumonia",
+    "source_name": "CDC Pneumonia About",
+    "source_url": "https://www.cdc.gov/pneumonia/about/index.html",
+    "status_code": 200,
+    "title": "About Pneumonia",
+    "fetched_at": "2026-05-16T13:34:18.731317+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Symptoms",
+        "items": [
+          "Chest pain when breathing or coughing",
+          "Cough",
+          "Fatigue (feeling tired)",
+          "Fever or chills",
+          "Nausea, vomiting, or diarrhea"
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "tuberculosis",
+    "source_name": "CDC TB Signs and Symptoms",
+    "source_url": "https://www.cdc.gov/tb/signs-symptoms/index.html",
+    "status_code": 200,
+    "title": "Signs and Symptoms of Tuberculosis",
+    "fetched_at": "2026-05-16T13:34:20.657524+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Do you have symptoms of active TB disease?",
+        "items": [
+          "Contact your health care provider or local health department and ask about TB testing ."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "tuberculosis",
+    "source_name": "WHO Tuberculosis Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/tuberculosis",
+    "status_code": 200,
+    "title": "Tuberculosis",
+    "fetched_at": "2026-05-16T13:34:22.671602+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "Multidrug-resistant TB (MDR-TB) remains a public health crisis and a health security threat. Only about 2 in 5 people with drug-resistant TB accessed treatment in 2024."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "Tuberculosis (TB) is an infectious disease caused by bacteria that most often affects the lungs. It spreads through the air when people with TB cough, sneeze or spit.",
+          "TB disease is usually treated with antibiotics and can be fatal without treatment.",
+          "In certain countries, the Bacille Calmette-Guérin (BCG) vaccine is given to babies or small children to prevent TB. The vaccine prevents deaths from TB and protects children from serious forms of TB.",
+          "diabetes (high blood sugar);"
+        ]
+      },
+      {
+        "heading": "Symptoms",
+        "items": [
+          "prolonged cough (sometimes with blood);",
+          "chest pain;",
+          "fatigue;",
+          "fever; and",
+          "night sweats"
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "Seek medical attention if you have symptoms like prolonged cough, fever and unexplained weight loss as early treatment for TB can help stop the spread of disease and improve your chances of recovery.",
+          "TB preventive treatment (or TPT) prevents infection from becoming disease. If prescribed TPT, complete the full course.",
+          "If you have TB, practice good hygiene when coughing, including avoiding contact with other people and wearing a mask, covering your mouth and nose when coughing or sneezing, and disposing of sputum and used tissues properly."
+        ]
+      },
+      {
+        "heading": "Diagnosis",
+        "items": [
+          "Rapid diagnostic tests recommended by WHO include biomarker-based point-of-care tests and molecular assays. All these tests are accurate and can provide initial results to guide treatment decisions within 48 hours of sample collection. Use of these tests will lead to major improvements in the early detection of TB and drug-resistant TB.",
+          "A tuberculin skin test (TST), interferon gamma release assay (IGRA) or newer antigen-based skin test (TBST) can be used to identify people with TB infection. The results from these TB infection tests are used to identify which individuals with a high risk of TB will benefit most from TB preventive treatment."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "Tuberculosis disease is treated with special antibiotics. Treatment is recommended for both TB infection and disease.",
+          "The most common antibiotics used are:",
+          "To be effective, medications need to be taken daily for 4–6 months. It is dangerous to stop the medications early or without medical advice as it can prompt TB bacteria in the body to become resistant to the antibiotics.",
+          "TB that doesn’t respond to standard drugs is called drug-resistant TB and requires treatment with different medicines."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "typhoid fever",
+    "source_name": "CDC Typhoid Symptoms",
+    "source_url": "https://www.cdc.gov/typhoid-fever/signs-symptoms/index.html",
+    "status_code": 200,
+    "title": "Symptoms of Typhoid Fever and Paratyphoid Fever",
+    "fetched_at": "2026-05-16T13:34:25.358853+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "Fever is common. The fever can be as high as 103–104°F (39–40°C). The fever usually lasts more than 3 days.",
+          "The fever can be as high as 103–104°F (39–40°C).",
+          "The fever usually lasts more than 3 days.",
+          "People can have other symptoms, including: Weakness Stomach pain Headache Constipation or diarrhea Cough Loss of appetite",
+          "Stomach pain",
+          "Headache",
+          "Constipation or diarrhea",
+          "Cough",
+          "Some people get a rash with flat, rose-colored spots."
+        ]
+      },
+      {
+        "heading": "The danger might not end, even if your symptoms go away.",
+        "items": [
+          "If your symptoms go away without treatment, you might still carry the bacteria that made you sick and it can spread to others or cause your illness to return."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "typhoid fever",
+    "source_name": "WHO Typhoid Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/typhoid",
+    "status_code": 200,
+    "title": "Typhoid",
+    "fetched_at": "2026-05-16T13:34:27.300765+00:00",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "Symptoms include prolonged fever, fatigue, headache, nausea, abdominal pain, and constipation or diarrhoea. Some patients may have a rash. Severe cases may lead to serious complications or even death.",
+          "Typhoid fever can be treated with antibiotics although increasing resistance to different types of antibiotics is making treatment more complicated.",
+          "The typhoid conjugate vaccine is recommended for use in children from 6 months of age and in adults up to 45 years or 65 years (depending on the vaccine).",
+          "Two typhoid conjugate vaccines have been prequalified by WHO since December 2017 and are being introduced into childhood immunization programmes in typhoid endemic countries."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "Typhoid fever is a life-threatening infection caused by the bacterium Salmonella Typhi. It is usually spread through contaminated food or water. Once Salmonella Typhi bacteria are ingested, they multiply and spread into the bloodstream.",
+          "Urbanization and climate change have the potential to increase the global burden of typhoid. In addition, increasing resistance to antibiotic treatment is making it easier for typhoid to spread in communities that lack access to safe drinking water or adequate sanitation."
+        ]
+      },
+      {
+        "heading": "Symptoms",
+        "items": [
+          "Salmonella Typhi lives only in humans. Persons with typhoid fever carry the bacteria in their bloodstream and intestinal tract. Symptoms include prolonged high fever, fatigue, headache, nausea, abdominal pain, and constipation or diarrhoea. Some patients may have a rash. Severe cases may lead to serious complications or even death. Typhoid fever can be confirmed through blood testing."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "Typhoid fever can be treated with antibiotics. Antimicrobial resistance is common with likelihood of more complicated and expensive treatment options required in the most affected regions.",
+          "It is important for people being treated for typhoid fever to do the following:",
+          "Take prescribed antibiotics for as long as the doctor has prescribed."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "Typhoid fever is common in places with poor sanitation and a lack of safe drinking water. Access to safe water and adequate sanitation, hygiene among food handlers and typhoid vaccination are all effective in preventing typhoid fever.",
+          "Typhoid conjugate vaccine, consisting of the purified Vi antigen linked to a carrier protein, is given as a single injectable dose in children from 6 months of age and in adults up to 45 years or 65 years (depending on the vaccine).",
+          "Two additional vaccines have been used for many years in older children and adults at risk of typhoid, including travellers. These vaccines do not provide long-lasting immunity (requiring repeat or booster doses) and are not approved for children younger than 2 years old:",
+          "an injectable vaccine based on the purified antigen for people aged 2 years and above; and",
+          "a live attenuated oral vaccine in capsule formulation for people aged over 6 years.",
+          "Two typhoid conjugate vaccines have been prequalified by WHO since December 2017 and are being introduced into childhood immunization programmes in typhoid endemic countries.",
+          "All travellers to endemic areas are at potential risk of typhoid fever, although the risk is generally low in tourist and business centres where standards of accommodation, sanitation and food hygiene are high. Typhoid fever vaccination should be offered to travellers to destinations where the risk of typhoid fever is high."
+        ]
+      }
+    ]
+  }
+]

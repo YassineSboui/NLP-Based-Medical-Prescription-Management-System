@@ -28,6 +28,10 @@ No. It is not real patient data. It is a source-backed educational dataset built
 
 Real hospital data contains sensitive personal health information. It requires ethical approval, anonymization, legal permissions, and medical supervision. For an academic MVP, a source-backed public dataset is safer and more realistic.
 
+## 7.1 Did you implement web scraping?
+
+Yes, a controlled scraping script was added in `backend/scripts/scrape_medical_sources.py`. It reads the official CDC/WHO source registry, fetches each page, extracts relevant symptom and treatment sections using BeautifulSoup, and saves the extracted raw content as JSON and CSV. However, the final training dataset is still curated manually from these reliable sources because medical data must be reviewed carefully before being used for modeling.
+
 ## 8. What NLP techniques are used?
 
 The project uses text normalization, phrase normalization, stop-word removal, rule-based entity extraction, TF-IDF vectorization, and supervised classification.

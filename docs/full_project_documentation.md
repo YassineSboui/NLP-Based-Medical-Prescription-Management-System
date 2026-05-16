@@ -143,6 +143,23 @@ backend/app/data/dataset_sources.json
 
 This file lists the official sources used for each disease. The main sources are CDC and WHO public health pages.
 
+### 6.1 Controlled Scraping Script
+
+A controlled scraping script is available in:
+
+```text
+backend/scripts/scrape_medical_sources.py
+```
+
+The script reads `dataset_sources.json`, fetches the official CDC/WHO pages, extracts symptom/treatment-related sections using BeautifulSoup, and saves raw extracted content to:
+
+```text
+backend/app/data/scraped_medical_sources.json
+backend/app/data/scraped_medical_sources.csv
+```
+
+The scraped output is used for traceability and data collection support. The final training dataset remains curated manually because medical content must be reviewed and cleaned carefully before being used for model training.
+
 ## 7. Text Cleaning
 
 Text cleaning is implemented in:

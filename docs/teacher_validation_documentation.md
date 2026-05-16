@@ -516,6 +516,23 @@ Sources include:
 - WHO hepatitis B page
 - CDC measles page
 
+### Controlled scraping script
+
+The scraping implementation is located in:
+
+```text
+backend/scripts/scrape_medical_sources.py
+```
+
+It reads `dataset_sources.json`, downloads each CDC/WHO page, extracts relevant sections such as symptoms, signs, diagnosis, treatment, and prevention, then saves the raw extracted data in:
+
+```text
+backend/app/data/scraped_medical_sources.json
+backend/app/data/scraped_medical_sources.csv
+```
+
+This script documents the automated data collection method. The final dataset remains curated because medical content needs human review before training.
+
 ### `medication_knowledge_base.json`
 
 This file maps diseases to treatment guidance.

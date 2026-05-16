@@ -105,6 +105,21 @@ This creates:
 - `models/metrics.txt`
 - `models/model_metadata.json`
 
+## Optional: Scrape Source Pages
+
+The project includes a controlled scraper for the CDC/WHO source pages listed in `backend/app/data/dataset_sources.json`:
+
+```bash
+python backend/scripts/scrape_medical_sources.py
+```
+
+This creates:
+
+- `backend/app/data/scraped_medical_sources.json`
+- `backend/app/data/scraped_medical_sources.csv`
+
+The scraped files are for traceability and raw data collection. The training dataset remains curated manually for medical safety and data quality.
+
 ## Run the Backend
 
 ```bash
