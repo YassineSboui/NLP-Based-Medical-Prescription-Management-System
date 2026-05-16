@@ -1,27 +1,38 @@
 import re
 import unicodedata
 
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
-STOP_WORDS = {
-    "a",
-    "an",
-    "and",
-    "are",
-    "for",
-    "from",
-    "have",
-    "has",
-    "i",
-    "in",
-    "is",
-    "it",
-    "my",
-    "of",
-    "on",
-    "the",
-    "to",
-    "with",
+
+PROTECTED_WORDS = {
+    "blood",
+    "breath",
+    "breathing",
+    "chest",
+    "cough",
+    "diarrhea",
+    "fatigue",
+    "fever",
+    "headache",
+    "loss",
+    "muscle",
+    "never",
+    "night",
+    "no",
+    "not",
+    "pain",
+    "rash",
+    "shortness",
+    "smell",
+    "sweats",
+    "taste",
+    "vomiting",
+    "weakness",
+    "weight",
+    "without",
 }
+
+STOP_WORDS = set(ENGLISH_STOP_WORDS) - PROTECTED_WORDS
 
 PHRASE_NORMALIZATIONS = {
     r"\bcovid[\s-]?19\b": "covid",
