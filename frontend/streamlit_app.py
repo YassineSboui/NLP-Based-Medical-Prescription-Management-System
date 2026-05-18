@@ -37,6 +37,7 @@ REQUIRED_RESPONSE_FIELDS = {
     "extracted_entities",
     "predicted_disease",
     "confidence",
+    "model_used",
     "recommended_actions",
     "recommended_medicines",
     "disclaimer",
@@ -60,10 +61,48 @@ def validate_api_response(payload: dict) -> tuple[bool, str]:
     return True, ""
 
 
+def get_models_url(api_url: str) -> str:
+    return api_url.strip().rsplit("/", 1)[0] + "/models"
+
+
+def load_available_models(api_url: str) -> list[dict]:
+    try:
+        response = requests.get(get_models_url(api_url), timeout=5)
+        response.raise_for_status()
+        return response.json().get("models", [])
+    except requests.RequestException:
+        return [
+            {
+                "key": "classical",
+                "name": "complement_naive_bayes",
+                "family": "TF-IDF + classical ML",
+                "accuracy": 0.906,
+                "macro_f1": 0.907,
+                "description": "Default production model.",
+                "is_default": True,
+                "is_available": True,
+            }
+        ]
+
+
+def model_label(model: dict) -> str:
+    accuracy = model.get("accuracy")
+    macro_f1 = model.get("macro_f1")
+    score_text = "metrics unavailable"
+    if accuracy is not None and macro_f1 is not None:
+        score_text = f"accuracy {float(accuracy):.3f}, macro F1 {float(macro_f1):.3f}"
+    default_text = "default" if model.get("is_default") else "optional"
+    return f"{model['key']} - {model['family']} ({score_text}, {default_text})"
+
+
 def render_results(result: dict) -> None:
     entities = result["extracted_entities"]
     confidence = float(result["confidence"])
     confidence_pct = int(round(confidence * 100))
+    model_used = result.get("model_used", {})
+    model_score = "metrics unavailable"
+    if model_used.get("accuracy") is not None and model_used.get("macro_f1") is not None:
+        model_score = f"Accuracy {float(model_used['accuracy']):.3f} / Macro F1 {float(model_used['macro_f1']):.3f}"
 
     actions_html = "".join(f"<li>{esc(action)}</li>" for action in result["recommended_actions"])
 
@@ -214,6 +253,10 @@ def render_results(result: dict) -> None:
             font-weight: 750;
             line-height: 1.58;
           }
+          .model-card {
+            background: linear-gradient(145deg, #f6fbff, #ffffff);
+            border-color: #b8def3;
+          }
           .entity-block {
             margin-top: 1rem;
           }
@@ -325,6 +368,16 @@ def render_results(result: dict) -> None:
           </div>
 
           <div class="result-grid detail-grid">
+            <article class="result-card model-card">
+              <span class="micro-label">Model used</span>
+              <h3>{esc(model_used.get('name', 'Unknown model'))}</h3>
+              <p class="subtle">{esc(model_used.get('family', 'Unknown family'))}</p>
+              <p><strong>{esc(model_score)}</strong></p>
+              <p class="subtle">{esc(model_used.get('description', ''))}</p>
+            </article>
+          </div>
+
+          <div class="result-grid detail-grid">
             <article class="result-card entities-card">
               <h3>Extracted Medical Entities</h3>
               <div class="entity-block">
@@ -361,7 +414,7 @@ def render_results(result: dict) -> None:
         """
     ).strip()
 
-    component_height = 1150 + (len(result["recommended_medicines"]) * 360)
+    component_height = 1350 + (len(result["recommended_medicines"]) * 360)
     components.html(results_html, height=component_height, scrolling=True)
 
 
@@ -1041,6 +1094,20 @@ with st.sidebar:
     if api_url != DEFAULT_API_URL and "webhooks.fivetran.com" in api_url:
         st.error("This URL points to Fivetran, not your FastAPI backend. Use http://localhost:8000/analyze")
     st.divider()
+    st.subheader("Prediction Model")
+    available_models = load_available_models(api_url)
+    selectable_models = [model for model in available_models if model.get("is_available", True)]
+    if not selectable_models:
+        selectable_models = available_models
+    default_index = next((index for index, model in enumerate(selectable_models) if model.get("is_default")), 0)
+    selected_model_label = st.selectbox(
+        "Choose model",
+        [model_label(model) for model in selectable_models],
+        index=default_index,
+    )
+    selected_model = selectable_models[[model_label(model) for model in selectable_models].index(selected_model_label)]
+    st.caption(selected_model.get("description", ""))
+    st.divider()
     st.subheader("Scope")
     st.write("14 source-backed disease labels")
     st.write("CDC/WHO symptom references")
@@ -1103,7 +1170,7 @@ if analyze:
                 unsafe_allow_html=True,
             )
             try:
-                response = requests.post(api_url.strip(), json={"text": symptoms_text}, timeout=20)
+                response = requests.post(api_url.strip(), json={"text": symptoms_text, "model_key": selected_model["key"]}, timeout=20)
                 response.raise_for_status()
                 result = response.json()
             finally:

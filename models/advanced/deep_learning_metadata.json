@@ -1,0 +1,53 @@
+{
+  "purpose": "Optional advanced LSTM/GRU sequence classification experiment",
+  "warning": "Small dataset; included for comparison and demonstration, not necessarily better than TF-IDF.",
+  "best_model": "lstm_u64_e96_s48_b8_pool_lr7e4_seed7",
+  "best_model_type": "lstm",
+  "best_config": {
+    "name": "lstm_u64_e96_s48_b8_pool_lr7e4_seed7",
+    "model_type": "lstm",
+    "units": 64,
+    "embedding_dim": 96,
+    "max_sequence_length": 48,
+    "dense_units": 96,
+    "recurrent_dropout": 0.25,
+    "dense_dropout": 0.2,
+    "batch_size": 8,
+    "pooling": "max",
+    "learning_rate": 0.0007,
+    "seed": 7
+  },
+  "accuracy": 0.84375,
+  "macro_f1": 0.838095238095238,
+  "dataset_rows": 128,
+  "label_count": 14,
+  "labels": [
+    "cholera",
+    "common cold",
+    "covid-like illness",
+    "dengue",
+    "flu",
+    "gastroenteritis",
+    "hepatitis b",
+    "hiv",
+    "malaria",
+    "measles",
+    "meningitis",
+    "pneumonia",
+    "tuberculosis",
+    "typhoid fever"
+  ],
+  "max_words": 3000,
+  "max_sequence_length": 48,
+  "artifacts": {
+    "lstm_model": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\lstm_model.keras",
+    "gru_model": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\gru_model.keras",
+    "best_model": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\best_sequence_model.keras",
+    "tokenizer": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\tokenizer.joblib",
+    "label_encoder": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\label_encoder.joblib",
+    "training_history": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\training_history.png",
+    "confusion_matrix": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\deep_learning_confusion_matrix.png",
+    "normalized_confusion_matrix": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\deep_learning_confusion_matrix_normalized.png"
+  },
+  "note": "Internal LSTM/GRU architecture variants and seeds were tested during training; only the final selected advanced model is shown here for a clean project submission."
+}

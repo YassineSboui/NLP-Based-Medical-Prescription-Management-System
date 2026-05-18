@@ -1,0 +1,30 @@
+Best model: complement_naive_bayes
+Accuracy: 0.906
+Macro F1: 0.907
+
+Optimized model comparison:
+- complement_naive_bayes: accuracy=0.906, macro_f1=0.907, best_params={'classifier': {'alpha': 0.2}, 'vectorizer': {'ngram_range': (1, 3), 'min_df': 1, 'sublinear_tf': True}}
+- rbf_svc: accuracy=0.906, macro_f1=0.907, best_params={'classifier': {'C': 2.0}, 'vectorizer': {'ngram_range': (1, 4), 'min_df': 1, 'sublinear_tf': True}}
+- linear_svc_calibrated: accuracy=0.906, macro_f1=0.905, best_params={'classifier': {'C': 1.0}, 'vectorizer': {'ngram_range': (1, 2), 'min_df': 1, 'sublinear_tf': True}}
+- logistic_regression: accuracy=0.875, macro_f1=0.871, best_params={'classifier': {'C': 2.0}, 'vectorizer': {'ngram_range': (1, 3), 'min_df': 1, 'sublinear_tf': True}}
+
+                    precision    recall  f1-score   support
+
+           cholera       0.67      1.00      0.80         2
+       common cold       1.00      1.00      1.00         2
+covid-like illness       0.67      1.00      0.80         2
+            dengue       0.67      1.00      0.80         2
+               flu       1.00      0.67      0.80         3
+   gastroenteritis       1.00      0.33      0.50         3
+       hepatitis b       1.00      1.00      1.00         2
+               hiv       1.00      1.00      1.00         3
+           malaria       1.00      1.00      1.00         2
+           measles       1.00      1.00      1.00         2
+        meningitis       1.00      1.00      1.00         2
+         pneumonia       1.00      1.00      1.00         2
+      tuberculosis       1.00      1.00      1.00         3
+     typhoid fever       1.00      1.00      1.00         2
+
+          accuracy                           0.91        32
+         macro avg       0.93      0.93      0.91        32
+      weighted avg       0.94      0.91      0.90        32

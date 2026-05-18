@@ -92,10 +92,10 @@ class NLPService:
         self.predictor = DiseasePredictionService()
         self.recommendations = RecommendationService()
 
-    def analyze(self, text: str) -> AnalyzeResponse:
+    def analyze(self, text: str, model_key: str = "classical") -> AnalyzeResponse:
         cleaned_text = clean_text(text)
         entities = self.extract_entities(cleaned_text)
-        predicted_disease, confidence = self.predictor.predict(cleaned_text)
+        predicted_disease, confidence, model_used = self.predictor.predict(cleaned_text, model_key=model_key)
         recommendation = self.recommendations.get_recommendation(predicted_disease)
 
         if entities.diseases and entities.diseases[0] != predicted_disease:
@@ -110,6 +110,7 @@ class NLPService:
             extracted_entities=entities,
             predicted_disease=predicted_disease,
             confidence=confidence,
+            model_used=model_used,
             recommended_actions=recommendation["actions"],
             recommended_medicines=recommendation["medications"],
             disclaimer=DISCLAIMER,

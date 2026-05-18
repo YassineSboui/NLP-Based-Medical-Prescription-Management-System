@@ -4,7 +4,7 @@
 
 **Project Type:** Academic NLP and Web Development Project  
 **Duration:** 5 weeks  
-**Main Technologies:** Python, FastAPI, Streamlit, scikit-learn, TF-IDF, JSON, CSV
+**Main Technologies:** Python, FastAPI, Streamlit, scikit-learn, TF-IDF, JSON, CSV, optional TensorFlow/Keras
 
 ---
 
@@ -12,7 +12,7 @@
 
 This project presents an academic Natural Language Processing system for medical prescription management and symptom analysis. The application allows users to enter symptoms in natural language, extracts medical entities, predicts a possible disease or condition, and returns educational medication and treatment guidance with clear safety warnings. The system focuses on common infectious and respiratory/gastrointestinal diseases, including malaria, typhoid fever, tuberculosis, HIV, dengue, cholera, pneumonia, meningitis, hepatitis B, measles, flu, common cold, gastroenteritis, and COVID-like illness.
 
-The implemented solution uses a FastAPI backend, a Streamlit frontend, a rule-based entity extraction module, TF-IDF vectorization, and classical machine learning classifiers. The dataset was curated from official public health symptom descriptions published by CDC and WHO. The best-performing model was a calibrated Linear SVC, achieving an accuracy of 0.844 and a macro F1-score of 0.837 on the validation split. The system is designed strictly for academic demonstration and does not provide real medical diagnosis or prescriptions.
+The implemented solution uses a FastAPI backend, a Streamlit frontend, a rule-based entity extraction module, TF-IDF vectorization, and classical machine learning classifiers. The dataset was curated from official public health symptom descriptions published by CDC and WHO. After hyperparameter search, the best-performing model was Complement Naive Bayes with alpha 0.2 and TF-IDF unigrams/bigrams/trigrams, achieving an accuracy of 0.906 and a macro F1-score of 0.907 on the validation split. The system is designed strictly for academic demonstration and does not provide real medical diagnosis or prescriptions.
 
 ---
 
@@ -104,7 +104,7 @@ Frontend Result Display
 | Streamlit frontend | User interface for symptom input and results |
 | FastAPI backend | REST API for analysis requests |
 | NLP service | Coordinates cleaning, extraction, prediction, and recommendations |
-| Disease prediction service | Loads the ML model and predicts disease labels |
+| Disease prediction service | Loads the selected ML model and predicts disease labels |
 | Recommendation service | Retrieves disease-specific guidance from JSON |
 | Dataset | Source-backed symptom examples |
 | Knowledge base | Medication and action guidance |
@@ -297,24 +297,73 @@ The best model was selected based on validation performance.
 | Model | Accuracy | Macro F1 |
 |---|---:|---:|
 | Logistic Regression | 0.812 | 0.776 |
-| Calibrated Linear SVC | 0.844 | 0.837 |
-| Complement Naive Bayes | 0.844 | 0.826 |
+| Calibrated Linear SVC | 0.906 | 0.905 |
+| RBF SVC | 0.906 | 0.907 |
+| Complement Naive Bayes | 0.906 | 0.907 |
 
 Best model:
 
 ```text
-Calibrated Linear SVC
+Complement Naive Bayes with alpha 0.2
 ```
 
-### 8.3 Saved Artifacts
+### 8.3 Evaluation Visualizations
+
+The training script also generates visual evaluation artifacts for the report and presentation:
+
+| Artifact | Purpose |
+|---|---|
+| `models/classical/confusion_matrix.png` | Shows the number of correct and incorrect predictions by disease class |
+| `models/classical/confusion_matrix_normalized.png` | Shows per-class recall patterns independent of class count |
+| `models/classical/model_comparison.png` | Compares candidate models using accuracy and macro F1-score |
+| `models/classical/classification_report.png` | Shows precision, recall, and F1-score for each disease |
+
+The confusion matrix is especially useful because it shows which diseases have similar symptom patterns and are more likely to be confused by the model.
+
+### 8.4 Optional Advanced Sequence Models
+
+An optional advanced training script is included in:
+
+```text
+backend/scripts/train_deep_learning_model.py
+```
+
+This script trains bidirectional LSTM and GRU sequence classifiers using tokenized symptom text, an embedding layer, dropout regularization, and early stopping. It is not used as the default production model because the dataset contains only 128 rows, and deep-learning models usually need more data to generalize well. It is included as an academic comparison to demonstrate sequence-model experimentation.
+
+Advanced artifacts are saved in:
+
+```text
+models/advanced/
+```
+
+Examples:
+
+- `models/advanced/lstm_model.keras`
+- `models/advanced/gru_model.keras`
+- `models/advanced/best_sequence_model.keras`
+- `models/advanced/tokenizer.joblib`
+- `models/advanced/label_encoder.joblib`
+- `models/advanced/deep_learning_metrics.txt`
+- `models/advanced/deep_learning_metadata.json`
+- `models/advanced/training_history.png`
+- `models/advanced/deep_learning_confusion_matrix.png`
+- `models/advanced/deep_learning_confusion_matrix_normalized.png`
+
+The best advanced model in the latest run was `lstm_u64_e96_s48_b8_pool_lr7e4_seed7`, with 0.844 accuracy and 0.838 macro F1. The final explanation is that classical TF-IDF models are retained for the main application because they are more appropriate for a small, source-backed dataset, while LSTM/GRU models are shown as an advanced experimental extension.
+
+### 8.5 Saved Artifacts
 
 The trained model and metadata are saved in:
 
 ```text
-models/trained_model.joblib
-models/vectorizer.joblib
-models/metrics.txt
-models/model_metadata.json
+models/classical/trained_model.joblib
+models/classical/vectorizer.joblib
+models/classical/metrics.txt
+models/classical/model_metadata.json
+models/classical/confusion_matrix.png
+models/classical/confusion_matrix_normalized.png
+models/classical/model_comparison.png
+models/classical/classification_report.png
 ```
 
 ---
@@ -395,6 +444,7 @@ It returns:
 - extracted entities
 - predicted disease
 - confidence score
+- selected model information
 - recommended actions
 - medication information
 - disclaimer
@@ -423,7 +473,7 @@ It provides:
 Testing scenarios are documented in:
 
 ```text
-use_case_tests.txt
+tests/use_case_tests.txt
 ```
 
 Example test cases:
@@ -448,6 +498,9 @@ The final report should include screenshots such as:
 - Prediction result for dengue.
 - Medication safety information section.
 - FastAPI Swagger documentation page.
+- Confusion matrix from `models/classical/confusion_matrix.png`.
+- Model comparison chart from `models/classical/model_comparison.png`.
+- Classification report heatmap from `models/classical/classification_report.png`.
 
 Suggested diagrams:
 
@@ -455,6 +508,7 @@ Suggested diagrams:
 - NLP pipeline diagram.
 - Dataset structure diagram.
 - Model comparison table/bar chart.
+- Optional LSTM/GRU training history chart.
 
 ---
 

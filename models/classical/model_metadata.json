@@ -1,0 +1,37 @@
+{
+  "best_model": "complement_naive_bayes",
+  "accuracy": 0.90625,
+  "macro_f1": 0.9071428571428571,
+  "best_params": {
+    "classifier": {
+      "alpha": 0.2
+    },
+    "vectorizer": {
+      "ngram_range": [
+        1,
+        3
+      ],
+      "min_df": 1,
+      "sublinear_tf": true
+    }
+  },
+  "dataset_rows": 128,
+  "label_count": 14,
+  "labels": [
+    "cholera",
+    "common cold",
+    "covid-like illness",
+    "dengue",
+    "flu",
+    "gastroenteritis",
+    "hepatitis b",
+    "hiv",
+    "malaria",
+    "measles",
+    "meningitis",
+    "pneumonia",
+    "tuberculosis",
+    "typhoid fever"
+  ],
+  "note": "Internal hyperparameter variants were tested during training; only the final selected model is shown here for a clean project submission."
+}

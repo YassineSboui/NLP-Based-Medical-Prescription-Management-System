@@ -51,6 +51,8 @@ Project structure:
 ```text
 backend/
   app/
+    core/
+      paths.py
     main.py
     api/routes.py
     services/
@@ -64,14 +66,24 @@ backend/
       medication_knowledge_base.json
     utils/text_cleaning.py
   scripts/train_model.py
+  scripts/train_deep_learning_model.py
   requirements.txt
+  requirements-advanced.txt
 frontend/
   streamlit_app.py
 models/
-  trained_model.joblib
-  vectorizer.joblib
-  metrics.txt
-  model_metadata.json
+  classical/
+    trained_model.joblib
+    vectorizer.joblib
+    metrics.txt
+    model_metadata.json
+    confusion_matrix.png
+    confusion_matrix_normalized.png
+    model_comparison.png
+    classification_report.png
+  advanced/
+tests/
+  use_case_tests.txt
 docs/
 ```
 
@@ -96,13 +108,15 @@ backend/app/api/routes.py
 Available endpoints:
 
 - `GET /health`: checks if the backend is running.
+- `GET /models`: lists available prediction models and validation metrics.
 - `POST /analyze`: analyzes symptom text and returns predictions and recommendations.
 
 Example request:
 
 ```json
 {
-  "text": "I have fever, headache, chills and body pain."
+  "text": "I have fever, headache, chills and body pain.",
+  "model_key": "classical"
 }
 ```
 
@@ -175,7 +189,7 @@ The cleaning function does the following:
 - Normalizes medical phrases.
 - Removes unnecessary punctuation.
 - Normalizes spaces.
-- Removes basic stop words.
+- Removes general English stop words while preserving important medical and negation words such as `no`, `not`, `without`, `fever`, `cough`, `pain`, and `blood`.
 
 Examples of phrase normalization:
 
@@ -247,26 +261,94 @@ The best model is selected based on validation performance.
 Current best model:
 
 ```text
-linear_svc_calibrated
+complement_naive_bayes
 ```
 
 Current metrics:
 
 ```text
-Accuracy: 0.844
-Macro F1: 0.837
+Accuracy: 0.906
+Macro F1: 0.907
 ```
+
+The main training script now performs a small hyperparameter search across TF-IDF configurations and classifier settings. It evaluates Logistic Regression, calibrated Linear SVC, Complement Naive Bayes, and RBF SVC variants.
 
 These metrics are stored in:
 
 ```text
-models/metrics.txt
+models/classical/metrics.txt
 ```
+
+The training script also generates visual evaluation files:
+
+```text
+models/classical/confusion_matrix.png
+models/classical/confusion_matrix_normalized.png
+models/classical/model_comparison.png
+models/classical/classification_report.png
+```
+
+The confusion matrix shows which diseases were predicted correctly and which diseases were confused with each other. The normalized confusion matrix makes class-level recall easier to compare. The model comparison chart shows accuracy and macro F1 for Logistic Regression, calibrated Linear SVC, and Complement Naive Bayes. The classification report heatmap shows precision, recall, and F1-score per disease.
+
+### 9.1 Optional Advanced Deep-Learning Model
+
+An optional advanced model script is available in:
+
+```text
+backend/scripts/train_deep_learning_model.py
+```
+
+It trains bidirectional LSTM and GRU sequence classifiers using tokenized symptom text, an embedding layer, dropout, and early stopping. This script is included for academic comparison because the teacher requested an advanced model option.
+
+Install optional dependencies with:
+
+```bash
+pip install -r backend/requirements-advanced.txt
+```
+
+Run it with:
+
+```bash
+python backend/scripts/train_deep_learning_model.py
+```
+
+It saves outputs to:
+
+```text
+models/advanced/
+```
+
+Generated advanced artifacts include:
+
+```text
+models/advanced/lstm_model.keras
+models/advanced/gru_model.keras
+models/advanced/best_sequence_model.keras
+models/advanced/tokenizer.joblib
+models/advanced/label_encoder.joblib
+models/advanced/deep_learning_metrics.txt
+models/advanced/deep_learning_metadata.json
+models/advanced/training_history.png
+models/advanced/deep_learning_confusion_matrix.png
+models/advanced/deep_learning_confusion_matrix_normalized.png
+```
+
+Latest advanced result:
+
+```text
+Best advanced model: lstm_u64_e96_s48_b8_pool_lr7e4_seed7
+Accuracy: 0.844
+Macro F1: 0.838
+```
+
+The advanced metadata shows only the final selected advanced model for a clean project submission. Internal LSTM/GRU architecture variants were tested during training, but they are not listed in the final metadata file.
+
+Important explanation: the TF-IDF model remains the main application model because the dataset is small. LSTM/GRU models are advanced sequence models, but they normally require much more labeled data. In this project, they are used as a comparative experiment, not as a claim of clinical superiority.
 
 Model metadata is stored in:
 
 ```text
-models/model_metadata.json
+models/classical/model_metadata.json
 ```
 
 ## 10. Why TF-IDF Instead Of BERT
@@ -357,6 +439,7 @@ It provides:
 - A symptom text area.
 - Demo examples in the sidebar.
 - Backend URL configuration.
+- Model selector with validation metrics.
 - Analysis button.
 - Prediction result.
 - Extracted entities.
@@ -378,7 +461,7 @@ It validates that the response contains expected fields before showing the resul
 3. FastAPI validates the request using Pydantic.
 4. The NLP service cleans the text.
 5. The entity extractor identifies symptoms, diseases, medications, and dosage mentions.
-6. The prediction service predicts the disease.
+6. The prediction service predicts the disease with the selected model, either `classical` or `advanced`.
 7. The recommendation service loads guidance from the knowledge base.
 8. FastAPI returns a structured JSON response.
 9. Streamlit displays the result in the interface.
@@ -411,10 +494,14 @@ The script:
 Generated files:
 
 ```text
-models/trained_model.joblib
-models/vectorizer.joblib
-models/metrics.txt
-models/model_metadata.json
+models/classical/trained_model.joblib
+models/classical/vectorizer.joblib
+models/classical/metrics.txt
+models/classical/model_metadata.json
+models/classical/confusion_matrix.png
+models/classical/confusion_matrix_normalized.png
+models/classical/model_comparison.png
+models/classical/classification_report.png
 ```
 
 ## 17. Why Accuracy Is Not Enough
@@ -452,6 +539,133 @@ Possible improvements include:
 - Add probability ranking for top 3 diseases.
 - Add doctor/pharmacist review of the knowledge base.
 
-## 20. How To Explain The Project In One Minute
+## 20. Setup, Run, And Demo Guide
+
+Install dependencies from the project root:
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r backend/requirements.txt
+```
+
+Train the main model and generate evaluation visuals:
+
+```bash
+python backend/scripts/train_model.py
+```
+
+Run the backend:
+
+```bash
+cd backend
+python -m uvicorn app.main:app --reload
+```
+
+Run the frontend from another terminal at the project root:
+
+```bash
+python -m streamlit run frontend\streamlit_app.py
+```
+
+Open the frontend:
+
+```text
+http://localhost:8501
+```
+
+Open the API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+Recommended live demo cases:
+
+| Case | Input Summary | Expected Result |
+|---|---|---|
+| Malaria | fever, headache, chills, sweating, body pain | malaria |
+| Dengue | high fever, headache, pain behind eyes, joint pain, rash | dengue |
+| Cholera | watery diarrhea, vomiting, thirst, dehydration | cholera |
+| Meningitis | fever, severe headache, stiff neck, vomiting, light sensitivity | meningitis |
+
+Example malaria input:
+
+```text
+I have fever, headache, chills, sweating and body pain for 3 days.
+```
+
+Example dengue input:
+
+```text
+I have high fever, severe headache, pain behind the eyes, joint pain and rash.
+```
+
+Example cholera input:
+
+```text
+I have severe watery diarrhea, vomiting, thirst and dehydration after drinking unsafe water.
+```
+
+Example meningitis input:
+
+```text
+I have fever, severe headache, stiff neck, vomiting and light sensitivity.
+```
+
+## 21. Presentation Plan
+
+Recommended duration: 10 to 15 minutes.
+
+Suggested slide order:
+
+| Slide | Topic | Key Message |
+|---|---|---|
+| 1 | Title | NLP-Based Medical Prescription Management System |
+| 2 | Problem Context | Symptoms are unstructured and unsafe self-medication is risky |
+| 3 | Objectives | Analyze text, extract entities, predict disease, return safe guidance |
+| 4 | Supported Diseases | 14 labels, including the original malaria, typhoid, tuberculosis, and HIV scope |
+| 5 | Architecture | Streamlit frontend, FastAPI backend, NLP service, ML model, knowledge base |
+| 6 | Dataset | 128 curated rows from CDC/WHO sources, not real patient data |
+| 7 | NLP Pipeline | Cleaning, phrase normalization, entity extraction, TF-IDF, classification |
+| 8 | Entity Extraction | Symptoms, diseases, medications, dosage mentions, simple negation handling |
+| 9 | ML Model | Hyperparameter search across Logistic Regression, Linear SVC, Complement Naive Bayes, and RBF SVC; best is Complement Naive Bayes alpha 0.2 |
+| 10 | Evaluation Visuals | Confusion matrix, normalized confusion matrix, model comparison, classification report |
+| 11 | Advanced Model | Optional LSTM/GRU experiment, kept separate because the dataset is small |
+| 12 | Recommendation System | JSON knowledge base with educational actions, medicines, warnings |
+| 13 | Web Demo | Show malaria, dengue, cholera, and meningitis examples |
+| 14 | Limitations | Not clinically validated, not diagnosis, no self-medication |
+| 15 | Future Work | Larger datasets, medical NER, multilingual support, BERT, clinician validation |
+
+Final message to say:
+
+```text
+This project is not a replacement for doctors. It is an academic demonstration of how NLP and machine learning can structure symptom text and provide safe educational guidance.
+```
+
+## 22. Important Files Checklist
+
+| File | Purpose |
+|---|---|
+| `backend/app/main.py` | FastAPI application setup |
+| `backend/app/core/paths.py` | Centralized project paths for data and model artifacts |
+| `backend/app/api/routes.py` | `/health` and `/analyze` API endpoints |
+| `backend/app/services/nlp_service.py` | Main NLP orchestration and entity extraction |
+| `backend/app/services/disease_prediction_service.py` | Loads model and predicts disease |
+| `backend/app/services/recommendation_service.py` | Loads recommendation knowledge base |
+| `backend/app/utils/text_cleaning.py` | Text preprocessing and phrase normalization |
+| `backend/app/data/symptoms_dataset.csv` | Curated training dataset |
+| `backend/app/data/dataset_sources.json` | CDC/WHO source registry |
+| `backend/app/data/medication_knowledge_base.json` | Educational medication and action guidance |
+| `backend/scripts/scrape_medical_sources.py` | Controlled CDC/WHO scraping script |
+| `backend/scripts/train_model.py` | Main TF-IDF model training and evaluation visuals |
+| `backend/scripts/train_deep_learning_model.py` | Optional LSTM/GRU advanced experiment |
+| `frontend/streamlit_app.py` | Streamlit user interface |
+| `models/classical/metrics.txt` | Latest model metrics |
+| `models/classical/confusion_matrix.png` | Main confusion matrix visual |
+| `models/classical/model_comparison.png` | Candidate model comparison visual |
+| `tests/use_case_tests.txt` | Manual demo and validation scenarios |
+
+## 23. How To Explain The Project In One Minute
 
 This project is a web-based NLP medical assistant for academic demonstration. The user enters symptoms in natural language. The backend cleans the text, extracts medical entities using rule-based dictionaries, predicts a likely disease using a TF-IDF machine learning model, then returns safe educational treatment information from a JSON knowledge base. The system supports 14 common diseases and uses source-backed symptom examples from CDC and WHO. It is not a diagnosis system and always recommends clinical validation.

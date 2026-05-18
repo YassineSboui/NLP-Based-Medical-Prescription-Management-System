@@ -38,15 +38,15 @@ The project uses text normalization, phrase normalization, stop-word removal, ru
 
 ## 9. What machine learning models did you use?
 
-The training script compares Logistic Regression, calibrated Linear SVC, and Complement Naive Bayes. The best model is selected based on validation performance.
+The main training script compares Logistic Regression, calibrated Linear SVC, and Complement Naive Bayes. The best model is selected based on validation performance. I also added an optional advanced deep-learning script that trains bidirectional LSTM and GRU sequence models for academic comparison.
 
 ## 10. What is the current best model?
 
-The current best model is calibrated Linear SVC.
+The current best model is Complement Naive Bayes with alpha 0.2 after hyperparameter search. It achieved 0.906 accuracy and 0.907 macro F1 on the validation split. RBF SVC also reached 0.906 accuracy and 0.907 macro F1, but Complement Naive Bayes is simpler and faster, so it is a good final choice for this small text dataset.
 
-## 11. Why did calibrated Linear SVC perform well?
+## 11. Why did Complement Naive Bayes perform well?
 
-Linear SVC is strong for text classification because TF-IDF creates sparse high-dimensional vectors. Calibration allows it to provide probability-like confidence scores.
+Complement Naive Bayes often performs well on text classification with TF-IDF features, especially when the dataset is small and classes have overlapping words. In the optimized run, alpha 0.2 with TF-IDF unigrams/bigrams/trigrams gave the best validation result.
 
 ## 12. What is TF-IDF?
 
@@ -59,6 +59,14 @@ TF-IDF is simple, fast, transparent, and effective for small datasets. It is eas
 ## 14. Why did you not use BERT?
 
 BERT is powerful but heavy. For a small source-backed dataset, fine-tuning BERT may overfit and complicate the project. The current solution is more reliable for a 5-week MVP.
+
+## 14.1 Did you add an advanced model?
+
+Yes. The file `backend/scripts/train_deep_learning_model.py` trains optional bidirectional LSTM and GRU models using token sequences, embeddings, dropout, and early stopping. It saves the neural-network models, tokenizer, label encoder, metrics, and visual results in `models/advanced/`. In the optimized run, the best advanced model was `lstm_u64_e96_s48_b8_pool_lr7e4_seed7` with 0.844 accuracy and 0.838 macro F1. I keep TF-IDF as the main production model because the dataset has only 128 rows, so LSTM/GRU can easily overfit. The advanced model is included as a comparative experiment.
+
+## 14.2 What evaluation visuals are included?
+
+The main training script now generates `models/classical/confusion_matrix.png`, `models/classical/confusion_matrix_normalized.png`, `models/classical/model_comparison.png`, and `models/classical/classification_report.png`. These show which diseases are confused, the normalized per-class performance, the comparison between algorithms, and precision/recall/F1 by disease.
 
 ## 15. What is entity extraction?
 
@@ -98,11 +106,15 @@ Dosage depends on age, weight, pregnancy status, allergies, liver/kidney functio
 
 ## 24. How does the frontend communicate with the backend?
 
-The Streamlit frontend sends a POST request to the FastAPI `/analyze` endpoint with the symptom text as JSON.
+The Streamlit frontend calls `GET /models` to list available models, then sends a POST request to `/analyze` with the symptom text and selected `model_key` as JSON.
 
 ## 25. What does the backend return?
 
-It returns cleaned text, extracted entities, predicted disease, confidence score, recommended actions, medication information, and a disclaimer.
+It returns cleaned text, extracted entities, predicted disease, confidence score, model used, recommended actions, medication information, and a disclaimer.
+
+## 25.1 Can the user choose the prediction model?
+
+Yes. The sidebar includes a model selector. The user can choose the default classical TF-IDF model or the advanced LSTM model. The backend receives this choice through `model_key`.
 
 ## 26. What is Pydantic used for?
 
@@ -134,12 +146,56 @@ Because wrong medication or diagnosis can harm patients. The app avoids final di
 
 ## 33. How do you test the app?
 
-I test the backend with FastAPI Swagger and the frontend with prepared use cases in `use_case_tests.txt`. I also run `python backend/scripts/train_model.py` to verify model training.
+I test the backend with FastAPI Swagger and the frontend with prepared use cases in `tests/use_case_tests.txt`. I also run `python backend/scripts/train_model.py` to verify model training and generate metrics/visuals. For the optional advanced experiment, I run `python backend/scripts/train_deep_learning_model.py` after installing `backend/requirements-advanced.txt`.
 
-## 34. What is the role of `use_case_tests.txt`?
+## 34. What is the role of `tests/use_case_tests.txt`?
 
 It contains ready-to-use symptom scenarios, expected disease predictions, and expected extracted symptoms for demonstration and testing.
 
 ## 35. What would you say if the teacher asks if this is medically reliable?
 
 I would say it is not medically reliable for real-world diagnosis. It is an academic prototype that demonstrates the NLP pipeline. Clinical reliability would require validated datasets, medical review, and real clinical evaluation.
+
+## 36. Where is the training code exactly?
+
+The training code is in `backend/scripts/train_model.py`. The actual training happens with `pipeline.fit(train_text, train_labels)`. After selecting the best model, the script retrains it on the full dataset using `best_pipeline.fit(dataset["cleaned_text"], dataset["disease"])`, then saves it with `joblib.dump`.
+
+## 37. Where is the confusion matrix generated?
+
+It is generated in `backend/scripts/train_model.py` using `confusion_matrix(...)`, matplotlib, and seaborn. The generated images are saved as `models/classical/confusion_matrix.png` and `models/classical/confusion_matrix_normalized.png`.
+
+## 38. Why do you have JSON and CSV scraped files?
+
+JSON keeps the structured scraped data, including source metadata, sections, items, and errors. CSV is easier to inspect manually in Excel, Google Sheets, or pandas. Both are raw traceability files. The model does not train directly on the scraped files; it trains on the manually curated `backend/app/data/symptoms_dataset.csv` file.
+
+## 39. Why is manual curation needed after scraping?
+
+Medical web pages contain navigation text, repeated content, explanations, warnings, and non-symptom information. Manual curation ensures that only relevant, clean, source-backed symptom examples are used for training. This is safer for a medical NLP project.
+
+## 40. What is the difference between entity extraction and disease prediction?
+
+Entity extraction identifies terms inside the user input, such as `fever`, `cough`, `malaria`, `paracetamol`, or `500mg`. Disease prediction uses the full cleaned symptom text and the trained ML model to choose the most likely disease label.
+
+## 41. What should you show in the presentation?
+
+Show the Streamlit interface, one or two live symptom examples, the FastAPI Swagger page, the confusion matrix, the model comparison chart, and the safety disclaimer. Recommended demo cases are malaria, dengue, cholera, and meningitis.
+
+## 42. What is the short presentation structure?
+
+Use this order: problem context, objectives, supported diseases, architecture, dataset, NLP pipeline, ML training, evaluation visuals, optional LSTM/GRU advanced model, recommendation system, live demo, limitations, and future work.
+
+## 43. What do you say about LSTM/GRU if results are not better?
+
+I would say that LSTM and GRU were added as optional advanced sequence-model experiments. In the optimized run, the best LSTM reached 0.844 accuracy and 0.838 macro F1, while the optimized classical TF-IDF model reached 0.906 accuracy and 0.907 macro F1. This shows that deep learning improved after tuning, but the classical model is still stronger on this small dataset. Therefore, the TF-IDF model remains the main model because it is simpler, explainable, and more appropriate for small data.
+
+## 44. How do you run the project for demo?
+
+First run the backend with `cd backend` then `python -m uvicorn app.main:app --reload`. Then open another terminal from the project root and run `python -m streamlit run frontend\streamlit_app.py`. The frontend opens at `http://localhost:8501`, and the backend API docs are at `http://localhost:8000/docs`.
+
+## 45. What are good demo inputs?
+
+For malaria: `I have fever, headache, chills, sweating and body pain for 3 days.` For dengue: `I have high fever, severe headache, pain behind the eyes, joint pain and rash.` For cholera: `I have severe watery diarrhea, vomiting, thirst and dehydration after drinking unsafe water.` For meningitis: `I have fever, severe headache, stiff neck, vomiting and light sensitivity.`
+
+## 46. Why does the metadata show only one final model?
+
+Because the metadata files were cleaned for final project submission. Hyperparameter and architecture variants were tested internally during training, but the final metadata shows only the selected best model, its score, and its best parameters/configuration. This keeps the project easy to validate and avoids confusing model variants such as `X_1`, `X_2`, and `X_3`.

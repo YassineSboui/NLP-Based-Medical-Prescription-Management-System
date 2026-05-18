@@ -40,6 +40,8 @@ The expanded demo currently supports 14 source-backed labels:
 ```text
 backend/
   app/
+    core/
+      paths.py
     main.py
     api/routes.py
     services/
@@ -53,32 +55,30 @@ backend/
       medication_knowledge_base.json
     utils/text_cleaning.py
   scripts/train_model.py
+  scripts/train_deep_learning_model.py
   requirements.txt
+  requirements-advanced.txt
 frontend/
   streamlit_app.py
 models/
+  classical/
+  advanced/
+tests/
+  use_case_tests.txt
 docs/
-  project_summary.md
-  architecture.md
-  dataset_description.md
   full_project_documentation.md
+  technical_report.md
   teacher_q_and_a.md
-  demo_script.md
 ```
 
 ## Documentation
 
 Detailed documentation is available in:
 
-- `docs/full_project_documentation.md`: full explanation of every module and design choice.
+- `docs/full_project_documentation.md`: complete project documentation, architecture, dataset, setup, demo guide, presentation plan, model evaluation, advanced LSTM/GRU explanation, and file checklist.
+- `docs/technical_report.md`: formal English technical report draft for submission.
 - `docs/teacher_q_and_a.md`: likely teacher questions with prepared answers.
-- `docs/demo_script.md`: short demo flow for presentation.
-- `docs/technical_report.md`: English technical report draft.
-- `docs/presentation_plan.md`: slide-by-slide 10-15 minute presentation plan.
-- `docs/teacher_validation_documentation.md`: folder-by-folder documentation for teacher validation.
-- `docs/architecture.md`: architecture and request flow.
-- `docs/dataset_description.md`: dataset, labels, preprocessing, and sources.
-- `use_case_tests.txt`: ready-to-paste test cases with expected results.
+- `tests/use_case_tests.txt`: ready-to-paste test cases with expected results.
 
 ## Setup
 
@@ -100,10 +100,44 @@ python backend/scripts/train_model.py
 
 This creates:
 
-- `models/trained_model.joblib`
-- `models/vectorizer.joblib`
-- `models/metrics.txt`
-- `models/model_metadata.json`
+- `models/classical/trained_model.joblib`
+- `models/classical/vectorizer.joblib`
+- `models/classical/metrics.txt`
+- `models/classical/model_metadata.json`
+- `models/classical/confusion_matrix.png`
+- `models/classical/confusion_matrix_normalized.png`
+- `models/classical/model_comparison.png`
+- `models/classical/classification_report.png`
+
+## Optional Advanced LSTM/GRU Experiment
+
+The production/demo model remains the TF-IDF model because the dataset is small and classical text classifiers usually generalize better in this situation. An optional advanced neural-network experiment is included for academic comparison:
+
+```bash
+pip install -r backend/requirements-advanced.txt
+python backend/scripts/train_deep_learning_model.py
+```
+
+This trains bidirectional LSTM and GRU sequence classifiers and saves their comparison artifacts in:
+
+```text
+models/advanced/
+```
+
+Generated advanced artifacts include:
+
+- `models/advanced/lstm_model.keras`
+- `models/advanced/gru_model.keras`
+- `models/advanced/best_sequence_model.keras`
+- `models/advanced/tokenizer.joblib`
+- `models/advanced/label_encoder.joblib`
+- `models/advanced/deep_learning_metrics.txt`
+- `models/advanced/deep_learning_metadata.json`
+- `models/advanced/training_history.png`
+- `models/advanced/deep_learning_confusion_matrix.png`
+- `models/advanced/deep_learning_confusion_matrix_normalized.png`
+
+Latest advanced result: the best advanced model was `lstm_u64_e96_s48_b8_pool_lr7e4_seed7` with 0.844 accuracy and 0.838 macro F1. The optimized classical model remains better with 0.906 accuracy and 0.907 macro F1. Important: the advanced model is included to demonstrate sequence-model experimentation, not because it is guaranteed to outperform TF-IDF on only 128 rows.
 
 ## Optional: Scrape Source Pages
 
@@ -122,6 +156,26 @@ The scraped files are for traceability and raw data collection. The training dat
 
 ## Run the Backend
 
+To launch the complete application on Windows, run one of these from the project root:
+
+```bash
+run_app.bat
+```
+
+or:
+
+```bash
+powershell -ExecutionPolicy Bypass -File .\run_app.ps1
+```
+
+This starts both FastAPI and Streamlit. The frontend will be available at:
+
+```text
+http://localhost:8501
+```
+
+If you prefer to run services manually, start the backend first:
+
 ```bash
 cd backend
 uvicorn app.main:app --reload
@@ -139,13 +193,22 @@ Main endpoint:
 POST http://localhost:8000/analyze
 ```
 
+Available model list:
+
+```text
+GET http://localhost:8000/models
+```
+
 Example JSON body:
 
 ```json
 {
-  "text": "I have fever, headache, chills, sweating and body pain for 3 days."
+  "text": "I have fever, headache, chills, sweating and body pain for 3 days.",
+  "model_key": "classical"
 }
 ```
+
+Supported `model_key` values are `classical` and `advanced`.
 
 ## Run the Frontend
 
@@ -215,6 +278,12 @@ Main references include:
   },
   "predicted_disease": "malaria",
   "confidence": 0.82,
+  "model_used": {
+    "key": "classical",
+    "name": "complement_naive_bayes",
+    "accuracy": 0.906,
+    "macro_f1": 0.907
+  },
   "recommended_actions": [],
   "recommended_medicines": [],
   "disclaimer": "..."
@@ -226,6 +295,7 @@ Main references include:
 - FastAPI for a simple REST backend.
 - Streamlit for a fast demo-ready frontend.
 - TF-IDF with validation-based model selection for a transparent NLP baseline.
+- User-selectable prediction model: classical TF-IDF model or advanced LSTM model.
 - Symptom-profile fallback to make common demo cases more reliable and explainable.
 - JSON knowledge base for easy editing and presentation.
 - Rule-based medical entity extraction for reliability and explainability.
