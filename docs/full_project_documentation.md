@@ -77,10 +77,9 @@ models/
     vectorizer.joblib
     metrics.txt
     model_metadata.json
-    confusion_matrix.png
-    confusion_matrix_normalized.png
     model_comparison.png
-    classification_report.png
+    prediction_outcomes.png
+    overall_metrics.png
   advanced/
 tests/
   use_case_tests.txt
@@ -282,13 +281,12 @@ models/classical/metrics.txt
 The training script also generates visual evaluation files:
 
 ```text
-models/classical/confusion_matrix.png
-models/classical/confusion_matrix_normalized.png
 models/classical/model_comparison.png
-models/classical/classification_report.png
+models/classical/prediction_outcomes.png
+models/classical/overall_metrics.png
 ```
 
-The confusion matrix shows which diseases were predicted correctly and which diseases were confused with each other. The normalized confusion matrix makes class-level recall easier to compare. The model comparison chart shows accuracy and macro F1 for Logistic Regression, calibrated Linear SVC, and Complement Naive Bayes. The classification report heatmap shows precision, recall, and F1-score per disease.
+The overall metrics image shows the final best model accuracy and macro F1. The model comparison chart uses a zoomed y-axis so close model scores are easier to see. The prediction outcomes chart shows TP, FP, TN, and FN for each model using one-vs-rest aggregation, because this is a multi-class classification task. Per-class matrix images were removed to keep the evaluation simple for presentation.
 
 ### 9.1 Optional Advanced Deep-Learning Model
 
@@ -329,8 +327,8 @@ models/advanced/label_encoder.joblib
 models/advanced/deep_learning_metrics.txt
 models/advanced/deep_learning_metadata.json
 models/advanced/training_history.png
-models/advanced/deep_learning_confusion_matrix.png
-models/advanced/deep_learning_confusion_matrix_normalized.png
+models/advanced/advanced_overall_metrics.png
+models/advanced/advanced_prediction_outcomes.png
 ```
 
 Latest advanced result:
@@ -498,10 +496,8 @@ models/classical/trained_model.joblib
 models/classical/vectorizer.joblib
 models/classical/metrics.txt
 models/classical/model_metadata.json
-models/classical/confusion_matrix.png
-models/classical/confusion_matrix_normalized.png
 models/classical/model_comparison.png
-models/classical/classification_report.png
+models/classical/overall_metrics.png
 ```
 
 ## 17. Why Accuracy Is Not Enough
@@ -630,7 +626,7 @@ Suggested slide order:
 | 7 | NLP Pipeline | Cleaning, phrase normalization, entity extraction, TF-IDF, classification |
 | 8 | Entity Extraction | Symptoms, diseases, medications, dosage mentions, simple negation handling |
 | 9 | ML Model | Hyperparameter search across Logistic Regression, Linear SVC, Complement Naive Bayes, and RBF SVC; best is Complement Naive Bayes alpha 0.2 |
-| 10 | Evaluation Visuals | Confusion matrix, normalized confusion matrix, model comparison, classification report |
+| 10 | Evaluation Visuals | Overall metrics chart and model comparison chart |
 | 11 | Advanced Model | Optional LSTM/GRU experiment, kept separate because the dataset is small |
 | 12 | Recommendation System | JSON knowledge base with educational actions, medicines, warnings |
 | 13 | Web Demo | Show malaria, dengue, cholera, and meningitis examples |
@@ -662,8 +658,9 @@ This project is not a replacement for doctors. It is an academic demonstration o
 | `backend/scripts/train_deep_learning_model.py` | Optional LSTM/GRU advanced experiment |
 | `frontend/streamlit_app.py` | Streamlit user interface |
 | `models/classical/metrics.txt` | Latest model metrics |
-| `models/classical/confusion_matrix.png` | Main confusion matrix visual |
 | `models/classical/model_comparison.png` | Candidate model comparison visual |
+| `models/classical/prediction_outcomes.png` | TP, FP, TN, and FN by model using one-vs-rest aggregation |
+| `models/classical/overall_metrics.png` | Overall accuracy and macro F1 visual |
 | `tests/use_case_tests.txt` | Manual demo and validation scenarios |
 
 ## 23. How To Explain The Project In One Minute

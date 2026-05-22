@@ -104,10 +104,9 @@ This creates:
 - `models/classical/vectorizer.joblib`
 - `models/classical/metrics.txt`
 - `models/classical/model_metadata.json`
-- `models/classical/confusion_matrix.png`
-- `models/classical/confusion_matrix_normalized.png`
 - `models/classical/model_comparison.png`
-- `models/classical/classification_report.png`
+- `models/classical/prediction_outcomes.png`
+- `models/classical/overall_metrics.png`
 
 ## Optional Advanced LSTM/GRU Experiment
 
@@ -134,8 +133,8 @@ Generated advanced artifacts include:
 - `models/advanced/deep_learning_metrics.txt`
 - `models/advanced/deep_learning_metadata.json`
 - `models/advanced/training_history.png`
-- `models/advanced/deep_learning_confusion_matrix.png`
-- `models/advanced/deep_learning_confusion_matrix_normalized.png`
+- `models/advanced/advanced_overall_metrics.png`
+- `models/advanced/advanced_prediction_outcomes.png`
 
 Latest advanced result: the best advanced model was `lstm_u64_e96_s48_b8_pool_lr7e4_seed7` with 0.844 accuracy and 0.838 macro F1. The optimized classical model remains better with 0.906 accuracy and 0.907 macro F1. Important: the advanced model is included to demonstrate sequence-model experimentation, not because it is guaranteed to outperform TF-IDF on only 128 rows.
 

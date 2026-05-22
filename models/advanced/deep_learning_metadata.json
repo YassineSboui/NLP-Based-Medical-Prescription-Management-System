@@ -46,8 +46,8 @@
     "tokenizer": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\tokenizer.joblib",
     "label_encoder": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\label_encoder.joblib",
     "training_history": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\training_history.png",
-    "confusion_matrix": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\deep_learning_confusion_matrix.png",
-    "normalized_confusion_matrix": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\deep_learning_confusion_matrix_normalized.png"
+    "overall_metrics": "models/advanced/advanced_overall_metrics.png",
+    "prediction_outcomes": "models/advanced/advanced_prediction_outcomes.png"
   },
   "note": "Internal LSTM/GRU architecture variants and seeds were tested during training; only the final selected advanced model is shown here for a clean project submission."
 }

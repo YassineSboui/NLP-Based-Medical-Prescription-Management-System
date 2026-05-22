@@ -66,7 +66,9 @@ Yes. The file `backend/scripts/train_deep_learning_model.py` trains optional bid
 
 ## 14.2 What evaluation visuals are included?
 
-The main training script now generates `models/classical/confusion_matrix.png`, `models/classical/confusion_matrix_normalized.png`, `models/classical/model_comparison.png`, and `models/classical/classification_report.png`. These show which diseases are confused, the normalized per-class performance, the comparison between algorithms, and precision/recall/F1 by disease.
+The main training script now generates `models/classical/overall_metrics.png`, `models/classical/model_comparison.png`, and `models/classical/prediction_outcomes.png`. These show the final overall accuracy/macro F1, compare the optimized classical model families on a zoomed scale, and show TP, FP, TN, and FN for each model using one-vs-rest aggregation.
+
+The advanced model also has `models/advanced/advanced_overall_metrics.png` and `models/advanced/advanced_prediction_outcomes.png`. The advanced training history chart was simplified so it no longer has a long legend hiding the plot.
 
 ## 15. What is entity extraction?
 
@@ -160,9 +162,9 @@ I would say it is not medically reliable for real-world diagnosis. It is an acad
 
 The training code is in `backend/scripts/train_model.py`. The actual training happens with `pipeline.fit(train_text, train_labels)`. After selecting the best model, the script retrains it on the full dataset using `best_pipeline.fit(dataset["cleaned_text"], dataset["disease"])`, then saves it with `joblib.dump`.
 
-## 37. Where is the confusion matrix generated?
+## 37. Where are the evaluation images generated?
 
-It is generated in `backend/scripts/train_model.py` using `confusion_matrix(...)`, matplotlib, and seaborn. The generated images are saved as `models/classical/confusion_matrix.png` and `models/classical/confusion_matrix_normalized.png`.
+They are generated in `backend/scripts/train_model.py` using matplotlib and seaborn. The final project keeps only overall evaluation images: `models/classical/overall_metrics.png`, `models/classical/model_comparison.png`, and `models/classical/prediction_outcomes.png`.
 
 ## 38. Why do you have JSON and CSV scraped files?
 
@@ -178,7 +180,7 @@ Entity extraction identifies terms inside the user input, such as `fever`, `coug
 
 ## 41. What should you show in the presentation?
 
-Show the Streamlit interface, one or two live symptom examples, the FastAPI Swagger page, the confusion matrix, the model comparison chart, and the safety disclaimer. Recommended demo cases are malaria, dengue, cholera, and meningitis.
+Show the Streamlit interface, one or two live symptom examples, the FastAPI Swagger page, the overall metrics chart, the model comparison chart, and the safety disclaimer. Recommended demo cases are malaria, dengue, cholera, and meningitis.
 
 ## 42. What is the short presentation structure?
 

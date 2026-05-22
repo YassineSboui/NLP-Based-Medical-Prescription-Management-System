@@ -6,6 +6,7 @@ import sys
 
 import joblib
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import seaborn as sns
 from sklearn.calibration import CalibratedClassifierCV
@@ -28,72 +29,116 @@ from app.core.paths import (  # noqa: E402
     CLASSICAL_MODEL_DIR,
     CLASSICAL_MODEL_PATH,
     CLASSICAL_VECTORIZER_PATH,
-    CLASSIFICATION_REPORT_PATH,
-    CONFUSION_MATRIX_PATH,
     DATASET_PATH,
     MODEL_COMPARISON_PATH,
-    NORMALIZED_CONFUSION_MATRIX_PATH,
+    OVERALL_METRICS_PATH,
+    PREDICTION_OUTCOMES_PATH,
 )
 from app.utils.text_cleaning import clean_text  # noqa: E402
-
-
-# Plot the confusion matrix so we can see which disease labels are confused.
-def save_confusion_matrix_plot(labels: list[str], matrix, title: str, output_path: Path, fmt: str) -> None:
-    plt.figure(figsize=(13, 10))
-    sns.heatmap(
-        matrix,
-        annot=True,
-        fmt=fmt,
-        cmap="Blues",
-        xticklabels=labels,
-        yticklabels=labels,
-        cbar=True,
-    )
-    plt.title(title)
-    plt.xlabel("Predicted disease")
-    plt.ylabel("Actual disease")
-    plt.xticks(rotation=45, ha="right")
-    plt.yticks(rotation=0)
-    plt.tight_layout()
-    plt.savefig(output_path, dpi=200)
-    plt.close()
 
 
 # Plot the best optimized version of each model family against the others.
 def save_model_comparison_plot(results: list[dict[str, float | str]], output_path: Path) -> None:
     result_frame = pd.DataFrame(results).melt(id_vars="model", value_vars=["accuracy", "macro_f1"], var_name="metric", value_name="score")
+    min_score = float(result_frame["score"].min())
+    max_score = float(result_frame["score"].max())
+    y_min = max(0.0, min_score - 0.03)
+    y_max = min(1.0, max_score + 0.02)
+    if y_max - y_min < 0.08:
+        y_min = max(0.0, y_max - 0.08)
+
     plt.figure(figsize=(10, 6))
     ax = sns.barplot(data=result_frame, x="model", y="score", hue="metric", palette="Set2")
-    ax.set_ylim(0, 1)
-    ax.set_title("Optimized Model Comparison")
+    ax.set_ylim(y_min, y_max)
+    ax.set_title("Optimized Model Comparison (Zoomed Scale)")
     ax.set_xlabel("Model")
     ax.set_ylabel("Score")
+    for container in ax.containers:
+        ax.bar_label(container, fmt="%.3f", padding=3, fontsize=8, fontweight="bold")
     plt.xticks(rotation=20, ha="right")
     plt.tight_layout()
     plt.savefig(output_path, dpi=200)
     plt.close()
 
 
-# Convert the classification report into a heatmap for presentation/report screenshots.
-def save_classification_report_plot(report: dict, labels: list[str], output_path: Path) -> None:
-    rows = []
-    for label in labels:
-        metrics = report[label]
-        rows.append(
-            {
-                "disease": label,
-                "precision": metrics["precision"],
-                "recall": metrics["recall"],
-                "f1-score": metrics["f1-score"],
-            }
-        )
+def calculate_multiclass_outcomes(actual_labels, predicted_labels, labels: list[str]) -> dict[str, int]:
+    matrix = confusion_matrix(actual_labels, predicted_labels, labels=labels)
+    total = int(matrix.sum())
+    true_positive = false_positive = true_negative = false_negative = 0
 
-    report_frame = pd.DataFrame(rows).set_index("disease")
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(report_frame, annot=True, fmt=".2f", cmap="YlGnBu", vmin=0, vmax=1)
-    plt.title("Classification Report by Disease")
-    plt.xlabel("Metric")
-    plt.ylabel("Disease")
+    # For multi-class classification, TP/FP/TN/FN are computed one-vs-rest per label and summed.
+    for index in range(len(labels)):
+        tp = int(matrix[index, index])
+        fp = int(matrix[:, index].sum() - tp)
+        fn = int(matrix[index, :].sum() - tp)
+        tn = int(total - tp - fp - fn)
+
+        true_positive += tp
+        false_positive += fp
+        false_negative += fn
+        true_negative += tn
+
+    return {
+        "true_positive": true_positive,
+        "false_positive": false_positive,
+        "true_negative": true_negative,
+        "false_negative": false_negative,
+    }
+
+
+def save_prediction_outcomes_plot(results: list[dict[str, float | str]], output_path: Path) -> None:
+    result_frame = pd.DataFrame(results).sort_values("accuracy", ascending=False)
+    figure, axes = plt.subplots(2, 2, figsize=(12, 10))
+    axes = axes.flatten()
+
+    for axis, row in zip(axes, result_frame.itertuples()):
+        matrix = np.array(
+            [
+                [row.true_positive, row.false_positive],
+                [row.false_negative, row.true_negative],
+            ]
+        )
+        labels = np.array(
+            [
+                [f"TP\n{row.true_positive}", f"FP\n{row.false_positive}"],
+                [f"FN\n{row.false_negative}", f"TN\n{row.true_negative}"],
+            ]
+        )
+        sns.heatmap(
+            matrix,
+            annot=labels,
+            fmt="",
+            cmap="YlGnBu",
+            cbar=False,
+            linewidths=2,
+            linecolor="white",
+            square=True,
+            ax=axis,
+            annot_kws={"fontsize": 14, "fontweight": "bold"},
+        )
+        axis.set_title(f"{row.model}\nAccuracy {row.accuracy:.3f} | Macro F1 {row.macro_f1:.3f}", fontweight="bold")
+        axis.set_xlabel("Predicted")
+        axis.set_ylabel("Actual")
+        axis.set_xticklabels(["Positive", "Negative"])
+        axis.set_yticklabels(["Positive", "Negative"], rotation=0)
+
+    for axis in axes[len(result_frame) :]:
+        axis.axis("off")
+
+    figure.suptitle("TP / FP / FN / TN By Model (One-vs-Rest Aggregated)", fontsize=16, fontweight="bold")
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=200)
+    plt.close()
+
+
+def save_overall_metrics_plot(accuracy: float, macro_f1: float, output_path: Path) -> None:
+    plt.figure(figsize=(7, 5))
+    ax = sns.barplot(x=["Accuracy", "Macro F1"], y=[accuracy, macro_f1], hue=["Accuracy", "Macro F1"], palette="Set2", legend=False)
+    ax.set_ylim(0, 1)
+    ax.set_title("Overall Best Model Metrics")
+    ax.set_ylabel("Score")
+    for index, value in enumerate([accuracy, macro_f1]):
+        ax.text(index, value + 0.02, f"{value:.3f}", ha="center", fontweight="bold")
     plt.tight_layout()
     plt.savefig(output_path, dpi=200)
     plt.close()
@@ -196,30 +241,31 @@ def main() -> None:
         raise RuntimeError("No model candidate was trained.")
 
     # 11. Prepare a clean model-level comparison for metrics and plots.
-    model_results = [
-        {
-            "model": name,
-            "accuracy": item["accuracy"],
-            "macro_f1": item["macro_f1"],
-            "best_params": {
-                "classifier": item["classifier_params"],
-                "vectorizer": item["vectorizer"],
-            },
-        }
-        for name, item in sorted(best_by_model.items(), key=lambda pair: (pair[1]["macro_f1"], pair[1]["accuracy"]), reverse=True)
-    ]
-
-    # 12. Generate evaluation objects for the best overall model.
+    # 12. Generate the overall evaluation report for the best model.
     labels = sorted(dataset["disease"].unique().tolist())
-    cm = confusion_matrix(test_labels, best_predictions, labels=labels)
-    cm_normalized = confusion_matrix(test_labels, best_predictions, labels=labels, normalize="true")
-    report_dict = classification_report(test_labels, best_predictions, labels=labels, zero_division=0, output_dict=True)
+    model_results = []
+    for name, item in sorted(best_by_model.items(), key=lambda pair: (pair[1]["macro_f1"], pair[1]["accuracy"]), reverse=True):
+        model_results.append(
+            {
+                "model": name,
+                "accuracy": item["accuracy"],
+                "macro_f1": item["macro_f1"],
+                **calculate_multiclass_outcomes(test_labels, item["predictions"], labels),
+                "best_params": {
+                    "classifier": item["classifier_params"],
+                    "vectorizer": item["vectorizer"],
+                },
+            }
+        )
+
+    best_accuracy_value = accuracy_score(test_labels, best_predictions)
+    best_macro_f1_value = f1_score(test_labels, best_predictions, average="macro", zero_division=0)
 
     # 13. Write a human-readable metrics report.
     metrics = [
         f"Best model: {best_name}",
-        f"Accuracy: {accuracy_score(test_labels, best_predictions):.3f}",
-        f"Macro F1: {f1_score(test_labels, best_predictions, average='macro', zero_division=0):.3f}",
+        f"Accuracy: {best_accuracy_value:.3f}",
+        f"Macro F1: {best_macro_f1_value:.3f}",
         "",
         "Optimized model comparison:",
         *[
@@ -230,12 +276,11 @@ def main() -> None:
         classification_report(test_labels, best_predictions, labels=labels, zero_division=0),
     ]
 
-    # 14. Save visual evaluation artifacts for the report and presentation.
+    # 14. Save overall evaluation artifacts for the report and presentation.
     CLASSICAL_MODEL_DIR.mkdir(parents=True, exist_ok=True)
-    save_confusion_matrix_plot(labels, cm, "Confusion Matrix", CONFUSION_MATRIX_PATH, "d")
-    save_confusion_matrix_plot(labels, cm_normalized, "Normalized Confusion Matrix", NORMALIZED_CONFUSION_MATRIX_PATH, ".2f")
     save_model_comparison_plot(model_results, MODEL_COMPARISON_PATH)
-    save_classification_report_plot(report_dict, labels, CLASSIFICATION_REPORT_PATH)
+    save_prediction_outcomes_plot(model_results, PREDICTION_OUTCOMES_PATH)
+    save_overall_metrics_plot(best_accuracy_value, best_macro_f1_value, OVERALL_METRICS_PATH)
 
     # 15. Retrain the selected best pipeline on the full dataset for final app usage.
     best_pipeline.fit(dataset["cleaned_text"], dataset["disease"])
@@ -248,8 +293,8 @@ def main() -> None:
         json.dumps(
             {
                 "best_model": best_name,
-                "accuracy": accuracy_score(test_labels, best_predictions),
-                "macro_f1": f1_score(test_labels, best_predictions, average="macro", zero_division=0),
+                "accuracy": best_accuracy_value,
+                "macro_f1": best_macro_f1_value,
                 "best_params": next(item["best_params"] for item in model_results if item["model"] == best_name),
                 "dataset_rows": int(len(dataset)),
                 "label_count": int(dataset["disease"].nunique()),
@@ -265,10 +310,9 @@ def main() -> None:
     print(f"Saved vectorizer to {CLASSICAL_VECTORIZER_PATH}")
     print(f"Saved metrics to {CLASSICAL_METRICS_PATH}")
     print(f"Saved metadata to {CLASSICAL_METADATA_PATH}")
-    print(f"Saved confusion matrix to {CONFUSION_MATRIX_PATH}")
-    print(f"Saved normalized confusion matrix to {NORMALIZED_CONFUSION_MATRIX_PATH}")
     print(f"Saved model comparison plot to {MODEL_COMPARISON_PATH}")
-    print(f"Saved classification report plot to {CLASSIFICATION_REPORT_PATH}")
+    print(f"Saved prediction outcomes plot to {PREDICTION_OUTCOMES_PATH}")
+    print(f"Saved overall metrics plot to {OVERALL_METRICS_PATH}")
     print(metrics[0])
     print(metrics[1])
 

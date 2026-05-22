@@ -313,12 +313,11 @@ The training script also generates visual evaluation artifacts for the report an
 
 | Artifact | Purpose |
 |---|---|
-| `models/classical/confusion_matrix.png` | Shows the number of correct and incorrect predictions by disease class |
-| `models/classical/confusion_matrix_normalized.png` | Shows per-class recall patterns independent of class count |
 | `models/classical/model_comparison.png` | Compares candidate models using accuracy and macro F1-score |
-| `models/classical/classification_report.png` | Shows precision, recall, and F1-score for each disease |
+| `models/classical/prediction_outcomes.png` | Shows TP, FP, TN, and FN for each model using one-vs-rest aggregation |
+| `models/classical/overall_metrics.png` | Shows final best model accuracy and macro F1-score |
 
-The confusion matrix is especially useful because it shows which diseases have similar symptom patterns and are more likely to be confused by the model.
+The final report uses overall metrics only to keep evaluation simple for presentation.
 
 ### 8.4 Optional Advanced Sequence Models
 
@@ -346,8 +345,8 @@ Examples:
 - `models/advanced/deep_learning_metrics.txt`
 - `models/advanced/deep_learning_metadata.json`
 - `models/advanced/training_history.png`
-- `models/advanced/deep_learning_confusion_matrix.png`
-- `models/advanced/deep_learning_confusion_matrix_normalized.png`
+- `models/advanced/advanced_overall_metrics.png`
+- `models/advanced/advanced_prediction_outcomes.png`
 
 The best advanced model in the latest run was `lstm_u64_e96_s48_b8_pool_lr7e4_seed7`, with 0.844 accuracy and 0.838 macro F1. The final explanation is that classical TF-IDF models are retained for the main application because they are more appropriate for a small, source-backed dataset, while LSTM/GRU models are shown as an advanced experimental extension.
 
@@ -360,10 +359,8 @@ models/classical/trained_model.joblib
 models/classical/vectorizer.joblib
 models/classical/metrics.txt
 models/classical/model_metadata.json
-models/classical/confusion_matrix.png
-models/classical/confusion_matrix_normalized.png
 models/classical/model_comparison.png
-models/classical/classification_report.png
+models/classical/overall_metrics.png
 ```
 
 ---
@@ -498,9 +495,9 @@ The final report should include screenshots such as:
 - Prediction result for dengue.
 - Medication safety information section.
 - FastAPI Swagger documentation page.
-- Confusion matrix from `models/classical/confusion_matrix.png`.
 - Model comparison chart from `models/classical/model_comparison.png`.
-- Classification report heatmap from `models/classical/classification_report.png`.
+- TP/FP/TN/FN prediction chart from `models/classical/prediction_outcomes.png`.
+- Overall metrics chart from `models/classical/overall_metrics.png`.
 
 Suggested diagrams:
 
