@@ -37,6 +37,7 @@ from app.core.paths import (  # noqa: E402
 from app.utils.text_cleaning import clean_text  # noqa: E402
 
 
+# Plot the confusion matrix so we can see which disease labels are confused.
 def save_confusion_matrix_plot(labels: list[str], matrix, title: str, output_path: Path, fmt: str) -> None:
     plt.figure(figsize=(13, 10))
     sns.heatmap(
@@ -58,6 +59,7 @@ def save_confusion_matrix_plot(labels: list[str], matrix, title: str, output_pat
     plt.close()
 
 
+# Plot the best optimized version of each model family against the others.
 def save_model_comparison_plot(results: list[dict[str, float | str]], output_path: Path) -> None:
     result_frame = pd.DataFrame(results).melt(id_vars="model", value_vars=["accuracy", "macro_f1"], var_name="metric", value_name="score")
     plt.figure(figsize=(10, 6))
@@ -72,6 +74,7 @@ def save_model_comparison_plot(results: list[dict[str, float | str]], output_pat
     plt.close()
 
 
+# Convert the classification report into a heatmap for presentation/report screenshots.
 def save_classification_report_plot(report: dict, labels: list[str], output_path: Path) -> None:
     rows = []
     for label in labels:
@@ -97,9 +100,11 @@ def save_classification_report_plot(report: dict, labels: list[str], output_path
 
 
 def main() -> None:
+    # 1. Load the curated dataset and clean symptom text before feature extraction.
     dataset = pd.read_csv(DATASET_PATH)
     dataset["cleaned_text"] = dataset["text"].apply(clean_text)
 
+    # 2. Keep 25% of the data for validation. Stratification preserves disease balance.
     train_text, test_text, train_labels, test_labels = train_test_split(
         dataset["cleaned_text"],
         dataset["disease"],
@@ -108,6 +113,7 @@ def main() -> None:
         stratify=dataset["disease"],
     )
 
+    # 3. TF-IDF settings to test internally. The final metadata keeps only the best one.
     vectorizer_configs = [
         {"ngram_range": (1, 2), "min_df": 1, "sublinear_tf": True},
         {"ngram_range": (1, 3), "min_df": 1, "sublinear_tf": True},
@@ -117,6 +123,8 @@ def main() -> None:
         {"ngram_range": (1, 3), "min_df": 1, "sublinear_tf": True, "analyzer": "char_wb", "max_features": 2500},
     ]
 
+    # 4. Classical model families and parameter values to optimize.
+    # The final comparison is model-to-model, not parameter-to-parameter.
     candidates = [
         ("logistic_regression", LogisticRegression(max_iter=2000, class_weight="balanced", C=0.5), {"C": 0.5}),
         ("logistic_regression", LogisticRegression(max_iter=2000, class_weight="balanced", C=1.0), {"C": 1.0}),
@@ -132,6 +140,7 @@ def main() -> None:
         ("rbf_svc", SVC(C=5.0, kernel="rbf", gamma="scale", probability=True, class_weight="balanced"), {"C": 5.0}),
     ]
 
+    # 5. Track every internal run, the best version per model family, and the best overall model.
     tuning_results = []
     best_by_model: dict[str, dict] = {}
     best_name = ""
@@ -142,14 +151,18 @@ def main() -> None:
 
     for vectorizer_config in vectorizer_configs:
         for name, classifier, classifier_params in candidates:
+            # 6. A pipeline guarantees the same TF-IDF transformation is used for training and prediction.
             pipeline = Pipeline(
                 steps=[
                     ("tfidf", TfidfVectorizer(**vectorizer_config)),
                     ("classifier", classifier),
                 ]
             )
+            # 7. This is the actual training step for one model/vectorizer configuration.
             pipeline.fit(train_text, train_labels)
             predictions = pipeline.predict(test_text)
+
+            # 8. Evaluate using accuracy and macro F1. Macro F1 treats every disease equally.
             accuracy = accuracy_score(test_labels, predictions)
             macro_f1 = f1_score(test_labels, predictions, average="macro", zero_division=0)
             result = {
@@ -161,6 +174,7 @@ def main() -> None:
             }
             tuning_results.append(result)
 
+            # 9. Keep only the best parameter version for each model family.
             model_best = best_by_model.get(name)
             if model_best is None or (macro_f1, accuracy) > (model_best["macro_f1"], model_best["accuracy"]):
                 best_by_model[name] = {
@@ -169,6 +183,7 @@ def main() -> None:
                     "predictions": predictions,
                 }
 
+            # 10. Select the best overall model by macro F1, then accuracy as tie-breaker.
             ranking_score = (macro_f1, accuracy)
             if ranking_score > (best_score, best_accuracy):
                 best_name = name
@@ -180,6 +195,7 @@ def main() -> None:
     if best_pipeline is None or best_predictions is None:
         raise RuntimeError("No model candidate was trained.")
 
+    # 11. Prepare a clean model-level comparison for metrics and plots.
     model_results = [
         {
             "model": name,
@@ -193,11 +209,13 @@ def main() -> None:
         for name, item in sorted(best_by_model.items(), key=lambda pair: (pair[1]["macro_f1"], pair[1]["accuracy"]), reverse=True)
     ]
 
+    # 12. Generate evaluation objects for the best overall model.
     labels = sorted(dataset["disease"].unique().tolist())
     cm = confusion_matrix(test_labels, best_predictions, labels=labels)
     cm_normalized = confusion_matrix(test_labels, best_predictions, labels=labels, normalize="true")
     report_dict = classification_report(test_labels, best_predictions, labels=labels, zero_division=0, output_dict=True)
 
+    # 13. Write a human-readable metrics report.
     metrics = [
         f"Best model: {best_name}",
         f"Accuracy: {accuracy_score(test_labels, best_predictions):.3f}",
@@ -212,13 +230,17 @@ def main() -> None:
         classification_report(test_labels, best_predictions, labels=labels, zero_division=0),
     ]
 
+    # 14. Save visual evaluation artifacts for the report and presentation.
     CLASSICAL_MODEL_DIR.mkdir(parents=True, exist_ok=True)
     save_confusion_matrix_plot(labels, cm, "Confusion Matrix", CONFUSION_MATRIX_PATH, "d")
     save_confusion_matrix_plot(labels, cm_normalized, "Normalized Confusion Matrix", NORMALIZED_CONFUSION_MATRIX_PATH, ".2f")
     save_model_comparison_plot(model_results, MODEL_COMPARISON_PATH)
     save_classification_report_plot(report_dict, labels, CLASSIFICATION_REPORT_PATH)
 
+    # 15. Retrain the selected best pipeline on the full dataset for final app usage.
     best_pipeline.fit(dataset["cleaned_text"], dataset["disease"])
+
+    # 16. Persist the model, vectorizer, metrics, and clean metadata.
     joblib.dump(best_pipeline, CLASSICAL_MODEL_PATH)
     joblib.dump(best_pipeline.named_steps["tfidf"], CLASSICAL_VECTORIZER_PATH)
     CLASSICAL_METRICS_PATH.write_text("\n".join(metrics), encoding="utf-8")
