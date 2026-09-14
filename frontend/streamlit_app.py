@@ -205,6 +205,10 @@ def render_results(result: dict) -> None:
           .detail-grid {
             margin-top: 1rem;
           }
+          /* a grid holding a single card must not leave half the row empty */
+          .single-col {
+            grid-template-columns: 1fr !important;
+          }
           .result-card,
           .medication-card,
           .disclaimer-box,
@@ -367,7 +371,7 @@ def render_results(result: dict) -> None:
             </article>
           </div>
 
-          <div class="result-grid detail-grid">
+          <div class="result-grid detail-grid single-col">
             <article class="result-card model-card">
               <span class="micro-label">Model used</span>
               <h3>{esc(model_used.get('name', 'Unknown model'))}</h3>
@@ -414,8 +418,16 @@ def render_results(result: dict) -> None:
         """
     ).strip()
 
-    component_height = 1350 + (len(result["recommended_medicines"]) * 360)
-    components.html(results_html, height=component_height, scrolling=True)
+    # Rendered natively rather than through components.html: an iframe needs its height
+    # guessed up front, which always over- or under-shoots the real content (it left a
+    # ~240px blank strip below the results). Rendering inline also means the page's own
+    # stylesheet and webfont apply.
+    #
+    # Every line is left-stripped first: Markdown treats a 4-space indent as a code
+    # block, and interpolating the (unindented) style block into this indented f-string
+    # defeats dedent(), so the markup would otherwise render as literal source text.
+    flat_html = "\n".join(line.lstrip() for line in results_html.splitlines())
+    st.markdown(flat_html, unsafe_allow_html=True)
 
 
 st.set_page_config(page_title="Medical Prescription NLP", layout="wide")
@@ -444,6 +456,15 @@ st.markdown(
       html, body, [class*="css"] {
         font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       }
+
+      /* Streamlit's own chrome (Deploy button, hamburger, coloured top strip) is
+         distracting in a product demo and offers nothing to an end user here. */
+      [data-testid="stToolbar"],
+      [data-testid="stDecoration"],
+      [data-testid="stStatusWidget"],
+      #MainMenu,
+      footer { display: none !important; }
+      [data-testid="stHeader"] { background: transparent !important; height: 0 !important; }
 
       .stApp {
         background:
