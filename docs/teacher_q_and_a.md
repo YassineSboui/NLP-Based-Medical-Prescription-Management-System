@@ -42,7 +42,9 @@ The main training script compares Logistic Regression, calibrated Linear SVC, an
 
 ## 10. What is the current best model?
 
-The current best model is Complement Naive Bayes with alpha 0.2 after hyperparameter search. It achieved 0.906 accuracy and 0.907 macro F1 on the validation split. RBF SVC also reached 0.906 accuracy and 0.907 macro F1, but Complement Naive Bayes is simpler and faster, so it is a good final choice for this small text dataset.
+The current best model is logistic regression with C=4.0 over TF-IDF unigrams, chosen from 60 candidate pipelines ranked on a validation split. On the held-out test split it reaches 0.894 accuracy (95% CI 0.828-0.937) and 0.888 macro F1.
+
+I should be clear about one thing if asked: an earlier version of this project reported 0.906. That number was not trustworthy. All 72 candidate pipelines were scored on the same 32-row test set that was then published as the result, which reports the maximum of 72 noisy estimates, and the shipped model was refit on that same 32 rows. The current pipeline selects on validation, reads the test set once, and ships the model that was never trained on it. The honest number is slightly lower and it means something.
 
 ## 11. Why did Complement Naive Bayes perform well?
 
@@ -62,7 +64,9 @@ BERT is powerful but heavy. For a small source-backed dataset, fine-tuning BERT 
 
 ## 14.1 Did you add an advanced model?
 
-Yes. The file `backend/scripts/train_deep_learning_model.py` trains optional bidirectional LSTM and GRU models using token sequences, embeddings, dropout, and early stopping. It saves the neural-network models, tokenizer, label encoder, metrics, and visual results in `models/advanced/`. In the optimized run, the best advanced model was `lstm_u64_e96_s48_b8_pool_lr7e4_seed7` with 0.844 accuracy and 0.838 macro F1. I keep TF-IDF as the main production model because the dataset has only 128 rows, so LSTM/GRU can easily overfit. The advanced model is included as a comparative experiment.
+Yes. The file `backend/scripts/train_deep_learning_model.py` trains optional bidirectional LSTM and GRU models using token sequences, embeddings, dropout, and early stopping against the validation split. It saves the selected model, tokenizer, label encoder, metrics, and plots in `models/advanced/`. The best advanced model is `bigru_64`, with 0.846 test accuracy and 0.836 macro F1.
+
+An earlier run reported 0.844, but it passed the test set to `fit()` as `validation_data` while early stopping restored the best weights, so the test set was choosing the weights. That figure is withdrawn. I keep TF-IDF as the main production model because the dataset is still small and, measured properly, the classical model wins on the same held-out split.
 
 ## 14.2 What evaluation visuals are included?
 
@@ -188,7 +192,7 @@ Use this order: problem context, objectives, supported diseases, architecture, d
 
 ## 43. What do you say about LSTM/GRU if results are not better?
 
-I would say that LSTM and GRU were added as optional advanced sequence-model experiments. In the optimized run, the best LSTM reached 0.844 accuracy and 0.838 macro F1, while the optimized classical TF-IDF model reached 0.906 accuracy and 0.907 macro F1. This shows that deep learning improved after tuning, but the classical model is still stronger on this small dataset. Therefore, the TF-IDF model remains the main model because it is simpler, explainable, and more appropriate for small data.
+I would say that LSTM and GRU were added as optional advanced sequence-model experiments. On the held-out test split the best sequence model (`bigru_64`) reaches 0.846 accuracy and 0.836 macro F1, while the classical TF-IDF model reaches 0.894 and 0.888. Both numbers come from the same group-aware split, with selection done on validation and the test set read once, so they are directly comparable. The classical model is stronger on this dataset, so it remains the main model: it is simpler, explainable, and more appropriate for small data.
 
 ## 44. How do you run the project for demo?
 

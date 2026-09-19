@@ -106,9 +106,17 @@ backend/app/api/routes.py
 
 Available endpoints:
 
-- `GET /health`: checks if the backend is running.
-- `GET /models`: lists available prediction models and validation metrics.
-- `POST /analyze`: analyzes symptom text and returns predictions and recommendations.
+- `GET /health`: status, version, whether auth is required, database readiness, per-engine availability.
+- `GET /engines`: every prediction engine with its own measured metrics, plus the arbitration policy and the confidence floor.
+- `GET /models`: deprecated alias of `/engines`, kept so existing clients keep working.
+- `POST /analyze`: analyses symptom text, records a consultation, returns the prediction with full engine attribution.
+- `POST /analyze/batch`: analyses several notes; one bad note does not fail the batch.
+- `GET /consultations`: history, filterable by session, disease, engine and date, paged.
+- `GET /consultations/stats`: aggregate counts by disease and engine.
+- `GET /consultations/export`: CSV export of the filtered history.
+- `GET /consultations/{id}`: one consultation in full.
+- `GET /consultations/{id}/audit`: the audit trail for that consultation.
+- `GET /consultations/{id}/report`: a Markdown report of that consultation.
 
 Example request:
 
@@ -260,17 +268,33 @@ The best model is selected based on validation performance.
 Current best model:
 
 ```text
-complement_naive_bayes
+logistic_regression (C=4.0, TF-IDF unigrams, sublinear_tf)
 ```
 
 Current metrics:
 
 ```text
-Accuracy: 0.906
-Macro F1: 0.907
+Held-out test accuracy : 0.894   95% CI [0.828, 0.937]
+Held-out test macro F1 : 0.888
+Grouped 5-fold CV      : 0.861   95% CI [0.797, 0.924]
+External scenarios     : 14/14   95% CI [0.785, 1.000]
+Cross-source transfer  : 0.524   <- the honest generalisation number
 ```
 
-The main training script now performs a small hyperparameter search across TF-IDF configurations and classifier settings. It evaluates Logistic Regression, calibrated Linear SVC, Complement Naive Bayes, and RBF SVC variants.
+The training script fits 60 pipelines on the training split and ranks them on the
+*validation* split only. The test split is opened once, at the end, by one model.
+The shipped artifact is fit on train+validation and never sees the test set, so
+the accuracy above describes that exact artifact.
+
+Read the cross-source transfer figure before the headline. It retrains with one
+entire CDC/WHO passage held out and then tests on it, and at 0.524 it says the
+model is substantially learning how a particular source page words things rather
+than the condition itself. 0.894 is the ceiling; 0.524 is the floor.
+
+An earlier version of this document reported 0.906 for Complement Naive Bayes.
+That figure came from ranking 72 pipelines on the same 32-row set that was then
+published, with the shipped model refit on that same set, so it measured nothing
+and has been withdrawn.
 
 These metrics are stored in:
 
@@ -319,27 +343,35 @@ models/advanced/
 Generated advanced artifacts include:
 
 ```text
-models/advanced/lstm_model.keras
-models/advanced/gru_model.keras
-models/advanced/best_sequence_model.keras
+models/advanced/sequence_model.keras
 models/advanced/tokenizer.joblib
 models/advanced/label_encoder.joblib
 models/advanced/deep_learning_metrics.txt
 models/advanced/deep_learning_metadata.json
 models/advanced/training_history.png
 models/advanced/advanced_overall_metrics.png
-models/advanced/advanced_prediction_outcomes.png
 ```
+
+One artifact ships, not three. `best_sequence_model.keras` used to be a
+byte-for-byte copy of `lstm_model.keras`, and `gru_model.keras` was a losing
+candidate that nothing loaded.
 
 Latest advanced result:
 
 ```text
-Best advanced model: lstm_u64_e96_s48_b8_pool_lr7e4_seed7
-Accuracy: 0.844
-Macro F1: 0.838
+Best advanced model: bigru_64
+Test accuracy: 0.846
+Test macro F1: 0.836
+External scenarios: 11/14
 ```
 
-The advanced metadata shows only the final selected advanced model for a clean project submission. Internal LSTM/GRU architecture variants were tested during training, but they are not listed in the final metadata file.
+An earlier version reported 0.844 for an LSTM. That run passed
+`validation_data=(x_test, y_test)` to `fit()` under
+`EarlyStopping(restore_best_weights=True)`, so the test set was literally
+selecting the model's weights. The figure has been withdrawn. Early stopping now
+watches the validation split, the tokenizer is fit on the training split only,
+and every candidate architecture is listed in the metadata rather than only the
+winner.
 
 Important explanation: the TF-IDF model remains the main application model because the dataset is small. LSTM/GRU models are advanced sequence models, but they normally require much more labeled data. In this project, they are used as a comparative experiment, not as a claim of clinical superiority.
 
@@ -361,19 +393,45 @@ The project uses TF-IDF with classical ML for the MVP because:
 
 BERT or DistilBERT can be added later if a larger validated dataset is collected.
 
-## 11. Symptom-Profile Fallback
+## 11. The Symptom-Profile Engine and the Arbitration Policy
 
-The system also includes a transparent symptom-profile fallback.
+The symptom-profile rules are a first-class engine, not a hidden fallback.
 
-This means that for very strong symptom combinations, rules can support the ML model.
+Earlier, they were hidden: 14 hand-written symptom sets with a bespoke cholera
+bonus and a confidence invented as `min(0.92, 0.35 + score/profile_size)` took
+over the answer whenever that invented number came out at least as high as the
+classifier's probability -- while the response still reported the classifier's
+name and the classifier's accuracy. The interface showed the ML model's metrics
+for a prediction the ML model had not made.
 
-Examples:
+What it is now:
 
-- Fever + chills + headache can strongly suggest malaria.
-- Watery diarrhea + dehydration can strongly suggest cholera.
-- Stiff neck + headache + light sensitivity can strongly suggest meningitis.
+- Profiles are derived from the dataset's `symptom_terms`, so they are backed by
+  the same CDC/WHO passages as every training row. No hand-written sets.
+- Each symptom carries an inverse-frequency weight, so "koplik spots" (one label)
+  outweighs "fever" (nearly every label). This replaces the cholera bonus.
+- Its confidence is a profile-match *share*, and is labelled as not a probability
+  everywhere it is published.
+- It has its own measured metrics: 0.707 accuracy on the same held-out test set
+  the other engines are measured on, and 12/14 on the external scenarios.
 
-This improves demo reliability and makes some decisions easier to explain.
+The policy, `primary_model_with_rule_fallback_v1`:
+
+1. The requested statistical engine runs, and so does the rule engine.
+2. If the statistical engine's probability is at or above 0.20, it decides.
+3. Otherwise the rule engine decides, if it has an opinion.
+4. Otherwise the ensemble abstains and returns `unknown`.
+
+The rule engine is a fallback, never an override. It speaks only where the
+primary has already admitted it does not know, so the two confidence numbers --
+which are on different scales -- are never compared with each other.
+
+The 0.20 floor was measured, not guessed: it is the only floor in the validation
+sweep that improves on model-only for both accuracy and macro F1.
+
+`decision.decided_by` always names the engine that answered and carries that
+engine's own metrics. `engine_opinions` shows what every engine thought,
+including the ones that were overruled.
 
 ## 12. Recommendation System
 
@@ -622,10 +680,10 @@ Suggested slide order:
 | 3 | Objectives | Analyze text, extract entities, predict disease, return safe guidance |
 | 4 | Supported Diseases | 14 labels, including the original malaria, typhoid, tuberculosis, and HIV scope |
 | 5 | Architecture | Streamlit frontend, FastAPI backend, NLP service, ML model, knowledge base |
-| 6 | Dataset | 128 curated rows from CDC/WHO sources, not real patient data |
+| 6 | Dataset | 616 rows from 28 CDC/WHO captures, every row carrying its provenance; not real patient data |
 | 7 | NLP Pipeline | Cleaning, phrase normalization, entity extraction, TF-IDF, classification |
 | 8 | Entity Extraction | Symptoms, diseases, medications, dosage mentions, simple negation handling |
-| 9 | ML Model | Hyperparameter search across Logistic Regression, Linear SVC, Complement Naive Bayes, and RBF SVC; best is Complement Naive Bayes alpha 0.2 |
+| 9 | ML Model | 60 pipelines selected on a validation split; best is logistic regression C=4.0. Test accuracy 0.894, cross-source transfer 0.524 |
 | 10 | Evaluation Visuals | Overall metrics chart and model comparison chart |
 | 11 | Advanced Model | Optional LSTM/GRU experiment, kept separate because the dataset is small |
 | 12 | Recommendation System | JSON knowledge base with educational actions, medicines, warnings |
@@ -645,15 +703,28 @@ This project is not a replacement for doctors. It is an academic demonstration o
 |---|---|
 | `backend/app/main.py` | FastAPI application setup |
 | `backend/app/core/paths.py` | Centralized project paths for data and model artifacts |
-| `backend/app/api/routes.py` | `/health` and `/analyze` API endpoints |
+| `backend/app/api/routes.py` | All HTTP endpoints |
+| `backend/app/api/dependencies.py` | Optional API-key check |
+| `backend/app/core/config.py` | Environment configuration (database, CORS, auth limits) |
+| `backend/app/core/lexicon.py` | Shared symptom vocabulary access |
+| `backend/app/core/evaluation.py` | The one split and interval helpers every script uses |
+| `backend/app/core/use_cases.py` | Parser for the scenario file |
+| `backend/app/db/models.py` | Consultation and audit tables |
+| `backend/app/db/session.py` | SQLite engine and session handling |
+| `backend/app/services/prediction_engines.py` | The three prediction engines |
+| `backend/app/services/consultation_service.py` | Persistence, history, export, reports |
 | `backend/app/services/nlp_service.py` | Main NLP orchestration and entity extraction |
 | `backend/app/services/disease_prediction_service.py` | Loads model and predicts disease |
 | `backend/app/services/recommendation_service.py` | Loads recommendation knowledge base |
 | `backend/app/utils/text_cleaning.py` | Text preprocessing and phrase normalization |
-| `backend/app/data/symptoms_dataset.csv` | Curated training dataset |
+| `backend/app/data/symptoms_dataset.csv` | Training dataset, every row carrying its provenance |
+| `backend/app/data/symptom_lexicon.json` | Shared symptom vocabulary (source and cleaned views) |
 | `backend/app/data/dataset_sources.json` | CDC/WHO source registry |
 | `backend/app/data/medication_knowledge_base.json` | Educational medication and action guidance |
 | `backend/scripts/scrape_medical_sources.py` | Controlled CDC/WHO scraping script |
+| `backend/scripts/build_dataset.py` | Rebuilds the dataset from fetched sources, with provenance |
+| `backend/scripts/evaluate_engines.py` | Measures every engine on one shared split |
+| `tests/` | 105 pytest tests, including the engine-attribution regression suite |
 | `backend/scripts/train_model.py` | Main TF-IDF model training and evaluation visuals |
 | `backend/scripts/train_deep_learning_model.py` | Optional LSTM/GRU advanced experiment |
 | `frontend/streamlit_app.py` | Streamlit user interface |

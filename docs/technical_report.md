@@ -12,7 +12,7 @@
 
 This project presents an academic Natural Language Processing system for medical prescription management and symptom analysis. The application allows users to enter symptoms in natural language, extracts medical entities, predicts a possible disease or condition, and returns educational medication and treatment guidance with clear safety warnings. The system focuses on common infectious and respiratory/gastrointestinal diseases, including malaria, typhoid fever, tuberculosis, HIV, dengue, cholera, pneumonia, meningitis, hepatitis B, measles, flu, common cold, gastroenteritis, and COVID-like illness.
 
-The implemented solution uses a FastAPI backend, a Streamlit frontend, a rule-based entity extraction module, TF-IDF vectorization, and classical machine learning classifiers. The dataset was curated from official public health symptom descriptions published by CDC and WHO. After hyperparameter search, the best-performing model was Complement Naive Bayes with alpha 0.2 and TF-IDF unigrams/bigrams/trigrams, achieving an accuracy of 0.906 and a macro F1-score of 0.907 on the validation split. The system is designed strictly for academic demonstration and does not provide real medical diagnosis or prescriptions.
+The implemented solution uses a FastAPI backend, a Streamlit frontend, a rule-based entity extraction module, TF-IDF vectorization, classical machine learning classifiers, and a SQLite consultation store with an audit trail. The dataset is derived from official public health symptom descriptions published by CDC and WHO, with each row recording whether it is a direct source rendering, a recombination of one source passage's symptoms, or a marked paraphrase of another row. Model selection is performed on a validation split and the held-out test split is read once; the shipped artifact is fit on train+validation and never sees the test set. The best model is logistic regression (C=4.0) over TF-IDF unigrams, with a test accuracy of 0.894 (95% CI 0.828-0.937) and a macro F1 of 0.888. A cross-source transfer diagnostic, which retrains with an entire source passage held out, gives a pooled recall of 0.524 and is the more honest indicator of generalisation. The system is designed strictly for academic demonstration and does not provide real medical diagnosis or prescriptions.
 
 ---
 
@@ -119,7 +119,7 @@ The dataset is stored in:
 backend/app/data/symptoms_dataset.csv
 ```
 
-It contains 128 rows and 14 disease labels. Each row contains a symptom phrase, target disease label, source name, source URL, and a note explaining the source relation.
+It contains 616 rows and 14 disease labels, derived from 28 CDC/WHO page captures. Each row records the symptom text, the target label, its `provenance` (`source`, `source_combination` or `paraphrase`), a `derived_from` pointer for paraphrases, a `group_id` that keeps near-duplicates together during splitting, the canonical `symptom_terms`, and the source name, URL, section, verbatim quote and fetch timestamp. The dataset builder refuses to emit a source-backed row unless every one of its terms appears verbatim in that row's own quote.
 
 ### 6.1 Dataset Columns
 
@@ -292,20 +292,42 @@ The training script compares three models:
 
 ### 8.2 Model Results
 
-The best model was selected based on validation performance.
+Sixty pipelines were fit on the training split and ranked on the validation
+split. Best configuration per model family, on validation:
 
 | Model | Accuracy | Macro F1 |
 |---|---:|---:|
-| Logistic Regression | 0.812 | 0.776 |
-| Calibrated Linear SVC | 0.906 | 0.905 |
-| RBF SVC | 0.906 | 0.907 |
-| Complement Naive Bayes | 0.906 | 0.907 |
+| Logistic Regression | 0.895 | 0.869 |
+| RBF SVC | 0.871 | 0.857 |
+| Calibrated Linear SVC | 0.855 | 0.844 |
+| Complement Naive Bayes | 0.774 | 0.725 |
 
 Best model:
 
 ```text
-Complement Naive Bayes with alpha 0.2
+Logistic Regression, C=4.0, TF-IDF unigrams with sublinear term frequency
 ```
+
+The test split was then opened once, by that model alone:
+
+| Measure | Value | 95% interval |
+|---|---:|---|
+| Test accuracy | 0.894 | 0.828 - 0.937 |
+| Test macro F1 | 0.888 | - |
+| Grouped 5-fold CV accuracy | 0.861 | 0.797 - 0.924 |
+| External scenarios (n=14) | 1.000 | 0.785 - 1.000 |
+| Cross-source transfer recall | 0.524 | - |
+
+An earlier version of this report gave 0.906 for Complement Naive Bayes. That
+figure was produced by ranking 72 pipelines on the same 32-row split that was
+then reported, and the shipped model was refit on that split, so the number
+described neither a held-out estimate nor the shipped artifact. It is withdrawn.
+
+Cross-source transfer is the figure to quote when asked whether the model
+generalises. It holds out an entire CDC/WHO passage from training and tests on
+it, and at 0.524 it shows that a large part of the apparent accuracy comes from
+recognising how one source page words things. Five of the fourteen labels are
+backed by a single passage and cannot be transfer-tested at all.
 
 ### 8.3 Evaluation Visualizations
 
@@ -327,7 +349,7 @@ An optional advanced training script is included in:
 backend/scripts/train_deep_learning_model.py
 ```
 
-This script trains bidirectional LSTM and GRU sequence classifiers using tokenized symptom text, an embedding layer, dropout regularization, and early stopping. It is not used as the default production model because the dataset contains only 128 rows, and deep-learning models usually need more data to generalize well. It is included as an academic comparison to demonstrate sequence-model experimentation.
+This script trains bidirectional LSTM and GRU sequence classifiers using tokenized symptom text, an embedding layer, dropout regularization, and early stopping against the validation split. It is not the default production model: the dataset is still small at 616 rows, all of it derived from 28 source pages, and the classical model outperforms it on the same held-out test split. It is included as an academic comparison.
 
 Advanced artifacts are saved in:
 
@@ -337,18 +359,19 @@ models/advanced/
 
 Examples:
 
-- `models/advanced/lstm_model.keras`
-- `models/advanced/gru_model.keras`
-- `models/advanced/best_sequence_model.keras`
+- `models/advanced/sequence_model.keras`
 - `models/advanced/tokenizer.joblib`
 - `models/advanced/label_encoder.joblib`
 - `models/advanced/deep_learning_metrics.txt`
 - `models/advanced/deep_learning_metadata.json`
 - `models/advanced/training_history.png`
 - `models/advanced/advanced_overall_metrics.png`
-- `models/advanced/advanced_prediction_outcomes.png`
 
-The best advanced model in the latest run was `lstm_u64_e96_s48_b8_pool_lr7e4_seed7`, with 0.844 accuracy and 0.838 macro F1. The final explanation is that classical TF-IDF models are retained for the main application because they are more appropriate for a small, source-backed dataset, while LSTM/GRU models are shown as an advanced experimental extension.
+Only the selected model is saved. Previously three `.keras` files were committed,
+of which `best_sequence_model.keras` was a byte-for-byte copy of
+`lstm_model.keras` and `gru_model.keras` was a losing candidate nothing loaded.
+
+The best advanced model in the latest run was `bigru_64`, with a test accuracy of 0.846 and a macro F1 of 0.836, and 11 of 14 external scenarios correct. An earlier run reported 0.844 for an LSTM, but that run passed the test set to `fit()` as `validation_data` while `EarlyStopping(restore_best_weights=True)` was active, so the test set was selecting the model's weights; that figure is withdrawn. The conclusion stands on the corrected numbers: classical TF-IDF is retained for the main application because it is more appropriate for a small source-backed dataset and, measured properly, it wins.
 
 ### 8.5 Saved Artifacts
 
