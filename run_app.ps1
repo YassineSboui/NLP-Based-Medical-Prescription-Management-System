@@ -48,7 +48,9 @@ catch {
     throw "Python was not found. Install Python 3.11+ and make sure 'python' is available in PATH."
 }
 
-$RequiredModules = @("fastapi", "uvicorn", "streamlit", "sklearn", "pandas", "joblib")
+# sqlalchemy is now required: the backend creates its consultation store on
+# startup, so a missing driver fails at import rather than at first request.
+$RequiredModules = @("fastapi", "uvicorn", "streamlit", "sklearn", "pandas", "joblib", "sqlalchemy")
 $MissingModules = @()
 foreach ($Module in $RequiredModules) {
     & $PythonExe -c "import $Module" 2>$null
