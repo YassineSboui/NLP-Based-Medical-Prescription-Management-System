@@ -120,11 +120,11 @@ def service_unavailable(status: api.ServiceStatus) -> None:
         "not guess. No consultation has been recorded. Nothing you type will be lost — retry "
         "once the service is back.</p></div>"
     )
-    left, middle, right = st.columns([1, 0.8, 1])
+    _, middle, _ = st.columns([1, 0.9, 1])
     with middle:
         if st.button("Retry connection", type="primary", use_container_width=True):
             st.cache_data.clear()
             st.rerun()
-    if status.detail:
-        with st.expander("Technical detail"):
-            st.code(status.detail, language="text")
+        if status.detail:
+            with st.expander("Technical detail"):
+                st.code(status.detail, language="text")
