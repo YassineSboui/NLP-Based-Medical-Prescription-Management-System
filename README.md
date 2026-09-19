@@ -249,7 +249,9 @@ pip install -r backend/requirements.txt
 python -m pytest
 ```
 
-105 tests. They cover dataset provenance (verified from the CSV, not by re-running the builder), the group-aware split and published intervals, text cleaning and negation, the API contract, persistence and audit, and — the important one — engine attribution: `tests/test_engine_attribution.py` asserts that the engine named in a response is the engine whose opinion the response is repeating, and that the metrics returned are that engine's own.
+117 tests. They cover dataset provenance (verified from the CSV, not by re-running the builder), the group-aware split and published intervals, text cleaning and negation, the API contract, persistence and audit, and — the important one — engine attribution: `tests/test_engine_attribution.py` asserts that the engine named in a response is the engine whose opinion the response is repeating, and that the metrics returned are that engine's own.
+
+`tests/test_frontend_contract.py` covers the two things the console can get wrong silently: resolving the service address, including the older `.../analyze` form a stale environment may still hold, and never inventing an engine when the service is unreachable.
 
 ## Model artifacts
 
