@@ -113,6 +113,21 @@ To launch backend and Streamlit frontend together on Windows:
 run_app.bat
 ```
 
+## The console
+
+`frontend/streamlit_app.py` is the entry point; it routes and nothing else. The markup helpers live in `frontend/ui/components.py`, the API calls in `frontend/ui/api.py`, one module per screen under `frontend/ui/views/`, and the whole stylesheet in `frontend/assets/app.css` — one file, loaded once, with no webfont import so the interface makes no network call of its own.
+
+| Screen | What it is for |
+| --- | --- |
+| Analysis | One note in, one attributed answer out, with the arbitration policy and the transfer number standing beside the input |
+| History | Every recorded consultation, filterable, with per-consultation audit trail, CSV export and Markdown report |
+| Batch | Many notes in one pass, per-item success and failure |
+| Model evaluation | What the model actually does, cross-source transfer first |
+
+Every result names the engine that produced it and shows **that engine's** measured accuracy. When the rule engine answers, the panel reports the rule engine's 0.707, not the classifier's 0.894 — showing the classifier's number for an answer the rules produced was the central dishonesty of the previous interface, and `tests/test_engine_attribution.py` exists to keep it fixed.
+
+The cross-source transfer recall of 0.524 appears in four places: a chip in the masthead, a standing card on the analysis input screen, a callout beside every result — scoped to the predicted label, so a prediction of cholera carries cholera's 0.015 — and as the headline of the evaluation screen.
+
 ## Configuration
 
 All optional. Every default works offline.
@@ -124,6 +139,9 @@ All optional. Every default works offline.
 | `MEDICAL_NLP_API_KEY` | unset | When set, every analysis and history endpoint requires `X-API-Key` |
 | `MEDICAL_NLP_MAX_BATCH` | `50` | Maximum notes per batch |
 | `MEDICAL_NLP_MAX_TEXT_LENGTH` | `4000` | Maximum characters per note |
+| `MEDICAL_NLP_API_BASE_URL` | `http://localhost:8000` | Frontend only: where the console looks for the API |
+
+The frontend reads the service address from the environment and never exposes it as a field. An address is configuration; an end user cannot act on it, and a console that asks them to is admitting it is two processes held together by hand. When the service cannot be reached the console says so as a service state, offers a retry, and shows no metrics at all rather than inventing any.
 
 Authentication is off by default because requiring a key would break the offline single-machine demo, and shipping a default key would be worse than none. `/health` reports `auth_required` so nobody has to guess.
 
