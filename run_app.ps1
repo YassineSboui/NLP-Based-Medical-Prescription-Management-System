@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 $RootDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $BackendDir = Join-Path $RootDir "backend"
 $FrontendPath = Join-Path $RootDir "frontend\streamlit_app.py"
-$ApiUrl = "http://localhost:8000/analyze"
+$ApiBaseUrl = "http://localhost:8000"
 $VenvPython = Join-Path $RootDir ".venv\Scripts\python.exe"
 $PythonExe = if (Test-Path -LiteralPath $VenvPython) { $VenvPython } else { "python" }
 $BackendLog = Join-Path $RootDir "backend_startup.log"
@@ -67,7 +67,9 @@ if ($MissingModules.Count -gt 0) {
     throw "Cannot start app until dependencies are installed."
 }
 
-$env:MEDICAL_NLP_API_URL = $ApiUrl
+# The frontend reads the service address from the environment. It is not a
+# field in the interface: an end user cannot act on it and should not be asked to.
+$env:MEDICAL_NLP_API_BASE_URL = $ApiBaseUrl
 
 $BackendProcess = $null
 $FrontendProcess = $null
@@ -119,7 +121,7 @@ try {
     "Application is running."
     "Frontend: http://localhost:8501"
     "Backend API docs: http://localhost:8000/docs"
-    "Backend analyze endpoint: $ApiUrl"
+    "Backend base URL: $ApiBaseUrl"
     ""
     "Press Ctrl+C in this terminal to stop both processes."
 
