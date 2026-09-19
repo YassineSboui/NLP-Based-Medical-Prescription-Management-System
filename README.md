@@ -66,7 +66,7 @@ The `0.20` floor was chosen by sweeping candidate floors on the validation split
 
 ## Dataset
 
-616 rows across 14 balanced labels, built from 28 CDC/WHO source captures (15 CDC pages, 13 WHO fact sheets), all fetched live at HTTP 200.
+616 rows across 14 balanced labels. 28 CDC/WHO pages were captured live (15 CDC, 13 WHO), all at HTTP 200; 22 of them yielded usable symptom text, quoted as 28 distinct source passages. The remaining 6 captures are kept in `scraped_medical_sources.json` as evidence of what was fetched and rejected.
 
 Every row declares its provenance:
 
