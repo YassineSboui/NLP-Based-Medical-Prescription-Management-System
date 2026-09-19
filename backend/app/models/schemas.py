@@ -86,6 +86,21 @@ class EngineListResponse(BaseModel):
     engines: list[EngineInfo]
 
 
+class LegacyModelListResponse(EngineListResponse):
+    """What ``GET /models`` returns.
+
+    A deprecated alias is only worth keeping if it is actually compatible, so
+    this mirrors `engines` under the old `models` key and `default_engine` under
+    the old `default_model` key. Clients written against `/engines` see the same
+    payload either way.
+    """
+
+    model_config = _ALLOW_MODEL_PREFIX
+
+    default_model: str = Field(..., description="Deprecated mirror of default_engine.")
+    models: list[EngineInfo] = Field(..., description="Deprecated mirror of engines.")
+
+
 # ---------------------------------------------------------------------------
 # Analysis
 # ---------------------------------------------------------------------------

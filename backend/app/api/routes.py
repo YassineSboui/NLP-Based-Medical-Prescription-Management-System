@@ -28,6 +28,7 @@ from app.models.schemas import (
     ConsultationListResponse,
     ConsultationReport,
     EngineListResponse,
+    LegacyModelListResponse,
     HealthResponse,
     HistoryStatsResponse,
 )
@@ -135,14 +136,23 @@ def list_engines() -> EngineListResponse:
 
 @router.get(
     "/models",
-    response_model=EngineListResponse,
+    response_model=LegacyModelListResponse,
     tags=["engines"],
     deprecated=True,
     summary="Deprecated alias of /engines",
 )
-def list_models() -> EngineListResponse:
-    """Kept so existing clients keep working. Use /engines."""
-    return list_engines()
+def list_models() -> LegacyModelListResponse:
+    """Kept so existing clients keep working. Use /engines.
+
+    Carries the old `models` / `default_model` keys alongside the new ones, so
+    a client written before the rename does not silently receive an empty list.
+    """
+    current = list_engines()
+    return LegacyModelListResponse(
+        **current.model_dump(),
+        default_model=current.default_engine,
+        models=current.engines,
+    )
 
 
 # ---------------------------------------------------------------------------

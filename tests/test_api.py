@@ -34,7 +34,14 @@ def test_engines_endpoint_documents_the_policy(client):
 
 
 def test_models_alias_still_works_for_existing_clients(client):
-    assert client.get("/models").json() == client.get("/engines").json()
+    """A deprecated alias that changed shape is just a broken endpoint."""
+    legacy = client.get("/models").json()
+    current = client.get("/engines").json()
+
+    assert legacy["models"] == current["engines"]
+    assert legacy["default_model"] == current["default_engine"]
+    # The new keys are present too, so a client can migrate without switching path.
+    assert legacy["engines"] == current["engines"]
 
 
 def test_analyze_returns_the_full_contract(client):
