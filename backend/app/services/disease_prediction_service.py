@@ -55,14 +55,15 @@ ENSEMBLE_POLICY = "primary_model_with_rule_fallback_v1"
 #   floor  accuracy  macro_f1  rule_used  abstain
 #    0.00     0.895     0.869          0        0     <- model only
 #    0.20     0.903     0.875          3        0     <- chosen
-#    0.30     0.903     0.799         15        2
-#    0.40     0.839     0.740         35        2
+#    0.30     0.911     0.806         15        2
+#    0.40     0.847     0.749         35        2
 #
 # 0.20 is the only floor that improves on model-only for both accuracy and macro
-# F1. Above it the rule engine starts answering cases the model would have got
-# right, and macro F1 falls off a cliff. Re-run the sweep after retraining; if
-# no floor beats 0.00 any more, the honest move is to set this to 0.0 and let the
-# rule engine be an advisory opinion only.
+# F1. 0.30 buys a little more accuracy by handing 15 cases to the rule engine,
+# but macro F1 drops 0.07 -- it wins on the common labels and loses the rare
+# ones, which is the wrong trade for a triage tool. Re-run the sweep after
+# retraining; if no floor beats 0.00 any more, the honest move is to set this to
+# 0.0 and let the rule engine be an advisory opinion only.
 MODEL_CONFIDENCE_FLOOR = 0.20
 
 UNKNOWN_LABEL = "unknown"

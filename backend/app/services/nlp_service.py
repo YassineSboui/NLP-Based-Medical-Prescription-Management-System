@@ -136,14 +136,37 @@ class NLPService:
                 matches.append(canonical)
         return matches
 
+    # A negation word immediately before the symptom, optionally separated by one
+    # reporting verb. "no fever" and "not experiencing fever" are both negated;
+    # "no fever but headache" is not, because "fever but " sits between the
+    # negation and "headache" and is not a reporting verb.
+    #
+    # The window stays deliberately tight. Widening it to any nearby negation
+    # word is what makes naive negation handling do more harm than good: in
+    # "no fever, severe headache and rash" it would suppress three real symptoms.
+    # Written against *cleaned* text, which matters more than it looks: clean_text
+    # has already removed stop words, so "negative for jaundice" arrives here as
+    # "negative jaundice" and "denies any cough" as "denies cough". The optional
+    # middle word is therefore itself optional twice over -- some of these words
+    # survive cleaning and some are removed before this pattern ever sees them.
+    NEGATION_PATTERN = re.compile(
+        r"\b(?:no|not|without|denies|deny|negative)"
+        r"(?:\s+(?:for|any|having|had|experiencing|experienced|reporting|reported|complaining))?"
+        r"\s+$"
+    )
+
     @staticmethod
     def _has_positive_match(text: str, alias: str) -> bool:
-        match = re.search(rf"\b{re.escape(alias)}\b", text)
-        if not match:
-            return False
+        """True when ``alias`` occurs and is not negated at the point it occurs.
 
-        prefix = text[max(0, match.start() - 18) : match.start()]
-        return not re.search(r"\b(no|not|without|denies|deny)\s+$", prefix)
+        Checked per occurrence: "no cough yesterday, cough today" should still
+        extract cough, so a single negated mention does not veto the term.
+        """
+        for match in re.finditer(rf"\b{re.escape(alias)}\b", text):
+            prefix = text[max(0, match.start() - 28) : match.start()]
+            if not NLPService.NEGATION_PATTERN.search(prefix):
+                return True
+        return False
 
     @staticmethod
     def _extract_dosage_mentions(text: str) -> list[str]:

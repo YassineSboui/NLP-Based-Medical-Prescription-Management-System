@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T02:08:39.357266+00:00",
+  "generated_at": "2026-09-19T02:16:50.232277+00:00",
   "methodology": "Every engine is run standalone over the same group-aware held-out test split produced by app.core.evaluation.three_way_group_split, and over the hand-written scenarios in tests/use_case_tests.txt. An engine that declines to answer is scored as wrong, not skipped. The ensemble row is the full arbitration policy end to end.",
   "split": {
     "train_rows": 369,
@@ -19,7 +19,7 @@
       "external_use_case_accuracy": 1.0,
       "external_use_case_rows": 14,
       "basis": "held-out test set of 123 rows, group-aware split, engine run standalone with no arbitration",
-      "evaluated_at": "2026-09-19T02:08:22.365537+00:00",
+      "evaluated_at": "2026-09-19T02:16:33.665245+00:00",
       "cross_source_transfer_recall": 0.524
     },
     "advanced": {
@@ -34,21 +34,21 @@
       "external_use_case_accuracy": 0.786,
       "external_use_case_rows": 14,
       "basis": "held-out test set of 123 rows, group-aware split, engine run standalone with no arbitration",
-      "evaluated_at": "2026-09-19T02:08:38.552452+00:00"
+      "evaluated_at": "2026-09-19T02:16:49.931009+00:00"
     },
     "symptom_profile": {
       "available": true,
-      "accuracy": 0.724,
+      "accuracy": 0.707,
       "accuracy_ci_95": [
-        0.639,
-        0.795
+        0.622,
+        0.78
       ],
-      "macro_f1": 0.652,
+      "macro_f1": 0.642,
       "rows": 123,
       "external_use_case_accuracy": 0.857,
       "external_use_case_rows": 14,
       "basis": "held-out test set of 123 rows, group-aware split, engine run standalone with no arbitration",
-      "evaluated_at": "2026-09-19T02:08:38.769754+00:00"
+      "evaluated_at": "2026-09-19T02:16:49.998709+00:00"
     }
   },
   "ensemble": {
