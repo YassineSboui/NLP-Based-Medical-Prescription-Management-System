@@ -1,0 +1,21 @@
+# Streamlit configuration for the Symptom Triage Console.
+#
+# The theme is set here as well as in frontend/assets/app.css because a few
+# pieces of Streamlit's own chrome — the tab selection indicator, focus rings,
+# the spinner — are painted from the theme's primary colour before any
+# stylesheet of ours runs. Without this, every tab change flashed red.
+
+[theme]
+base = "light"
+primaryColor = "#10536E"
+backgroundColor = "#F3F5F7"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#3B4A57"
+font = "sans serif"
+
+[client]
+# No Deploy button, no hamburger. Neither offers an end user anything here.
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false

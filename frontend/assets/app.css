@@ -1,0 +1,1666 @@
+/* ---------------------------------------------------------------------------
+   Symptom Triage Console — the stylesheet.
+
+   One file, loaded once, by ui.chrome.apply_page_style(). There is no second
+   copy anywhere: the previous frontend carried ~830 lines of CSS inline in the
+   Python module, in two blocks that had already drifted apart from each other.
+
+   No webfont import. The application is offline by design — a font request at
+   render time would be the only network call in the whole system, and it would
+   fail silently on the machine this is meant to run on.
+
+   Restrained on purpose. One accent colour, one caution colour, one danger
+   colour, a hairline, and a lot of white. Nothing animates unless the motion
+   is carrying information.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --paper: #f3f5f7;
+  --surface: #ffffff;
+  --sunken: #f7f9fa;
+  --line: #e1e6eb;
+  --line-strong: #cbd4dc;
+
+  --ink: #0e1a24;
+  --body: #3b4a57;
+  --muted: #69798a;
+  --faint: #93a1ae;
+
+  --accent: #10536e;
+  --accent-ink: #0b3a4e;
+  --accent-soft: #eaf2f6;
+  --accent-line: #c2d8e2;
+
+  --caution: #8a5a00;
+  --caution-bg: #fdf6e7;
+  --caution-line: #e9d6a9;
+
+  --danger: #94281c;
+  --danger-bg: #fdf2f0;
+  --danger-line: #efcfc9;
+
+  --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --mono: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --pad-top: 1.6rem;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+/* ---------------------------------------------------------------------------
+   Streamlit's own chrome. An end user has no use for the Deploy button, the
+   hamburger, the running-man status widget or the coloured top strip, and each
+   of them advertises that this is a notebook toy rather than a tool.
+   --------------------------------------------------------------------------- */
+
+[data-testid="stToolbar"],
+[data-testid="stDecoration"],
+[data-testid="stStatusWidget"],
+[data-testid="stAppDeployButton"],
+[data-testid="stMainMenu"],
+[data-testid="stBottomBlockContainer"] > div:empty,
+#MainMenu,
+header button[kind="header"],
+footer {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+[data-testid="stHeader"] {
+  background: transparent !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Nothing is rendered into the sidebar, so the collapse handle would only be a
+   dead control. */
+[data-testid="stSidebar"],
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="collapsedControl"] {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Page shell
+   --------------------------------------------------------------------------- */
+
+html,
+body,
+.stApp {
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Streamlit draws its expander arrow and other glyphs as ligatures in a
+   Material icon font. A blanket font-family override turns those into the
+   literal word "arrow_right" sitting on top of the label. */
+[data-testid="stIconMaterial"],
+[data-testid="stExpanderIcon"],
+.material-symbols-rounded,
+.material-icons {
+  font-family: "Material Symbols Rounded", "Material Icons" !important;
+}
+
+.stApp {
+  background: var(--paper);
+}
+
+[data-testid="stAppViewContainer"] {
+  background: var(--paper);
+}
+
+[data-testid="stAppViewContainer"] > .main .block-container,
+.block-container {
+  max-width: 1320px;
+  padding: var(--pad-top) 2.2rem 5rem 2.2rem;
+}
+
+[data-testid="stVerticalBlock"] {
+  gap: 0.85rem;
+}
+
+[data-testid="stElementContainer"] {
+  margin: 0;
+}
+
+/* Base type. Set once on the root and inherited: a `.stApp div` rule here
+   would out-specify every component rule below it and quietly repaint things
+   like the masthead glyph. */
+.stApp {
+  color: var(--body);
+}
+
+.stApp h1,
+.stApp h2,
+.stApp h3,
+.stApp h4,
+.stApp h5 {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+
+.stApp a {
+  color: var(--accent);
+}
+
+.mono {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ---------------------------------------------------------------------------
+   Masthead
+   --------------------------------------------------------------------------- */
+
+/* Full-bleed white band, sized by its own content rather than by a magic
+   height that drifts the moment the tagline rewraps. The bleed is painted with
+   box shadows rather than a 100vw element: a 100vw box is wider than the
+   content area whenever a scrollbar is present, and Streamlit answers that
+   with a second, nested scrollbar. */
+.masthead {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0.15rem 0 1.25rem 0;
+}
+
+.masthead::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Far enough above to clear the container padding and Streamlit's own block
+     gap; the excess is clipped by the scroll container. */
+  top: calc(-1 * var(--pad-top) - 48px);
+  bottom: 0;
+  background: var(--surface);
+  /* Spread, not offset: the shadow grows outwards in every direction and the
+     clip keeps it to a horizontal band one hairline deep. Box shadow never
+     contributes to scrollable overflow, so nothing gains a scrollbar. */
+  box-shadow:
+    0 0 0 100vmax var(--surface),
+    0 1px 0 100vmax var(--line);
+  clip-path: inset(0 -100vmax -1px -100vmax);
+}
+
+.masthead > * {
+  position: relative;
+}
+
+.masthead-id {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.mark {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.masthead .tagline {
+  margin: 0.2rem 0 0 0;
+  font-size: 0.83rem;
+  color: var(--muted);
+  max-width: 62ch;
+  line-height: 1.5;
+}
+
+.masthead-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding-top: 0.15rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.735rem;
+  font-weight: 550;
+  color: var(--body);
+  white-space: nowrap;
+}
+
+.chip .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--faint);
+  flex: 0 0 6px;
+}
+
+.chip.ok .dot { background: #1f7a52; }
+.chip.warn { border-color: var(--caution-line); background: var(--caution-bg); color: var(--caution); }
+.chip.warn .dot { background: #c08a1e; }
+.chip.down { border-color: var(--danger-line); background: var(--danger-bg); color: var(--danger); }
+.chip.down .dot { background: var(--danger); }
+.chip .k { color: var(--muted); font-weight: 500; }
+.chip .v { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------------------------------
+   Caution ribbon — kept from the previous build. A medical tool says this
+   every single time, at the top, before anything else.
+   --------------------------------------------------------------------------- */
+
+.caution-ribbon {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid var(--caution-line);
+  border-left: 3px solid #c08a1e;
+  border-radius: var(--radius-sm);
+  background: var(--caution-bg);
+  margin: 1.1rem 0 0.3rem 0;
+}
+
+.caution-ribbon .label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--caution);
+  white-space: nowrap;
+  padding-top: 0.08rem;
+}
+
+.caution-ribbon p {
+  margin: 0;
+  font-size: 0.815rem;
+  line-height: 1.55;
+  color: #6f4a06;
+}
+
+/* ---------------------------------------------------------------------------
+   Tabs — the app's navigation.
+
+   Two DOMs are covered: the react-aria one Streamlit ships now
+   ([data-testid="stTab"] plus .react-aria-SelectionIndicator) and the older
+   baseweb one that the pinned 1.41 still renders.
+   --------------------------------------------------------------------------- */
+
+[data-testid="stTabs"] [role="tablist"] {
+  gap: 0.15rem !important;
+  border-bottom: 1px solid var(--line) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0.95rem 0 1.45rem 0 !important;
+}
+
+[data-testid="stTab"] {
+  position: relative;
+  padding: 0.6rem 0.95rem 0.68rem 0.95rem !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  margin-bottom: -1px !important;
+}
+
+[data-testid="stTab"] [data-testid="stMarkdownContainer"] p {
+  font-size: 0.855rem !important;
+  font-weight: 550 !important;
+  color: var(--muted) !important;
+  margin: 0 !important;
+  letter-spacing: -0.005em;
+  transition: color 120ms ease;
+}
+
+[data-testid="stTab"]:hover [data-testid="stMarkdownContainer"] p {
+  color: var(--ink) !important;
+}
+
+[data-testid="stTab"][aria-selected="true"] [data-testid="stMarkdownContainer"] p {
+  color: var(--accent-ink) !important;
+  font-weight: 650 !important;
+}
+
+/* The indicator slides between tabs. That is motion carrying information — it
+   shows which screen you came from — so it is kept and only recoloured. */
+.react-aria-SelectionIndicator {
+  background: var(--accent) !important;
+  height: 2px !important;
+}
+
+[data-testid="stTabPanel"] {
+  padding-top: 0 !important;
+}
+
+[data-baseweb="tab-list"] {
+  gap: 0.15rem !important;
+  border-bottom: 1px solid var(--line) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0.9rem 0 1.4rem 0 !important;
+}
+
+[data-baseweb="tab"] {
+  height: auto !important;
+  padding: 0.62rem 0.95rem !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  color: var(--muted) !important;
+  border-bottom: 2px solid transparent !important;
+  margin-bottom: -1px !important;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+[data-baseweb="tab"] [data-testid="stMarkdownContainer"] p {
+  font-size: 0.855rem !important;
+  font-weight: 550 !important;
+  color: inherit !important;
+  margin: 0 !important;
+  letter-spacing: -0.005em;
+}
+
+[data-baseweb="tab"]:hover {
+  color: var(--ink) !important;
+}
+
+[data-baseweb="tab"][aria-selected="true"] {
+  color: var(--accent-ink) !important;
+  border-bottom-color: var(--accent) !important;
+}
+
+[data-baseweb="tab"][aria-selected="true"] [data-testid="stMarkdownContainer"] p {
+  font-weight: 650 !important;
+}
+
+[data-baseweb="tab-highlight"],
+[data-baseweb="tab-border"] {
+  display: none !important;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab-panel"] {
+  padding-top: 0 !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Sections and cards
+   --------------------------------------------------------------------------- */
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 1.9rem 0 0.75rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-head:first-child {
+  margin-top: 0.15rem;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: 0.775rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.section-head .note {
+  font-size: 0.78rem;
+  color: var(--faint);
+  text-align: right;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.05rem 1.15rem;
+}
+
+.card + .card {
+  margin-top: 0.7rem;
+}
+
+/* Card and panel titles are divs carrying role="heading", not <h3>. Streamlit
+   runs injected HTML through its Markdown renderer, which hangs an anchor-link
+   affordance off real heading tags -- a chain icon floating next to "Split". */
+.card-title {
+  margin: 0 0 0.6rem 0;
+  font-size: 0.93rem;
+  font-weight: 620;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+}
+
+.label {
+  display: block;
+  font-size: 0.665rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 0.42rem;
+}
+
+.prose {
+  font-size: 0.845rem;
+  line-height: 1.62;
+  color: var(--body);
+  margin: 0;
+}
+
+.prose + .prose {
+  margin-top: 0.5rem;
+}
+
+.quiet {
+  color: var(--muted);
+  font-size: 0.79rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.empty {
+  color: var(--faint);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------------------------
+   Verdict — the headline of a result
+   --------------------------------------------------------------------------- */
+
+.verdict {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.85fr);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.verdict-main {
+  padding: 1.25rem 1.35rem 1.3rem 1.35rem;
+  border-left: 3px solid var(--accent);
+}
+
+.verdict.abstained .verdict-main {
+  border-left-color: #b08324;
+}
+
+.verdict-main .dx-title {
+  margin: 0.1rem 0 0.15rem 0;
+  font-size: 1.72rem;
+  font-weight: 640;
+  letter-spacing: -0.028em;
+  line-height: 1.12;
+  color: var(--ink);
+}
+
+.verdict-main .caveat {
+  margin: 0.45rem 0 0 0;
+  font-size: 0.795rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 54ch;
+}
+
+.confidence {
+  margin-top: 0.95rem;
+}
+
+.confidence-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.confidence-row .n {
+  font-family: var(--mono);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.confidence-row .meaning {
+  font-size: 0.735rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+.track {
+  position: relative;
+  height: 5px;
+  border-radius: 3px;
+  background: #e7ecf0;
+  overflow: visible;
+}
+
+.track > .fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+}
+
+.verdict.abstained .track > .fill {
+  background: #c9a041;
+}
+
+.track > .floor {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 1px;
+  background: #92a5b3;
+}
+
+.track > .floor::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 11px;
+  left: -1px;
+  font-size: 0.66rem;
+  color: var(--faint);
+  white-space: nowrap;
+  font-family: var(--mono);
+}
+
+.track-legend {
+  height: 1.15rem;
+}
+
+/* Attribution panel — who actually answered */
+.attribution {
+  padding: 1.25rem 1.35rem;
+  background: var(--sunken);
+  border-left: 1px solid var(--line);
+}
+
+.attribution .engine-name {
+  font-size: 0.99rem;
+  font-weight: 640;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.attribution .engine-key {
+  font-family: var(--mono);
+  font-size: 0.735rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: 4px;
+  padding: 0.05rem 0.34rem;
+  margin-left: 0.4rem;
+  vertical-align: 1px;
+}
+
+.attribution .engine-family {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.775rem;
+  color: var(--muted);
+}
+
+.metric-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.1rem 1rem;
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.metric-pair .k {
+  font-size: 0.665rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.metric-pair .v {
+  font-family: var(--mono);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-pair .sub {
+  display: block;
+  margin-top: 0.22rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.metric-pair .col.floorward .v {
+  color: var(--caution);
+}
+
+/* Why this engine */
+.policy-note {
+  margin-top: 0.7rem;
+  padding: 0.62rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: 0.79rem;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+.policy-note .label {
+  margin-bottom: 0.3rem;
+}
+
+.policy-note code {
+  font-family: var(--mono);
+  font-size: 0.735rem;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+   Generalisation callout — the 0.524
+   --------------------------------------------------------------------------- */
+
+.transfer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0 1.15rem;
+  align-items: start;
+  border: 1px solid var(--caution-line);
+  border-left: 3px solid #c08a1e;
+  border-radius: var(--radius-sm);
+  background: var(--caution-bg);
+  padding: 0.95rem 1.1rem;
+}
+
+.transfer .big {
+  font-family: var(--mono);
+  font-size: 2.05rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #7a4f00;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  padding-top: 0.15rem;
+}
+
+.transfer .big-sub {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--caution);
+  margin-top: 0.4rem;
+}
+
+.transfer .ttl {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.855rem;
+  font-weight: 650;
+  color: #6f4a06;
+}
+
+.transfer p {
+  margin: 0;
+  font-size: 0.795rem;
+  line-height: 1.6;
+  color: #6f4a06;
+}
+
+.transfer p + p {
+  margin-top: 0.4rem;
+}
+
+.transfer strong {
+  color: #5e3f05;
+}
+
+/* per-label variant, shown next to a specific prediction */
+.transfer.label-scope .big { font-size: 1.6rem; }
+
+/* ---------------------------------------------------------------------------
+   Engine opinions table
+   --------------------------------------------------------------------------- */
+
+.opinions {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.opinion {
+  display: grid;
+  grid-template-columns: 200px 150px 92px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.72rem 1.1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.815rem;
+}
+
+.opinion.head {
+  border-top: none;
+  background: var(--sunken);
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+}
+
+.opinion.head span {
+  font-size: 0.655rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.opinion.used {
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.opinion .engine {
+  font-family: var(--mono);
+  font-size: 0.775rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.opinion .verdict-cell {
+  color: var(--ink);
+  font-weight: 550;
+}
+
+.opinion .conf {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--body);
+}
+
+.opinion .detail {
+  color: var(--muted);
+  font-size: 0.775rem;
+  line-height: 1.5;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.36rem;
+  border-radius: 3px;
+  margin-left: 0.4rem;
+  vertical-align: 1px;
+}
+
+.tag.decided { background: var(--accent); color: #fff; }
+.tag.overruled { background: #e8edf1; color: var(--muted); }
+.tag.unavailable { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-line); }
+
+/* ---------------------------------------------------------------------------
+   Entities, actions
+   --------------------------------------------------------------------------- */
+
+.entity-row {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.62rem 0;
+  border-top: 1px solid var(--line);
+  align-items: baseline;
+}
+
+.entity-row:first-of-type {
+  border-top: none;
+  padding-top: 0.1rem;
+}
+
+.entity-row .k {
+  font-size: 0.7rem;
+  font-weight: 650;
+  color: var(--muted);
+}
+
+.entity-row > span + span {
+  font-size: 0.825rem;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.19rem 0.52rem;
+  margin: 0 0.3rem 0.3rem 0;
+  border-radius: 4px;
+  background: var(--sunken);
+  border: 1px solid var(--line);
+  font-size: 0.775rem;
+  color: var(--ink);
+}
+
+.pill.negated {
+  background: var(--surface);
+  color: var(--faint);
+  text-decoration: line-through;
+}
+
+.action-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.action-list li {
+  position: relative;
+  counter-increment: step;
+  padding: 0.5rem 0 0.5rem 1.9rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.835rem;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+.action-list li:first-child {
+  border-top: none;
+  padding-top: 0.15rem;
+}
+
+.action-list li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.52rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  color: var(--accent-ink);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-list li:first-child::before {
+  top: 0.16rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Medication cards — warnings are not optional decoration
+   --------------------------------------------------------------------------- */
+
+.med {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.med + .med {
+  margin-top: 0.7rem;
+}
+
+.med-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.85rem 1.15rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.med-head .med-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 640;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+}
+
+.med-head .kind {
+  font-size: 0.655rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.med-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+  padding: 0.95rem 1.15rem;
+}
+
+.med-body p {
+  margin: 0;
+  font-size: 0.825rem;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+.med-warnings {
+  padding: 0.85rem 1.15rem 0.95rem 1.15rem;
+  background: var(--danger-bg);
+  border-top: 1px solid var(--danger-line);
+}
+
+.med-warnings .label {
+  color: var(--danger);
+  margin-bottom: 0.45rem;
+}
+
+.med-warnings ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.med-warnings li {
+  position: relative;
+  padding-left: 1.05rem;
+  font-size: 0.815rem;
+  line-height: 1.58;
+  color: #7c2a1e;
+}
+
+.med-warnings li + li {
+  margin-top: 0.32rem;
+}
+
+.med-warnings li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.58rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #b6483a;
+}
+
+/* ---------------------------------------------------------------------------
+   Disclaimer — on every single response
+   --------------------------------------------------------------------------- */
+
+.disclaimer {
+  margin-top: 0.9rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  font-size: 0.775rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.disclaimer .label {
+  margin-bottom: 0.3rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Stat strip
+   --------------------------------------------------------------------------- */
+
+.stats {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.stats.c3 { grid-template-columns: repeat(3, 1fr); }
+.stats.c4 { grid-template-columns: repeat(4, 1fr); }
+.stats.c5 { grid-template-columns: repeat(5, 1fr); }
+
+.stat {
+  background: var(--surface);
+  padding: 0.85rem 1.05rem 0.9rem 1.05rem;
+}
+
+.stat .k {
+  display: block;
+  font-size: 0.655rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 0.4rem;
+}
+
+.stat .v {
+  font-family: var(--mono);
+  font-size: 1.32rem;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.028em;
+  line-height: 1;
+}
+
+.stat .sub {
+  display: block;
+  margin-top: 0.34rem;
+  font-size: 0.715rem;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.stat.flag .v { color: var(--caution); }
+.stat.flag { background: var(--caution-bg); }
+.stat.flag .k { color: var(--caution); }
+.stat.flag .sub { color: var(--caution); }
+
+/* ---------------------------------------------------------------------------
+   Data tables (history, batch, evaluation)
+   --------------------------------------------------------------------------- */
+
+.dtable {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.dtable .row {
+  display: grid;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.68rem 1.05rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.815rem;
+}
+
+.dtable .row.head {
+  border-top: none;
+  background: var(--sunken);
+  padding-top: 0.52rem;
+  padding-bottom: 0.52rem;
+}
+
+.dtable .row.head span {
+  font-size: 0.645rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.dtable .row .t {
+  font-family: var(--mono);
+  font-size: 0.755rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.dtable .row .note-text {
+  display: block;
+  color: var(--body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A rejected batch item explains itself in its own cell. Putting the reason in
+   the "decided by" column, as the first cut did, labelled it as an engine. */
+.dtable .row .row-error {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.735rem;
+  color: var(--danger);
+}
+
+.dtable .row .dx {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.dtable .row .dx.abstain {
+  color: var(--caution);
+  font-weight: 550;
+}
+
+.dtable .row .eng {
+  font-family: var(--mono);
+  font-size: 0.735rem;
+  color: var(--accent);
+}
+
+.dtable .row .c {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--body);
+}
+
+.history-row { grid-template-columns: 140px minmax(0, 1fr) 150px 74px 132px 78px; }
+.batch-row { grid-template-columns: 34px minmax(0, 1fr) 150px 74px 150px; }
+.audit-row { grid-template-columns: 148px 158px 120px 92px 128px minmax(0, 1fr); }
+
+.src {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--sunken);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.08rem 0.32rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Bar rows (evaluation)
+   --------------------------------------------------------------------------- */
+
+.bars {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 0.95rem 1.15rem 1.05rem 1.15rem;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr) 54px;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 0.28rem 0;
+}
+
+.bar .k {
+  font-size: 0.79rem;
+  color: var(--body);
+  text-align: right;
+}
+
+.bar .t {
+  position: relative;
+  height: 14px;
+  background: var(--sunken);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.bar .t > i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.bar.low .t > i { background: #b4472f; }
+.bar.mid .t > i { background: #c08a1e; }
+.bar.na .t { background: repeating-linear-gradient(-45deg, #f2f4f6 0 5px, #e9edf0 5px 10px); }
+
+.bar .v {
+  font-family: var(--mono);
+  font-size: 0.79rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  text-align: right;
+}
+
+.bar.na .v,
+.bar.na .k { color: var(--faint); }
+
+.bar-axis {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr) 54px;
+  gap: 0.85rem;
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--line);
+}
+
+.bar-axis .scale {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  color: var(--faint);
+  grid-column: 2;
+}
+
+/* ---------------------------------------------------------------------------
+   Engine comparison table (evaluation)
+   --------------------------------------------------------------------------- */
+
+.etable .row { grid-template-columns: 252px 84px 150px 84px 92px 124px; }
+.etable .row .n { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); }
+.etable .row .n.dim { color: var(--faint); }
+.etable .row .ci { font-family: var(--mono); font-size: 0.735rem; color: var(--muted); }
+.etable .row .name { color: var(--ink); font-weight: 600; }
+.etable .row .name small { display: block; font-family: var(--mono); font-size: 0.7rem; font-weight: 400; color: var(--muted); margin-top: 0.1rem; }
+
+/* ---------------------------------------------------------------------------
+   Service-unavailable state
+   --------------------------------------------------------------------------- */
+
+.unavailable {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 2.6rem 2.2rem;
+  text-align: center;
+  max-width: 620px;
+  margin: 2.4rem auto 1rem auto;
+}
+
+.unavailable .glyph {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 1rem auto;
+  border-radius: 10px;
+  background: var(--caution-bg);
+  border: 1px solid var(--caution-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--caution);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.unavailable .ttl {
+  margin: 0 0 0.45rem 0;
+  font-size: 1.12rem;
+  font-weight: 620;
+  color: var(--ink);
+}
+
+.unavailable p {
+  margin: 0 auto;
+  max-width: 46ch;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------------------
+   Progress — the one piece of motion, and it reports real stages
+   --------------------------------------------------------------------------- */
+
+.progress {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 1.05rem 1.2rem 1.15rem 1.2rem;
+}
+
+.progress-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.progress-head .t {
+  font-size: 0.875rem;
+  font-weight: 620;
+  color: var(--ink);
+}
+
+.progress-head .sub {
+  font-family: var(--mono);
+  font-size: 0.735rem;
+  color: var(--muted);
+}
+
+/* Indeterminate, because the work really is one round trip. It reports that
+   something is running; it does not pretend to know how far along it is. */
+.sweep {
+  height: 3px;
+  border-radius: 2px;
+  background: #e7ecf0;
+  overflow: hidden;
+}
+
+.sweep > i {
+  display: block;
+  height: 100%;
+  width: 34%;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: sweep 1.05s cubic-bezier(0.65, 0.05, 0.35, 1) infinite;
+}
+
+@keyframes sweep {
+  0% { transform: translateX(-110%); }
+  100% { transform: translateX(400%); }
+}
+
+.pipeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.55rem;
+  margin-top: 0.7rem;
+  font-size: 0.745rem;
+  color: var(--faint);
+}
+
+.pipeline span + span::before {
+  content: "\2192";
+  margin-right: 0.55rem;
+  color: var(--line-strong);
+}
+
+/* Results assemble in the order the pipeline produced them. 180ms, 6px. */
+.enter {
+  animation: enter 220ms cubic-bezier(0.22, 0.75, 0.3, 1) both;
+}
+
+.enter.d1 { animation-delay: 60ms; }
+.enter.d2 { animation-delay: 120ms; }
+.enter.d3 { animation-delay: 180ms; }
+.enter.d4 { animation-delay: 240ms; }
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter, .sweep > i { animation: none !important; }
+  .enter { opacity: 1; transform: none; }
+  .sweep > i { width: 100%; }
+}
+
+/* ---------------------------------------------------------------------------
+   Streamlit widgets
+   --------------------------------------------------------------------------- */
+
+.stTextArea textarea,
+.stTextInput input {
+  font-family: var(--sans) !important;
+  font-size: 0.875rem !important;
+  color: var(--ink) !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: var(--radius-sm) !important;
+  line-height: 1.6 !important;
+  padding: 0.7rem 0.85rem !important;
+  box-shadow: none !important;
+}
+
+.stTextArea textarea:focus,
+.stTextInput input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(16, 83, 110, 0.1) !important;
+}
+
+.stTextArea textarea::placeholder,
+.stTextInput input::placeholder {
+  color: var(--faint) !important;
+}
+
+[data-testid="stWidgetLabel"] p,
+.stSelectbox label p,
+.stTextArea label p,
+.stTextInput label p {
+  font-size: 0.665rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--faint) !important;
+  margin-bottom: 0.3rem !important;
+}
+
+[data-baseweb="select"] > div {
+  border: 1px solid var(--line-strong) !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--surface) !important;
+  font-size: 0.845rem !important;
+  min-height: 38px !important;
+  box-shadow: none !important;
+}
+
+[data-baseweb="select"] div[value],
+[data-baseweb="select"] span {
+  color: var(--ink) !important;
+}
+
+[data-baseweb="popover"] li {
+  font-size: 0.83rem !important;
+}
+
+.stButton > button,
+.stDownloadButton > button,
+.stFormSubmitButton > button {
+  font-family: var(--sans) !important;
+  font-size: 0.83rem !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.52rem 1rem !important;
+  min-height: 38px !important;
+  border: 1px solid var(--line-strong) !important;
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  box-shadow: none !important;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover,
+.stFormSubmitButton > button:hover {
+  background: var(--sunken) !important;
+  border-color: var(--faint) !important;
+  color: var(--ink) !important;
+}
+
+.stButton > button[kind="primary"],
+.stFormSubmitButton > button[kind="primary"],
+.stFormSubmitButton > button[kind="primaryFormSubmit"] {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+}
+
+.stButton > button[kind="primary"]:hover,
+.stFormSubmitButton > button[kind="primary"]:hover,
+.stFormSubmitButton > button[kind="primaryFormSubmit"]:hover {
+  background: var(--accent-ink) !important;
+  border-color: var(--accent-ink) !important;
+  color: #ffffff !important;
+}
+
+.stButton > button:focus:not(:active),
+.stFormSubmitButton > button:focus:not(:active) {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(16, 83, 110, 0.1) !important;
+}
+
+/* The label lives in nested spans. Without this they inherit the page body
+   colour and a primary button reads as a blank slab. */
+.stButton > button *,
+.stDownloadButton > button *,
+.stFormSubmitButton > button * {
+  color: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Alerts
+   --------------------------------------------------------------------------- */
+
+[data-testid="stAlertContainer"] {
+  border-radius: var(--radius-sm) !important;
+  border: 1px solid var(--line) !important;
+  background: var(--sunken) !important;
+  padding: 0.7rem 0.95rem !important;
+}
+
+[data-testid="stAlertContainer"] p {
+  font-size: 0.82rem !important;
+  line-height: 1.58 !important;
+  color: var(--body) !important;
+  margin: 0 !important;
+}
+
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentWarning"]) {
+  background: var(--caution-bg) !important;
+  border-color: var(--caution-line) !important;
+  border-left: 3px solid #c08a1e !important;
+}
+
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentWarning"]) p {
+  color: #6f4a06 !important;
+}
+
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentError"]) {
+  background: var(--danger-bg) !important;
+  border-color: var(--danger-line) !important;
+  border-left: 3px solid #b6483a !important;
+}
+
+[data-testid="stAlertContainer"]:has([data-testid="stAlertContentError"]) p {
+  color: #7c2a1e !important;
+}
+
+[data-testid="stAlertContainer"] svg {
+  display: none !important;
+}
+
+[data-testid="stForm"] {
+  border: none !important;
+  padding: 0 !important;
+}
+
+[data-testid="stExpander"] {
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius) !important;
+  background: var(--surface) !important;
+}
+
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] details > summary {
+  font-size: 0.815rem !important;
+  font-weight: 600 !important;
+  color: var(--body) !important;
+  padding: 0.62rem 1.05rem !important;
+}
+
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+  padding: 0 1.05rem 0.95rem 1.05rem !important;
+}
+
+[data-testid="stCaptionContainer"] p {
+  font-size: 0.755rem !important;
+  color: var(--muted) !important;
+  line-height: 1.55 !important;
+}
+
+[data-testid="stAlert"] {
+  border-radius: var(--radius-sm) !important;
+  font-size: 0.82rem !important;
+}
+
+hr,
+[data-testid="stDivider"] hr {
+  border-color: var(--line) !important;
+  margin: 1.1rem 0 !important;
+}
+
+/* Column gutters are left to Streamlit. It computes each column's width as a
+   percentage minus its own gap value, so widening the gap here overflows the
+   row and the last column wraps onto a line of its own. */
+
+/* Code blocks used for report previews */
+.stCodeBlock,
+pre {
+  border-radius: var(--radius-sm) !important;
+  font-size: 0.76rem !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Specificity guard
+
+   Streamlit styles markdown text as `.st-emotion-<hash> p`, which is one
+   specificity point above a bare class of ours. Any rule here that sets type
+   on a `<p>` through a single class loses that contest, so those few are
+   restated one level deeper. Everything else in this file is already at least
+   two levels deep and needs no help.
+   --------------------------------------------------------------------------- */
+
+[data-testid="stMarkdownContainer"] p.prose {
+  font-size: 0.845rem;
+  line-height: 1.62;
+  color: var(--body);
+  margin: 0;
+}
+
+[data-testid="stMarkdownContainer"] p.prose + p.prose {
+  margin-top: 0.5rem;
+}
+
+[data-testid="stMarkdownContainer"] p.quiet {
+  font-size: 0.79rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Narrow viewports
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 1180px) {
+  .verdict { grid-template-columns: 1fr; }
+  .attribution { border-left: none; border-top: 1px solid var(--line); }
+  .opinion { grid-template-columns: 1fr 1fr; }
+  .history-row { grid-template-columns: 1fr 1fr; }
+  .etable .row { grid-template-columns: 1fr 1fr; }
+  .stats.c4, .stats.c5 { grid-template-columns: repeat(2, 1fr); }
+}
