@@ -1,25 +1,20 @@
 {
-  "purpose": "Optional advanced LSTM/GRU sequence classification experiment",
-  "warning": "Small dataset; included for comparison and demonstration, not necessarily better than TF-IDF.",
-  "best_model": "lstm_u64_e96_s48_b8_pool_lr7e4_seed7",
-  "best_model_type": "lstm",
+  "purpose": "Optional sequence-model (LSTM/GRU) comparison against the classical pipeline.",
+  "best_model": "bigru_64",
+  "best_model_type": "gru",
   "best_config": {
-    "name": "lstm_u64_e96_s48_b8_pool_lr7e4_seed7",
-    "model_type": "lstm",
+    "name": "bigru_64",
+    "model_type": "gru",
     "units": 64,
     "embedding_dim": 96,
-    "max_sequence_length": 48,
-    "dense_units": 96,
-    "recurrent_dropout": 0.25,
-    "dense_dropout": 0.2,
-    "batch_size": 8,
-    "pooling": "max",
-    "learning_rate": 0.0007,
-    "seed": 7
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "batch_size": 16
   },
-  "accuracy": 0.84375,
-  "macro_f1": 0.838095238095238,
-  "dataset_rows": 128,
+  "accuracy": 0.846,
+  "macro_f1": 0.836,
+  "metric_basis": "held-out test set, opened once after selection on validation",
+  "dataset_rows": 616,
   "label_count": 14,
   "labels": [
     "cholera",
@@ -37,17 +32,47 @@
     "tuberculosis",
     "typhoid fever"
   ],
-  "max_words": 3000,
+  "max_words": 4000,
   "max_sequence_length": 48,
-  "artifacts": {
-    "lstm_model": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\lstm_model.keras",
-    "gru_model": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\gru_model.keras",
-    "best_model": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\best_sequence_model.keras",
-    "tokenizer": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\tokenizer.joblib",
-    "label_encoder": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\label_encoder.joblib",
-    "training_history": "C:\\Users\\YassineSBOUI\\OneDrive - NEOLEDGE\\Bureau\\NLP Project\\models\\advanced\\training_history.png",
-    "overall_metrics": "models/advanced/advanced_overall_metrics.png",
-    "prediction_outcomes": "models/advanced/advanced_prediction_outcomes.png"
+  "evaluation": {
+    "split": "group-aware train/validation/test on dataset group_id",
+    "split_sizes": {
+      "train": 369,
+      "validation": 124,
+      "test": 123
+    },
+    "selection": "4 architectures, ranked on validation macro F1",
+    "early_stopping": "monitors validation accuracy; the test set is never passed to fit()",
+    "tokenizer_fit_on": "training split only",
+    "validation_accuracy": 0.919,
+    "validation_macro_f1": 0.912,
+    "external_use_cases": {
+      "count": 14,
+      "correct": 11,
+      "accuracy": 0.786
+    },
+    "candidates": [
+      {
+        "name": "bilstm_64",
+        "validation_accuracy": 0.823,
+        "validation_macro_f1": 0.807
+      },
+      {
+        "name": "bilstm_32",
+        "validation_accuracy": 0.758,
+        "validation_macro_f1": 0.736
+      },
+      {
+        "name": "bigru_64",
+        "validation_accuracy": 0.919,
+        "validation_macro_f1": 0.912
+      },
+      {
+        "name": "bigru_32",
+        "validation_accuracy": 0.831,
+        "validation_macro_f1": 0.81
+      }
+    ]
   },
-  "note": "Internal LSTM/GRU architecture variants and seeds were tested during training; only the final selected advanced model is shown here for a clean project submission."
+  "note": "Artifact paths are intentionally omitted: the previous metadata recorded absolute paths from one author's machine. Everything lives beside this file in models/advanced/."
 }

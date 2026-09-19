@@ -1,21 +1,31 @@
 {
-  "best_model": "complement_naive_bayes",
-  "accuracy": 0.90625,
-  "macro_f1": 0.9071428571428571,
+  "best_model": "logistic_regression",
+  "accuracy": 0.894,
+  "macro_f1": 0.888,
+  "accuracy_ci_95": [
+    0.828,
+    0.937
+  ],
+  "metric_basis": "held-out test set, never seen by the shipped artifact",
   "best_params": {
     "classifier": {
-      "alpha": 0.2
+      "C": 4.0
     },
     "vectorizer": {
       "ngram_range": [
         1,
-        3
+        1
       ],
       "min_df": 1,
       "sublinear_tf": true
     }
   },
-  "dataset_rows": 128,
+  "dataset_rows": 616,
+  "dataset_provenance": {
+    "paraphrase": 364,
+    "source": 28,
+    "source_combination": 224
+  },
   "label_count": 14,
   "labels": [
     "cholera",
@@ -33,5 +43,311 @@
     "tuberculosis",
     "typhoid fever"
   ],
-  "note": "Internal hyperparameter variants were tested during training; only the final selected model is shown here for a clean project submission."
+  "evaluation": {
+    "methodology": {
+      "split": "group-aware train/validation/test, groups = dataset group_id",
+      "split_sizes": {
+        "train": 369,
+        "validation": 124,
+        "test": 123
+      },
+      "split_groups": {
+        "train": 152,
+        "validation": 50,
+        "test": 50
+      },
+      "model_selection": "60 pipelines fit on train and ranked on validation macro F1. The test set is not read during selection.",
+      "shipped_model_fit_on": "train + validation only. The test set was never seen by the artifact in models/classical/, so the test numbers below describe that exact artifact.",
+      "cross_validation": "StratifiedGroupKFold(n_splits=5) over train+validation",
+      "intervals": "Test accuracy and per-class recall use 95% Wilson score intervals. Cross-validation uses a 95% t-interval across folds.",
+      "known_limitations": [
+        "Every row for a label descends from one or two CDC/WHO passages, so folds are not clinically independent. The cross-source transfer diagnostic is the honest measure of generalisation; the test accuracy is an upper bound.",
+        "The external scenario set has 14 items. Its interval is correspondingly wide.",
+        "14 labels only. Anything outside them is answered as the nearest of the 14, which is why the API ships a confidence floor and an abstention path."
+      ]
+    },
+    "selected_model": {
+      "family": "logistic_regression",
+      "classifier_params": {
+        "C": 4.0
+      },
+      "vectorizer": {
+        "ngram_range": [
+          1,
+          1
+        ],
+        "min_df": 1,
+        "sublinear_tf": true
+      },
+      "validation_accuracy": 0.895,
+      "validation_macro_f1": 0.869,
+      "candidates_evaluated": 60
+    },
+    "cross_validation": {
+      "folds": 5,
+      "accuracy_mean": 0.861,
+      "accuracy_ci": [
+        0.797,
+        0.924
+      ],
+      "accuracy_per_fold": [
+        0.843,
+        0.865,
+        0.788,
+        0.926,
+        0.881
+      ],
+      "macro_f1_mean": 0.844,
+      "macro_f1_ci": [
+        0.767,
+        0.922
+      ]
+    },
+    "test": {
+      "rows": 123,
+      "accuracy": 0.894,
+      "accuracy_ci": [
+        0.828,
+        0.937
+      ],
+      "macro_f1": 0.888,
+      "per_class": [
+        {
+          "label": "cholera",
+          "support": 11,
+          "precision": 1.0,
+          "recall": 1.0,
+          "recall_ci_95": [
+            0.741,
+            1.0
+          ],
+          "f1": 1.0
+        },
+        {
+          "label": "common cold",
+          "support": 8,
+          "precision": 0.8,
+          "recall": 1.0,
+          "recall_ci_95": [
+            0.676,
+            1.0
+          ],
+          "f1": 0.889
+        },
+        {
+          "label": "covid-like illness",
+          "support": 7,
+          "precision": 1.0,
+          "recall": 0.714,
+          "recall_ci_95": [
+            0.359,
+            0.918
+          ],
+          "f1": 0.833
+        },
+        {
+          "label": "dengue",
+          "support": 9,
+          "precision": 0.857,
+          "recall": 0.667,
+          "recall_ci_95": [
+            0.354,
+            0.879
+          ],
+          "f1": 0.75
+        },
+        {
+          "label": "flu",
+          "support": 10,
+          "precision": 0.75,
+          "recall": 0.9,
+          "recall_ci_95": [
+            0.596,
+            0.982
+          ],
+          "f1": 0.818
+        },
+        {
+          "label": "gastroenteritis",
+          "support": 11,
+          "precision": 0.846,
+          "recall": 1.0,
+          "recall_ci_95": [
+            0.741,
+            1.0
+          ],
+          "f1": 0.917
+        },
+        {
+          "label": "hepatitis b",
+          "support": 9,
+          "precision": 1.0,
+          "recall": 0.667,
+          "recall_ci_95": [
+            0.354,
+            0.879
+          ],
+          "f1": 0.8
+        },
+        {
+          "label": "hiv",
+          "support": 5,
+          "precision": 0.833,
+          "recall": 1.0,
+          "recall_ci_95": [
+            0.566,
+            1.0
+          ],
+          "f1": 0.909
+        },
+        {
+          "label": "malaria",
+          "support": 8,
+          "precision": 1.0,
+          "recall": 0.875,
+          "recall_ci_95": [
+            0.529,
+            0.978
+          ],
+          "f1": 0.933
+        },
+        {
+          "label": "measles",
+          "support": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "recall_ci_95": [
+            0.722,
+            1.0
+          ],
+          "f1": 1.0
+        },
+        {
+          "label": "meningitis",
+          "support": 7,
+          "precision": 0.778,
+          "recall": 1.0,
+          "recall_ci_95": [
+            0.646,
+            1.0
+          ],
+          "f1": 0.875
+        },
+        {
+          "label": "pneumonia",
+          "support": 8,
+          "precision": 1.0,
+          "recall": 0.75,
+          "recall_ci_95": [
+            0.409,
+            0.929
+          ],
+          "f1": 0.857
+        },
+        {
+          "label": "tuberculosis",
+          "support": 12,
+          "precision": 1.0,
+          "recall": 0.917,
+          "recall_ci_95": [
+            0.646,
+            0.985
+          ],
+          "f1": 0.957
+        },
+        {
+          "label": "typhoid fever",
+          "support": 8,
+          "precision": 0.8,
+          "recall": 1.0,
+          "recall_ci_95": [
+            0.676,
+            1.0
+          ],
+          "f1": 0.889
+        }
+      ]
+    },
+    "external_use_cases": {
+      "count": 14,
+      "correct": 14,
+      "accuracy": 1.0,
+      "accuracy_ci": [
+        0.785,
+        1.0
+      ],
+      "failures": []
+    },
+    "cross_source_transfer": {
+      "per_label": {
+        "cholera": {
+          "evaluable": true,
+          "passages": 2,
+          "mean_recall_on_held_out_passage": 0.015
+        },
+        "common cold": {
+          "evaluable": false,
+          "reason": "only one source passage backs this label"
+        },
+        "covid-like illness": {
+          "evaluable": false,
+          "reason": "only one source passage backs this label"
+        },
+        "dengue": {
+          "evaluable": true,
+          "passages": 3,
+          "mean_recall_on_held_out_passage": 0.356
+        },
+        "flu": {
+          "evaluable": true,
+          "passages": 3,
+          "mean_recall_on_held_out_passage": 0.189
+        },
+        "gastroenteritis": {
+          "evaluable": false,
+          "reason": "only one source passage backs this label"
+        },
+        "hepatitis b": {
+          "evaluable": true,
+          "passages": 2,
+          "mean_recall_on_held_out_passage": 0.925
+        },
+        "hiv": {
+          "evaluable": false,
+          "reason": "only one source passage backs this label"
+        },
+        "malaria": {
+          "evaluable": true,
+          "passages": 3,
+          "mean_recall_on_held_out_passage": 0.611
+        },
+        "measles": {
+          "evaluable": true,
+          "passages": 3,
+          "mean_recall_on_held_out_passage": 0.254
+        },
+        "meningitis": {
+          "evaluable": true,
+          "passages": 2,
+          "mean_recall_on_held_out_passage": 0.75
+        },
+        "pneumonia": {
+          "evaluable": false,
+          "reason": "only one source passage backs this label"
+        },
+        "tuberculosis": {
+          "evaluable": true,
+          "passages": 2,
+          "mean_recall_on_held_out_passage": 0.897
+        },
+        "typhoid fever": {
+          "evaluable": true,
+          "passages": 3,
+          "mean_recall_on_held_out_passage": 0.853
+        }
+      },
+      "pooled_recall": 0.524,
+      "rows_evaluated": 401
+    }
+  }
 }

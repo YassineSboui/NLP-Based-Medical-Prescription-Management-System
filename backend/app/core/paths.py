@@ -6,6 +6,9 @@ from pathlib import Path
 BACKEND_DIR = Path(__file__).resolve().parents[2]
 PROJECT_DIR = BACKEND_DIR.parent
 
+TESTS_DIR = PROJECT_DIR / "tests"
+USE_CASES_PATH = TESTS_DIR / "use_case_tests.txt"
+
 DATA_DIR = BACKEND_DIR / "app" / "data"
 DATASET_PATH = DATA_DIR / "symptoms_dataset.csv"
 DATASET_SOURCES_PATH = DATA_DIR / "dataset_sources.json"
@@ -24,11 +27,15 @@ MODEL_COMPARISON_PATH = CLASSICAL_MODEL_DIR / "model_comparison.png"
 OVERALL_METRICS_PATH = CLASSICAL_MODEL_DIR / "overall_metrics.png"
 PREDICTION_OUTCOMES_PATH = CLASSICAL_MODEL_DIR / "prediction_outcomes.png"
 
-ADVANCED_MODEL_PATH = ADVANCED_MODEL_DIR / "best_sequence_model.keras"
+# One artifact, not three. `best_sequence_model.keras` used to be a byte-for-byte
+# copy of `lstm_model.keras`, and `gru_model.keras` was a losing candidate that
+# nothing loaded -- 13 MB of binaries in git for one model that gets used.
+ADVANCED_MODEL_PATH = ADVANCED_MODEL_DIR / "sequence_model.keras"
 ADVANCED_TOKENIZER_PATH = ADVANCED_MODEL_DIR / "tokenizer.joblib"
 ADVANCED_LABEL_ENCODER_PATH = ADVANCED_MODEL_DIR / "label_encoder.joblib"
 ADVANCED_METADATA_PATH = ADVANCED_MODEL_DIR / "deep_learning_metadata.json"
+ADVANCED_METRICS_PATH = ADVANCED_MODEL_DIR / "deep_learning_metrics.txt"
 ADVANCED_OVERALL_METRICS_PATH = ADVANCED_MODEL_DIR / "advanced_overall_metrics.png"
-ADVANCED_PREDICTION_OUTCOMES_PATH = ADVANCED_MODEL_DIR / "advanced_prediction_outcomes.png"
+ADVANCED_TRAINING_HISTORY_PATH = ADVANCED_MODEL_DIR / "training_history.png"
 
 LEGACY_MODEL_PATH = MODEL_ROOT_DIR / "trained_model.joblib"

@@ -1,31 +1,44 @@
-Optional advanced neural-network experiment
-Important: this is included for academic comparison. The dataset is small, so TF-IDF models may generalize better.
-Best advanced model: lstm_u64_e96_s48_b8_pool_lr7e4_seed7
-Best advanced config: {'name': 'lstm_u64_e96_s48_b8_pool_lr7e4_seed7', 'model_type': 'lstm', 'units': 64, 'embedding_dim': 96, 'max_sequence_length': 48, 'dense_units': 96, 'recurrent_dropout': 0.25, 'dense_dropout': 0.2, 'batch_size': 8, 'pooling': 'max', 'learning_rate': 0.0007, 'seed': 7}
-Accuracy: 0.844
-Macro F1: 0.838
+Advanced sequence model - evaluation report
+=======================================================
 
-Optimized advanced model comparison:
-- lstm: accuracy=0.844, macro_f1=0.838, best_config={'name': 'lstm_u64_e96_s48_b8_pool_lr7e4_seed7', 'model_type': 'lstm', 'units': 64, 'embedding_dim': 96, 'max_sequence_length': 48, 'dense_units': 96, 'recurrent_dropout': 0.25, 'dense_dropout': 0.2, 'batch_size': 8, 'pooling': 'max', 'learning_rate': 0.0007, 'seed': 7}
-- gru: accuracy=0.781, macro_f1=0.745, best_config={'name': 'gru_u64_e96_s48_b8_pool_seed7', 'model_type': 'gru', 'units': 64, 'embedding_dim': 96, 'max_sequence_length': 48, 'dense_units': 96, 'recurrent_dropout': 0.25, 'dense_dropout': 0.2, 'batch_size': 8, 'pooling': 'max', 'learning_rate': 0.001, 'seed': 7}
+METHODOLOGY
+  Split        : group-aware train/validation/test on group_id
+                 train=369 validation=124 test=123
+  Selection    : 4 architectures ranked on VALIDATION macro F1
+  Early stop   : monitors validation accuracy; test set never passed to fit()
+  Tokenizer    : fit on the training split only
 
+RESULTS
+  Selected     : bigru_64
+  Validation   : accuracy=0.919 macro_f1=0.912
+  Test         : accuracy=0.846 macro_f1=0.836
+  External     : 11/14 hand-written scenarios
+
+CANDIDATES (validation)
+  - bilstm_64    accuracy=0.823 macro_f1=0.807
+  - bilstm_32    accuracy=0.758 macro_f1=0.736
+  - bigru_64     accuracy=0.919 macro_f1=0.912
+  - bigru_32     accuracy=0.831 macro_f1=0.810
+
+TEST CLASSIFICATION REPORT
                     precision    recall  f1-score   support
 
-           cholera       0.67      1.00      0.80         2
-       common cold       1.00      1.00      1.00         2
-covid-like illness       1.00      0.50      0.67         2
-            dengue       0.67      1.00      0.80         2
-               flu       1.00      0.33      0.50         3
-   gastroenteritis       1.00      0.33      0.50         3
-       hepatitis b       1.00      1.00      1.00         2
-               hiv       1.00      1.00      1.00         3
-           malaria       0.67      1.00      0.80         2
-           measles       1.00      1.00      1.00         2
-        meningitis       1.00      1.00      1.00         2
-         pneumonia       0.50      1.00      0.67         2
-      tuberculosis       1.00      1.00      1.00         3
-     typhoid fever       1.00      1.00      1.00         2
+           cholera       1.00      0.91      0.95        11
+       common cold       0.80      1.00      0.89         8
+covid-like illness       0.83      0.71      0.77         7
+            dengue       0.73      0.89      0.80         9
+               flu       0.75      0.60      0.67        10
+   gastroenteritis       0.91      0.91      0.91        11
+       hepatitis b       1.00      0.67      0.80         9
+               hiv       0.71      1.00      0.83         5
+           malaria       1.00      1.00      1.00         8
+           measles       0.89      0.80      0.84        10
+        meningitis       0.64      1.00      0.78         7
+         pneumonia       1.00      0.50      0.67         8
+      tuberculosis       1.00      0.92      0.96        12
+     typhoid fever       0.73      1.00      0.84         8
 
-          accuracy                           0.84        32
-         macro avg       0.89      0.87      0.84        32
-      weighted avg       0.91      0.84      0.83        32
+          accuracy                           0.85       123
+         macro avg       0.86      0.85      0.84       123
+      weighted avg       0.87      0.85      0.84       123
+
