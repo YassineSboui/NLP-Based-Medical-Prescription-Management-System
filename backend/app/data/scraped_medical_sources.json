@@ -1,13 +1,52 @@
 [
   {
     "disease": "cholera",
+    "source_name": "CDC Cholera Signs and Symptoms",
+    "source_url": "https://www.cdc.gov/cholera/signs-symptoms/index.html",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Signs and Symptoms of Cholera",
+    "fetched_at": "2026-09-19T01:48:23.123096+00:00",
+    "attempted_at": "2026-09-19T01:48:23.123096+00:00",
+    "content_sha256": "ec77c51d8d5977edf8a547daf2672fcd4ce380f322673e27d14055a95da42e21",
+    "extracted_sections": [
+      {
+        "heading": "Early symptoms",
+        "items": [
+          "People with cholera often will have mild symptoms, or no symptoms at all, and get better on their own. About 1 in 10 people will develop severe symptoms that can be life-threatening.",
+          "Early symptoms of cholera include:",
+          "Watery diarrhea, sometimes described as \"rice-water stools\" because they are milky white",
+          "Vomiting",
+          "Leg cramps",
+          "Restlessness or irritability",
+          "Symptoms usually appear 2-3 days after someone drinks or eats something containing cholera bacteria. Symptoms can show up within a few hours or up to 5 days.",
+          "During a cholera outbreak, people with acute watery diarrhea (3 or more loose stools a day) should seek care."
+        ]
+      },
+      {
+        "heading": "Later symptoms",
+        "items": [
+          "Losing body fluids quickly from diarrhea and vomiting can cause dehydration. Patients with severe cholera may have lost more than 10% of body weight by the time they seek medical care.",
+          "If untreated, severe dehydration can lead to kidney failure, shock, coma, and death.",
+          "Symptoms of dehydration include:",
+          "Rapid heart rate",
+          "Loss of elasticity in the skin",
+          "Dry mucous membranes",
+          "Low blood pressure",
+          "With early and proper treatment, even people with severe cholera can survive."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "cholera",
     "source_name": "WHO Cholera Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/cholera",
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Cholera",
-    "fetched_at": "2026-09-19T01:39:17.397146+00:00",
-    "attempted_at": "2026-09-19T01:39:17.397146+00:00",
+    "fetched_at": "2026-09-19T01:48:23.518761+00:00",
+    "attempted_at": "2026-09-19T01:48:23.518761+00:00",
     "content_sha256": "3efdd4ba26972455dde125309f32040f60913197b8532e3d53abf57acf0b55ec",
     "extracted_sections": [
       {
@@ -54,40 +93,22 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "About Common Cold",
-    "fetched_at": "2026-09-19T01:39:17.771091+00:00",
-    "attempted_at": "2026-09-19T01:39:17.771091+00:00",
+    "fetched_at": "2026-09-19T01:48:23.911847+00:00",
+    "attempted_at": "2026-09-19T01:48:23.911847+00:00",
     "content_sha256": "123487af5c434803c5f75c17fbc95c3a8e1df8270db8796ce83016f491ad1e8d",
     "extracted_sections": [
       {
         "heading": "Signs and symptoms",
         "items": [
+          "The signs and symptoms of a cold usually peak within 2 to 3 days of infection and can include:",
+          "Runny nose",
+          "Nasal congestion",
           "Cough",
+          "Sneezing",
+          "Sore throat",
           "Headache",
+          "Mild body aches",
           "Fever (usually low grade in older children and adults)"
-        ]
-      }
-    ]
-  },
-  {
-    "disease": "common cold",
-    "source_name": "CDC Flu Signs and Symptoms",
-    "source_url": "https://www.cdc.gov/flu/signs-symptoms/index.html",
-    "fetch_status": "ok",
-    "status_code": 200,
-    "title": "Signs and Symptoms of Flu",
-    "fetched_at": "2026-09-19T01:39:18.162850+00:00",
-    "attempted_at": "2026-09-19T01:39:18.162850+00:00",
-    "content_sha256": "fa63771ba17ae3359afdb13cb15ead88350c90829d1a45e74d6a199a7f66bd13",
-    "extracted_sections": [
-      {
-        "heading": "Symptoms",
-        "items": [
-          "fever* or feeling feverish/chills",
-          "cough",
-          "headaches",
-          "fatigue (tiredness)",
-          "some people may have vomiting and diarrhea, though this is more common in children than adults.",
-          "*It's important to note that not everyone with flu will have a fever."
         ]
       }
     ]
@@ -99,20 +120,26 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Symptoms of COVID-19",
-    "fetched_at": "2026-09-19T01:39:18.525908+00:00",
-    "attempted_at": "2026-09-19T01:39:18.525908+00:00",
+    "fetched_at": "2026-09-19T01:48:24.399282+00:00",
+    "attempted_at": "2026-09-19T01:48:24.399282+00:00",
     "content_sha256": "45738d0732dd8ba74a4a6cf001833448109520270222442ad22b8b6c3d91246c",
     "extracted_sections": [
       {
         "heading": "Signs and Symptoms",
         "items": [
+          "The following list does not include all possible symptoms. Symptoms may change with new COVID-19 variants and can vary depending on vaccination status. Possible symptoms include:",
           "Fever or chills",
           "Cough",
           "Shortness of breath or difficulty breathing",
+          "Sore throat",
+          "Congestion or runny nose",
+          "New loss of taste or smell",
           "Fatigue",
+          "Muscle or body aches",
           "Headache",
           "Nausea or vomiting",
-          "Diarrhea"
+          "Diarrhea",
+          "CDC will continue to update this list as we learn more about COVID-19."
         ]
       }
     ]
@@ -124,8 +151,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Coronavirus disease (COVID-19)",
-    "fetched_at": "2026-09-19T01:39:18.868952+00:00",
-    "attempted_at": "2026-09-19T01:39:18.868952+00:00",
+    "fetched_at": "2026-09-19T01:48:24.761258+00:00",
+    "attempted_at": "2026-09-19T01:48:24.761258+00:00",
     "content_sha256": "ce5b8c085f202f23703e6438ff2fa1261a103115edcb65407407660929118b46",
     "extracted_sections": [
       {
@@ -171,13 +198,56 @@
   },
   {
     "disease": "dengue",
+    "source_name": "CDC Dengue Symptoms and Testing",
+    "source_url": "https://www.cdc.gov/dengue/signs-symptoms/index.html",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Symptoms of Dengue and Testing",
+    "fetched_at": "2026-09-19T01:48:25.126201+00:00",
+    "attempted_at": "2026-09-19T01:48:25.126201+00:00",
+    "content_sha256": "2c222ecd722e7233d27ef53b7564e413b1deddf9870425d4e3b63ed80c826dc0",
+    "extracted_sections": [
+      {
+        "heading": "Symptoms",
+        "items": [
+          "The most common symptom of dengue is fever with any of the following:",
+          "Aches and pains (eye pain, typically behind the eyes, muscle, joint, or bone pain)",
+          "Nausea, vomiting",
+          "Rash",
+          "Any warning sign",
+          "Dengue symptoms",
+          "Fever with any of the following",
+          "- Eye pain",
+          "- Muscle pain",
+          "- Bone pain",
+          "- Joint pain",
+          "- Headache",
+          "- Nausea/vomiting",
+          "- Rash",
+          "CDC logo",
+          "Mild symptoms of dengue can be confused with other illnesses that cause fever.",
+          "Symptoms of dengue typically last 2–7 days.",
+          "Most people will recover after about a week."
+        ]
+      },
+      {
+        "heading": "Testing",
+        "items": [
+          "A blood test is the only way to confirm the diagnosis. Laboratory confirmation is not required to manage illness from dengue, and your healthcare provider might provide care based on your signs and symptoms.",
+          "Your healthcare provider may order blood tests to look for dengue or other similar viruses like Zika or chikungunya."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "dengue",
     "source_name": "WHO Dengue Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue",
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Dengue",
-    "fetched_at": "2026-09-19T01:39:19.252754+00:00",
-    "attempted_at": "2026-09-19T01:39:19.252754+00:00",
+    "fetched_at": "2026-09-19T01:48:25.516833+00:00",
+    "attempted_at": "2026-09-19T01:48:25.516833+00:00",
     "content_sha256": "6db5bc43cded918a4c3af3915ed71ad0cedb28d09437c5307b9e263b7a3f53f3",
     "extracted_sections": [
       {
@@ -197,19 +267,28 @@
       {
         "heading": "Symptoms",
         "items": [
+          "Most people with dengue have mild or no symptoms and will get better in 1–2 weeks. Rarely, dengue can be severe and lead to death.",
+          "If symptoms occur, they usually begin 4–10 days after infection and last for 2–7 days. Symptoms may include:",
           "high fever (40°C/104°F)",
           "severe headache",
           "pain behind the eyes",
           "muscle and joint pains",
           "nausea",
           "vomiting",
+          "swollen glands",
           "rash.",
           "Individuals who are infected for the second time are at greater risk of severe dengue. The symptoms of severe dengue often come after the fever has gone away and may include:",
           "severe abdominal pain",
           "persistent vomiting",
           "rapid breathing",
+          "bleeding gums or nose",
           "fatigue",
+          "restlessness",
           "blood in vomit or stool",
+          "being very thirsty",
+          "pale and cold skin",
+          "feeling weak.",
+          "People with these severe symptoms should seek care immediately.",
           "After recovery, people who have had dengue may experience fatigue for several weeks."
         ]
       },
@@ -241,15 +320,19 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Signs and Symptoms of Flu",
-    "fetched_at": "2026-09-19T01:39:19.260768+00:00",
-    "attempted_at": "2026-09-19T01:39:19.260768+00:00",
+    "fetched_at": "2026-09-19T01:48:25.893866+00:00",
+    "attempted_at": "2026-09-19T01:48:25.893866+00:00",
     "content_sha256": "fa63771ba17ae3359afdb13cb15ead88350c90829d1a45e74d6a199a7f66bd13",
     "extracted_sections": [
       {
         "heading": "Symptoms",
         "items": [
+          "Flu can cause mild to severe illness, and at times can lead to death. Flu symptoms usually come on suddenly. People who have flu often feel some or all of these signs and symptoms:",
           "fever* or feeling feverish/chills",
           "cough",
+          "sore throat",
+          "runny or stuffy nose",
+          "muscle or body aches",
           "headaches",
           "fatigue (tiredness)",
           "some people may have vomiting and diarrhea, though this is more common in children than adults.",
@@ -265,8 +348,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Influenza (seasonal)",
-    "fetched_at": "2026-09-19T01:39:19.639984+00:00",
-    "attempted_at": "2026-09-19T01:39:19.639984+00:00",
+    "fetched_at": "2026-09-19T01:48:26.240745+00:00",
+    "attempted_at": "2026-09-19T01:48:26.240745+00:00",
     "content_sha256": "8423d296723513305f6b2198aef4f443d392aa3d4be4c4aedd5dc832d60b7f1f",
     "extracted_sections": [
       {
@@ -281,12 +364,21 @@
       {
         "heading": "Signs and symptoms",
         "items": [
+          "Symptoms of influenza usually begin around 2 days after being infected by someone who has the virus.",
+          "Symptoms include:",
           "sudden onset of fever",
           "cough (usually dry)",
           "headache",
           "muscle and joint pain",
+          "severe malaise (feeling unwell)",
+          "sore throat",
+          "runny nose.",
           "The cough can be severe and can last 2 weeks or more.",
-          "Most people recover from fever and other symptoms within a week without requiring medical attention. However, influenza can cause severe illness or death, especially in people at high risk."
+          "Most people recover from fever and other symptoms within a week without requiring medical attention. However, influenza can cause severe illness or death, especially in people at high risk.",
+          "Influenza can worsen symptoms of other chronic diseases. In severe cases influenza can lead to pneumonia and sepsis. People with other medical issues or who have severe symptoms should seek medical care.",
+          "Hospitalization and death due to influenza occur mainly among high-risk groups.",
+          "In industrialized countries most deaths associated with influenza occur among people aged 65 years or older (1) .",
+          "The effects of seasonal influenza epidemics in developing countries are not fully known, but research estimates that 99% of deaths in children under 5 years of age with influenza related lower respiratory tract infections are in developing countries (2) ."
         ]
       },
       {
@@ -318,13 +410,14 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "About Norovirus",
-    "fetched_at": "2026-09-19T01:39:20.015961+00:00",
-    "attempted_at": "2026-09-19T01:39:20.015961+00:00",
+    "fetched_at": "2026-09-19T01:48:26.616973+00:00",
+    "attempted_at": "2026-09-19T01:48:26.616973+00:00",
     "content_sha256": "fe880b6c2582b27b40ebd1c15509167831c771cf5e1f8c79ffb4da4435658d24",
     "extracted_sections": [
       {
         "heading": "Signs and symptoms",
         "items": [
+          "A person usually develops symptoms 12 to 48 hours after being exposed to norovirus.",
           "Most common symptoms: Diarrhea, vomiting, nausea, stomach pain",
           "Other symptoms: Fever, headache, and body aches"
         ]
@@ -344,8 +437,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Diarrhoeal disease",
-    "fetched_at": "2026-09-19T01:39:20.408685+00:00",
-    "attempted_at": "2026-09-19T01:39:20.408685+00:00",
+    "fetched_at": "2026-09-19T01:48:26.994836+00:00",
+    "attempted_at": "2026-09-19T01:48:26.994836+00:00",
     "content_sha256": "259bbde1287593e1158820c6a08e2147896239f5a5d95dfaf14a3a715d3e1c17",
     "extracted_sections": [
       {
@@ -387,13 +480,72 @@
   },
   {
     "disease": "hepatitis b",
+    "source_name": "CDC Hepatitis B Basics",
+    "source_url": "https://www.cdc.gov/hepatitis-b/about/index.html",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Hepatitis B Basics",
+    "fetched_at": "2026-09-19T01:48:27.388469+00:00",
+    "attempted_at": "2026-09-19T01:48:27.388469+00:00",
+    "content_sha256": "26c20ede85265177afe18b0380eb8d7f10061d3df7f5551a214d8afc1f1735ad",
+    "extracted_sections": [
+      {
+        "heading": "About Hepatitis B",
+        "items": [
+          "Hepatitis B is a vaccine-preventable liver infection caused by HBV. HBV is transmitted when blood, semen, or another body fluid from a person infected with the virus enters the body of someone who is uninfected."
+        ]
+      },
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "Many people infected with hepatitis B virus won’t experience symptoms. If symptoms occur during acute infection, they often begin 90 days after exposure. Although the symptoms of acute HBV infection and chronic HBV infection may be similar, most people with chronic infection do not have symptoms until much later in life, often decades after exposure.",
+          "Symptoms of hepatitis B include:",
+          "Dark urine or clay-colored stools",
+          "Feeling tired",
+          "Fever",
+          "Joint pain",
+          "Loss of appetite",
+          "Nausea, stomach pain, throwing up",
+          "Yellow skin or eyes (jaundice)",
+          "Learn more about hepatitis B symptoms ."
+        ]
+      },
+      {
+        "heading": "Screening, testing, and diagnosis",
+        "items": [
+          "CDC recommends all adults get screened for hepatitis B at least once in their lifetime through a blood test. There are also some people who should be tested more often, including:",
+          "Learn more about the types of tests used to diagnosis hepatitis B ."
+        ]
+      },
+      {
+        "heading": "Treatment and recovery",
+        "items": [
+          "Learn more about treatment options for hepatitis B ."
+        ]
+      },
+      {
+        "heading": "\"If I don’t have symptoms, I’m not infected.\"",
+        "items": [
+          "Many people with hepatitis B do not have any symptoms."
+        ]
+      },
+      {
+        "heading": "\"If I don’t have symptoms, I can’t spread the virus to others.\"",
+        "items": [
+          "You can still spread HBV to others even if you don’t have any symptoms."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "hepatitis b",
     "source_name": "WHO Hepatitis B Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/hepatitis-b",
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Hepatitis B",
-    "fetched_at": "2026-09-19T01:39:20.771238+00:00",
-    "attempted_at": "2026-09-19T01:39:20.771238+00:00",
+    "fetched_at": "2026-09-19T01:48:27.782588+00:00",
+    "attempted_at": "2026-09-19T01:48:27.782588+00:00",
     "content_sha256": "705fe049d0fc8a965334bbb70b22b585046cd161e2aa497aaedb5c0ed0b1ea6a",
     "extracted_sections": [
       {
@@ -414,10 +566,16 @@
       {
         "heading": "Symptoms",
         "items": [
+          "Most people do not experience any symptoms when newly infected.",
+          "Some people have acute illness with symptoms that last several weeks:",
           "yellowing of the skin and eyes (jaundice)",
+          "dark urine",
+          "feeling very tired",
           "nausea",
           "vomiting",
-          "pain in the abdomen."
+          "pain in the abdomen.",
+          "When severe, acute hepatitis can lead to liver failure, which can lead to death.",
+          "Although most people will recover from acute illness, some people with chronic hepatitis B will develop progressive liver disease and complications like cirrhosis and hepatocellular carcinoma (liver cancer). These diseases can be fatal."
         ]
       },
       {
@@ -461,8 +619,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "About HIV",
-    "fetched_at": "2026-09-19T01:39:21.099901+00:00",
-    "attempted_at": "2026-09-19T01:39:21.099901+00:00",
+    "fetched_at": "2026-09-19T01:48:28.191209+00:00",
+    "attempted_at": "2026-09-19T01:48:28.191209+00:00",
     "content_sha256": "16fd26ebe5d63c95c8e824072b2c5cf1e3cedb01c6be92a8340e40b8f6d6bb6c",
     "extracted_sections": [
       {
@@ -470,6 +628,14 @@
         "items": [
           "HIV (human immunodeficiency virus) is a virus that attacks the body's immune system. Without treatment, it can lead to AIDS (acquired immunodeficiency syndrome).",
           "People with HIV who get on and stay on effective HIV treatment can live long, healthy lives and protect their partners."
+        ]
+      },
+      {
+        "heading": "Symptoms",
+        "items": [
+          "Most people have flu-like symptoms within 2 to 4 weeks after infection. Symptoms may last for a few days or several weeks.",
+          "Having these symptoms alone doesn't mean you have HIV. Other illnesses can cause similar symptoms.",
+          "Some people have no symptoms at all. The only way to know if you have HIV is to get tested ."
         ]
       },
       {
@@ -500,8 +666,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "HIV and AIDS",
-    "fetched_at": "2026-09-19T01:39:21.446184+00:00",
-    "attempted_at": "2026-09-19T01:39:21.446184+00:00",
+    "fetched_at": "2026-09-19T01:48:28.584789+00:00",
+    "attempted_at": "2026-09-19T01:48:28.584789+00:00",
     "content_sha256": "0238d9f4b9c8dba10a5dc70db9443574ee66edef514e803e70cc6088755be279",
     "extracted_sections": [
       {
@@ -520,12 +686,23 @@
       {
         "heading": "Signs and symptoms",
         "items": [
+          "The signs and symptoms of HIV vary depending on the stage of infection.",
+          "HIV spreads more easily in the first few months after a person is infected, but many are unaware of their status until the later stages. In the first few weeks after being infected people may not experience symptoms. Others may have an influenza-like illness including:",
           "fever",
           "headache",
           "rash",
+          "sore throat.",
+          "The infection progressively weakens the immune system. This can cause other signs and symptoms:",
+          "swollen lymph nodes",
+          "weight loss",
           "diarrhoea",
           "cough.",
-          "Without treatment, people living with HIV infection can also develop severe illnesses:"
+          "Without treatment, people living with HIV infection can also develop severe illnesses:",
+          "tuberculosis (TB)",
+          "cryptococcal meningitis",
+          "severe bacterial infections",
+          "cancers such as lymphomas and Kaposi's sarcoma.",
+          "HIV can make other infections, such as hepatitis C, hepatitis B and mpox, get worse."
         ]
       },
       {
@@ -558,17 +735,24 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "About Malaria",
-    "fetched_at": "2026-09-19T01:39:21.823247+00:00",
-    "attempted_at": "2026-09-19T01:39:21.823247+00:00",
+    "fetched_at": "2026-09-19T01:48:28.961858+00:00",
+    "attempted_at": "2026-09-19T01:48:28.961858+00:00",
     "content_sha256": "1f4145f8418216d1dceda764a6ea6bc67e61b52e49ff37be7c7c801c5a91d600",
     "extracted_sections": [
       {
         "heading": "Symptoms",
         "items": [
+          "Malaria symptoms range from very mild illness to severe disease and even death. Early symptoms can include:",
           "Fever and flu-like illness",
           "Chills",
           "Headache, muscle aches, and tiredness",
-          "Nausea, vomiting, and diarrhea may also occur"
+          "Nausea, vomiting, and diarrhea may also occur",
+          "If not treated quickly, the infection can become severe.",
+          "Severe symptoms can include",
+          "Kidney failure",
+          "Seizures",
+          "Mental confusion",
+          "Coma"
         ]
       },
       {
@@ -593,8 +777,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Malaria",
-    "fetched_at": "2026-09-19T01:39:22.199483+00:00",
-    "attempted_at": "2026-09-19T01:39:22.199483+00:00",
+    "fetched_at": "2026-09-19T01:48:29.317930+00:00",
+    "attempted_at": "2026-09-19T01:48:29.317930+00:00",
     "content_sha256": "28b88530fc3015769ad29026439b7206d85c90e129aa5918fd1746b20a3ff8e4",
     "extracted_sections": [
       {
@@ -609,11 +793,18 @@
         "heading": "Symptoms",
         "items": [
           "The most common early symptoms of malaria are fever, headache and chills.",
+          "Symptoms usually start within 10–15 days of getting bitten by an infected mosquito.",
+          "Symptoms may be mild for some people, especially for those who have had a malaria infection before. Because some malaria symptoms are not specific, getting tested early is important.",
+          "Some types of malaria can cause severe illness and death. Infants, children under 5 years, pregnant women, travellers and people with HIV or AIDS are at higher risk. Severe symptoms include:",
           "extreme tiredness and fatigue",
+          "impaired consciousness",
+          "multiple convulsions",
           "difficulty breathing",
           "dark or bloody urine",
           "jaundice (yellowing of the eyes and skin)",
-          "People with severe symptoms should get emergency care right away. Getting treatment early for mild malaria can stop the infection from becoming severe."
+          "abnormal bleeding.",
+          "People with severe symptoms should get emergency care right away. Getting treatment early for mild malaria can stop the infection from becoming severe.",
+          "Malaria infection during pregnancy can also cause premature delivery or delivery of a baby with low birth weight."
         ]
       },
       {
@@ -645,8 +836,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Measles Symptoms and Complications",
-    "fetched_at": "2026-09-19T01:39:22.544597+00:00",
-    "attempted_at": "2026-09-19T01:39:22.544597+00:00",
+    "fetched_at": "2026-09-19T01:48:29.686532+00:00",
+    "attempted_at": "2026-09-19T01:48:29.686532+00:00",
     "content_sha256": "556cbb583bab295f924d7e74f1949f45a976da600b95223769f640e0a14de3d4",
     "extracted_sections": [
       {
@@ -658,14 +849,25 @@
       {
         "heading": "7–14 days after a measles infection: first symptoms show",
         "items": [
+          "Measles symptoms appear 7 to 14 days after contact with the virus. Measles typically begins with:",
           "High fever (may spike to more than 104°)",
-          "Cough"
+          "Cough",
+          "Runny nose (coryza)",
+          "Red, watery eyes ( conjunctivitis or pink eye )"
+        ]
+      },
+      {
+        "heading": "2–3 days after symptoms begin: Koplik spots",
+        "items": [
+          "Tiny white spots (Koplik spots) may appear inside the mouth two to three days after symptoms begin."
         ]
       },
       {
         "heading": "3–5 days after symptoms begin: measles rash",
         "items": [
           "Measles rash appears 3 to 5 days after the first symptoms. It usually begins as flat red spots that appear on the face at the hairline. They then spread downward to the neck, trunk, arms, legs, and feet.",
+          "Small raised bumps may also appear on top of the flat red spots.",
+          "The spots may become joined together as they spread from the head to the rest of the body.",
           "When the rash appears, a person's fever may spike to more than 104° Fahrenheit."
         ]
       }
@@ -678,8 +880,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Measles",
-    "fetched_at": "2026-09-19T01:39:22.905542+00:00",
-    "attempted_at": "2026-09-19T01:39:22.905542+00:00",
+    "fetched_at": "2026-09-19T01:48:30.047918+00:00",
+    "attempted_at": "2026-09-19T01:48:30.047918+00:00",
     "content_sha256": "33e03728a907ceceb5cd36059ebcc24dc2a63a26a5057a578ac72c10a8e11448",
     "extracted_sections": [
       {
@@ -703,11 +905,22 @@
         "heading": "Signs and symptoms",
         "items": [
           "Symptoms of measles usually begin 7–14 days after exposure to the virus. A prominent rash is the most visible symptom.",
+          "Early symptoms usually last 4–7 days. They include:",
           "fever",
+          "running nose",
           "cough",
+          "red and watery eyes",
+          "small white spots inside the cheeks.",
           "The rash appears 3 to 5 days after the first symptoms, usually on the face and upper neck. It spreads over about 3 days, eventually downward to the trunk, arms, legs and feet. It usually lasts 4–8 days before fading.",
+          "Most deaths from measles are from complications related to the disease.",
+          "Complications can include:",
+          "blindness",
+          "encephalitis (an infection causing brain swelling and potentially brain damage)",
           "severe diarrhoea and related dehydration",
-          "severe breathing problems including pneumonia."
+          "ear infections",
+          "severe breathing problems including pneumonia.",
+          "If a woman catches measles during pregnancy, this can be dangerous for the mother and can result in miscarriage or her baby being born prematurely with a low birth weight.",
+          "Complications are most common in children under 5 years and adults over age 30. They are more likely in children who are malnourished, especially those without enough vitamin A or with a weak immune system from HIV or other diseases. Measles itself also weakens the immune system and can make the body “forget” how to protect itself against infections, leaving children extremely vulnerable."
         ]
       },
       {
@@ -739,17 +952,34 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "About Meningitis",
-    "fetched_at": "2026-09-19T01:39:23.266909+00:00",
-    "attempted_at": "2026-09-19T01:39:23.266909+00:00",
+    "fetched_at": "2026-09-19T01:48:30.412725+00:00",
+    "attempted_at": "2026-09-19T01:48:30.412725+00:00",
     "content_sha256": "68320b16c1fb9d08f784ff61f268756311eb3db1a5651ee3d31cff4efbc2d8b8",
     "extracted_sections": [
       {
         "heading": "Symptoms",
         "items": [
+          "Common meningitis symptoms include",
           "Fever",
           "Headache",
+          "Stiff neck",
+          "There are often other symptoms, such as",
           "Nausea",
-          "Vomiting"
+          "Vomiting",
+          "Photophobia (eyes being more sensitive to light)",
+          "Altered mental status (confusion)"
+        ]
+      },
+      {
+        "heading": "Symptoms in babies",
+        "items": [
+          "Newborns and babies may not have, or it may be difficult to notice, the classic symptoms listed above. Instead, babies may",
+          "Be slow or inactive",
+          "Be irritable",
+          "Vomit",
+          "Feed poorly",
+          "Have a bulging fontanelle (the \"soft spot\" on a baby's head)",
+          "Have abnormal reflexes"
         ]
       },
       {
@@ -767,8 +997,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Meningitis",
-    "fetched_at": "2026-09-19T01:39:23.612571+00:00",
-    "attempted_at": "2026-09-19T01:39:23.612571+00:00",
+    "fetched_at": "2026-09-19T01:48:31.229068+00:00",
+    "attempted_at": "2026-09-19T01:48:31.229068+00:00",
     "content_sha256": "ded67dbd12d2095133b73484c78b6f1ff78c89e688d58c4a258313da6449cba9",
     "extracted_sections": [
       {
@@ -780,7 +1010,14 @@
       {
         "heading": "Signs and symptoms",
         "items": [
+          "The symptoms of meningitis can differ based on the cause, how quickly the disease progresses, how long it lasts, brain involvement, and other serious complications like sepsis.",
           "Common symptoms of meningitis are fever, neck stiffness, confusion or altered mental status, headache, sensitivity to light, nausea and vomiting. Less frequent symptoms include seizures, coma and neurological deficits, such as weakness of the limbs.",
+          "Infants often have different symptoms compared to adults:",
+          "unusual behaviour, such as the child being less active and difficult to wake",
+          "irritability",
+          "weak, continuous cry",
+          "poor feeding",
+          "bulging of the soft spot in their head.",
           "Some bacterial pathogens may also account for other symptoms as a result of bloodstream infection, which can quickly lead to sepsis, including cold hands and feet, fast breathing and low blood pressure. A characteristic, non-blanching skin rash may appear with meningococcal sepsis."
         ]
       },
@@ -822,18 +1059,21 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "About Pneumonia",
-    "fetched_at": "2026-09-19T01:39:23.959332+00:00",
-    "attempted_at": "2026-09-19T01:39:23.959332+00:00",
+    "fetched_at": "2026-09-19T01:48:31.873308+00:00",
+    "attempted_at": "2026-09-19T01:48:31.873308+00:00",
     "content_sha256": "dcf9683a23f55d7b422b2f8dd34af8c9a472f5fbebefd4c729cd78ea3bcc5a85",
     "extracted_sections": [
       {
         "heading": "Symptoms",
         "items": [
+          "Common symptoms of pneumonia include:",
           "Chest pain when breathing or coughing",
+          "Altered mental status (confusion)",
           "Cough",
           "Fatigue (feeling tired)",
           "Fever or chills",
-          "Nausea, vomiting, or diarrhea"
+          "Nausea, vomiting, or diarrhea",
+          "Shortness of breath"
         ]
       }
     ]
@@ -845,8 +1085,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Pneumonia in children",
-    "fetched_at": "2026-09-19T01:39:24.303443+00:00",
-    "attempted_at": "2026-09-19T01:39:24.303443+00:00",
+    "fetched_at": "2026-09-19T01:48:32.676393+00:00",
+    "attempted_at": "2026-09-19T01:48:32.676393+00:00",
     "content_sha256": "9a0327b5cf708a3cc13cba081a5aff2d17e5c40de6a78f14b467d8f1ed42a113",
     "extracted_sections": [
       {
@@ -877,13 +1117,53 @@
   },
   {
     "disease": "tuberculosis",
+    "source_name": "CDC About Tuberculosis",
+    "source_url": "https://www.cdc.gov/tb/about/index.html",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "About Tuberculosis",
+    "fetched_at": "2026-09-19T01:48:33.797955+00:00",
+    "attempted_at": "2026-09-19T01:48:33.797955+00:00",
+    "content_sha256": "da7a107d409082b744792f98e545189a2fc28e784756eecc876553ca11d9b73c",
+    "extracted_sections": [
+      {
+        "heading": "Symptoms of active TB disease include:",
+        "items": [
+          "A cough that lasts three weeks or longer",
+          "Chest pain",
+          "Coughing up blood or sputum (phlegm from deep inside the lungs)",
+          "Weakness or fatigue",
+          "Weight loss",
+          "Loss of appetite",
+          "Chills",
+          "Fever",
+          "Night sweats",
+          "People with inactive TB do not have symptoms. However, without treatment, they can develop active TB disease and become sick."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "If you are diagnosed with inactive TB, there are treatments available that can help protect you from getting sick with active TB disease."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "If you have active TB disease, you can be treated with medicine. You will need to take and finish all of your TB medicine as directed by your health care provider. This is to help you feel better and prevent other people from getting sick."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "tuberculosis",
     "source_name": "CDC TB Signs and Symptoms",
     "source_url": "https://www.cdc.gov/tb/signs-symptoms/index.html",
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Signs and Symptoms of Tuberculosis",
-    "fetched_at": "2026-09-19T01:39:24.643276+00:00",
-    "attempted_at": "2026-09-19T01:39:24.643276+00:00",
+    "fetched_at": "2026-09-19T01:48:34.818063+00:00",
+    "attempted_at": "2026-09-19T01:48:34.818063+00:00",
     "content_sha256": "e6890cafb59973326cda4ffafc617fd45d97b0328e080e7083f690c20e16c5e3",
     "extracted_sections": [
       {
@@ -901,8 +1181,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Tuberculosis",
-    "fetched_at": "2026-09-19T01:39:25.182886+00:00",
-    "attempted_at": "2026-09-19T01:39:25.182886+00:00",
+    "fetched_at": "2026-09-19T01:48:35.877169+00:00",
+    "attempted_at": "2026-09-19T01:48:35.877169+00:00",
     "content_sha256": "e83bf57dada5cc21ce144b8359e7ae5294305324d12795294bdf4bfe8ec5594d",
     "extracted_sections": [
       {
@@ -923,11 +1203,18 @@
       {
         "heading": "Symptoms",
         "items": [
+          "In general, people with TB infection don’t feel sick and are not contagious. Only a small proportion of people who get infected with TB will get TB disease and develop symptoms. Babies and children are at higher risk of developing the disease if they are infected.",
+          "TB disease occurs when bacteria multiply in the body and affect different organs. TB symptoms may be mild for many months, so it is easy to spread TB to others without knowing it. Symptoms depend on which part of the body is affected. While TB usually affects the lungs, it can also affect the kidneys, brain, and spine.",
+          "Some people with TB disease do not have any symptoms but can still spread TB.",
+          "Common symptoms of TB are:",
           "prolonged cough (sometimes with blood);",
           "chest pain;",
+          "weakness;",
           "fatigue;",
+          "weight loss;",
           "fever; and",
-          "night sweats"
+          "night sweats",
+          "The symptoms people get depend on which part of the body is affected by TB. While TB usually affects the lungs, it can also involve the kidneys, brain, spine and skin."
         ]
       },
       {
@@ -963,8 +1250,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Symptoms of Typhoid Fever and Paratyphoid Fever",
-    "fetched_at": "2026-09-19T01:39:25.936350+00:00",
-    "attempted_at": "2026-09-19T01:39:25.936350+00:00",
+    "fetched_at": "2026-09-19T01:48:36.660493+00:00",
+    "attempted_at": "2026-09-19T01:48:36.660493+00:00",
     "content_sha256": "db4bee0deda3c0a586a47f5cf2461d4ecaadf61202889294967922fb991b58ee",
     "extracted_sections": [
       {
@@ -974,10 +1261,12 @@
           "The fever can be as high as 103–104°F (39–40°C).",
           "The fever usually lasts more than 3 days.",
           "People can have other symptoms, including: Weakness Stomach pain Headache Constipation or diarrhea Cough Loss of appetite",
+          "Weakness",
           "Stomach pain",
           "Headache",
           "Constipation or diarrhea",
           "Cough",
+          "Loss of appetite",
           "Some people get a rash with flat, rose-colored spots."
         ]
       },
@@ -996,8 +1285,8 @@
     "fetch_status": "ok",
     "status_code": 200,
     "title": "Typhoid",
-    "fetched_at": "2026-09-19T01:39:26.738315+00:00",
-    "attempted_at": "2026-09-19T01:39:26.738315+00:00",
+    "fetched_at": "2026-09-19T01:48:37.482164+00:00",
+    "attempted_at": "2026-09-19T01:48:37.482164+00:00",
     "content_sha256": "96d865b2084e70f76714235817c7723c79e82d7ff5e5bad693099cc1d958396e",
     "extracted_sections": [
       {

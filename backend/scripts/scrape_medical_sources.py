@@ -129,6 +129,18 @@ def is_relevant_heading(text: str) -> bool:
     return any(heading in normalized for heading in RELEVANT_HEADINGS)
 
 
+def is_symptom_heading(text: str) -> bool:
+    """True for headings that announce a symptom list, however they are worded.
+
+    Publishers do not stick to a fixed set of headings: CDC uses "Signs and
+    symptoms", "Early symptoms", "Later symptoms", "Symptoms of active TB
+    disease include:" and "7-14 days after a measles infection: first symptoms
+    show". A substring match on symptom/sign catches all of them.
+    """
+    normalized = clean_text(text).lower()
+    return "symptom" in normalized or "signs" in normalized
+
+
 def contains_medical_keyword(text: str) -> bool:
     normalized = clean_text(text).lower()
     return any(keyword in normalized for keyword in MEDICAL_KEYWORDS)
@@ -149,18 +161,38 @@ def iter_section_nodes(heading: Tag) -> Iterable[Tag]:
         yield sibling
 
 
-def extract_text_items(nodes: Iterable[Tag]) -> list[str]:
+def is_wanted_item(text: str, keep_all: bool) -> bool:
+    """Decide whether one <p>/<li> is worth capturing.
+
+    The keyword filter was silently discarding the most valuable text on the
+    page. CDC symptom pages are bullet lists of bare symptom names -- "Runny
+    nose", "Red, watery eyes", "Koplik spots", "Shortness of breath" -- none of
+    which contain a word from MEDICAL_KEYWORDS, so the entire symptom list was
+    dropped and only the prose around it survived. Under a heading that already
+    announces itself as a symptom list, every bullet is kept.
+
+    Elsewhere on the page the keyword filter still earns its place: it is what
+    keeps navigation, funding statements and vaccine-coverage percentages out.
+    """
+    if len(text) < 3:
+        return False
+    if keep_all:
+        return True
+    return contains_medical_keyword(text)
+
+
+def extract_text_items(nodes: Iterable[Tag], keep_all: bool = False) -> list[str]:
     items: list[str] = []
 
     for node in nodes:
         for element in node.find_all(["p", "li"], recursive=True):
             text = clean_text(element.get_text(" ", strip=True))
-            if text and contains_medical_keyword(text):
+            if text and is_wanted_item(text, keep_all):
                 items.append(text)
 
         if node.name in {"p", "li"}:
             text = clean_text(node.get_text(" ", strip=True))
-            if text and contains_medical_keyword(text):
+            if text and is_wanted_item(text, keep_all):
                 items.append(text)
 
     return deduplicate(items)
@@ -190,7 +222,7 @@ def extract_sections(html: str) -> tuple[str, list[dict[str, object]]]:
         if not heading_text or not is_relevant_heading(heading_text):
             continue
 
-        items = extract_text_items(iter_section_nodes(heading))
+        items = extract_text_items(iter_section_nodes(heading), keep_all=is_symptom_heading(heading_text))
         if items:
             sections.append({"heading": heading_text, "items": items})
 

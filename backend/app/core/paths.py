@@ -8,6 +8,9 @@ PROJECT_DIR = BACKEND_DIR.parent
 
 DATA_DIR = BACKEND_DIR / "app" / "data"
 DATASET_PATH = DATA_DIR / "symptoms_dataset.csv"
+DATASET_SOURCES_PATH = DATA_DIR / "dataset_sources.json"
+SCRAPED_SOURCES_PATH = DATA_DIR / "scraped_medical_sources.json"
+KNOWLEDGE_BASE_PATH = DATA_DIR / "medication_knowledge_base.json"
 
 MODEL_ROOT_DIR = PROJECT_DIR / "models"
 CLASSICAL_MODEL_DIR = MODEL_ROOT_DIR / "classical"

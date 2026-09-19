@@ -91,6 +91,20 @@
         "fever",
         "night sweats"
       ]
+    },
+    {
+      "name": "CDC About Tuberculosis",
+      "url": "https://www.cdc.gov/tb/about/index.html",
+      "symptoms_used": [
+        "cough lasting three weeks or longer",
+        "chest pain",
+        "coughing up blood or sputum",
+        "weakness",
+        "fatigue",
+        "chills",
+        "fever",
+        "night sweats"
+      ]
     }
   ],
   "hiv": [
@@ -165,17 +179,6 @@
         "headache",
         "mild body aches",
         "low-grade fever"
-      ]
-    },
-    {
-      "name": "CDC Flu Signs and Symptoms",
-      "url": "https://www.cdc.gov/flu/signs-symptoms/index.html",
-      "symptoms_used": [
-        "gradual onset",
-        "sneezing",
-        "stuffy nose",
-        "sore throat",
-        "mild cough"
       ]
     }
   ],
@@ -266,6 +269,21 @@
         "restlessness",
         "blood in vomit or stool"
       ]
+    },
+    {
+      "name": "CDC Dengue Symptoms and Testing",
+      "url": "https://www.cdc.gov/dengue/signs-symptoms/index.html",
+      "symptoms_used": [
+        "fever",
+        "eye pain behind the eyes",
+        "muscle pain",
+        "joint pain",
+        "bone pain",
+        "headache",
+        "nausea",
+        "vomiting",
+        "rash"
+      ]
     }
   ],
   "cholera": [
@@ -277,6 +295,18 @@
         "mild or moderate diarrhoea",
         "life-threatening dehydration",
         "rapid progression"
+      ]
+    },
+    {
+      "name": "CDC Cholera Signs and Symptoms",
+      "url": "https://www.cdc.gov/cholera/signs-symptoms/index.html",
+      "symptoms_used": [
+        "watery diarrhea",
+        "rice-water stools",
+        "vomiting",
+        "dehydration",
+        "thirst",
+        "rapid heart rate"
       ]
     }
   ],
@@ -353,6 +383,21 @@
         "vomiting",
         "pain in the abdomen",
         "no symptoms when newly infected"
+      ]
+    },
+    {
+      "name": "CDC Hepatitis B Basics",
+      "url": "https://www.cdc.gov/hepatitis-b/about/index.html",
+      "symptoms_used": [
+        "fever",
+        "fatigue",
+        "loss of appetite",
+        "nausea",
+        "vomiting",
+        "abdominal pain",
+        "dark urine",
+        "joint pain",
+        "jaundice"
       ]
     }
   ],
