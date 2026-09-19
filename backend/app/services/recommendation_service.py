@@ -1,18 +1,21 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
+from app.core.paths import KNOWLEDGE_BASE_PATH
 from app.models.schemas import MedicationRecommendation
 
 
-BACKEND_DIR = Path(__file__).resolve().parents[2]
-KB_PATH = BACKEND_DIR / "app" / "data" / "medication_knowledge_base.json"
-
-
 class RecommendationService:
+    """Educational medication information, keyed by predicted condition.
+
+    The ``unknown`` entry is not a fallback of last resort but a real answer:
+    when the ensemble abstains, this is what a caller gets, and it says to see a
+    clinician rather than naming a drug.
+    """
+
     def __init__(self) -> None:
-        with KB_PATH.open("r", encoding="utf-8") as file:
+        with KNOWLEDGE_BASE_PATH.open("r", encoding="utf-8") as file:
             self.knowledge_base = json.load(file)
 
     def get_recommendation(self, disease: str) -> dict[str, list]:

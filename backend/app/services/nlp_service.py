@@ -1,52 +1,22 @@
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 
-from app.models.schemas import AnalyzeResponse, ExtractedEntities
+from app.core.lexicon import cleaned_forms
+from app.models.schemas import Decision, ExtractedEntities, MedicationRecommendation
+from app.services.disease_prediction_service import Decision as EngineDecision
 from app.services.disease_prediction_service import DiseasePredictionService
 from app.services.recommendation_service import RecommendationService
 from app.utils.text_cleaning import clean_text
 
 
-SYMPTOM_TERMS = {
-    "fever": ["fever", "high fever", "low grade fever", "temperature"],
-    "headache": ["headache", "head pain"],
-    "chills": ["chills", "shivering"],
-    "night sweats": ["night sweats"],
-    "sweating": ["sweating", "sweat"],
-    "body pain": ["body pain", "body ache", "aches"],
-    "muscle pain": ["muscle pain", "joint pain", "joint pains"],
-    "fatigue": ["fatigue", "tired", "weakness", "weak"],
-    "abdominal pain": ["abdominal pain", "stomach pain", "belly pain"],
-    "diarrhea": ["diarrhea", "diarrhoea", "loose stool", "loose stools", "liquid stools"],
-    "watery diarrhea": ["watery diarrhea", "watery stool", "acute watery diarrhea"],
-    "dehydration": ["dehydration", "dehydrated", "thirst"],
-    "nausea": ["nausea", "nauseous"],
-    "vomiting": ["vomiting", "vomit", "persistent vomiting"],
-    "cough": ["cough", "coughing"],
-    "persistent cough": ["persistent cough", "cough for weeks", "cough weeks", "long cough"],
-    "chest pain": ["chest pain", "chest discomfort", "breathing pain"],
-    "blood in sputum": ["coughing blood", "cough blood", "blood sputum", "blood phlegm"],
-    "weight loss": ["weight loss", "losing weight"],
-    "sore throat": ["sore throat", "throat pain"],
-    "runny nose": ["runny nose", "blocked nose", "nasal congestion", "sneezing"],
-    "shortness of breath": ["shortness of breath", "shortness breath", "difficulty breathing", "breathless"],
-    "loss of taste": ["loss of taste", "loss taste", "lost taste"],
-    "loss of smell": ["loss smell", "loss of smell", "lost smell"],
-    "rash": ["rash", "skin rash"],
-    "red watery eyes": ["red watery eyes", "watery eyes", "red eyes"],
-    "koplik spots": ["koplik spots", "white spots mouth"],
-    "stiff neck": ["stiff neck"],
-    "light sensitivity": ["light sensitivity", "sensitive light"],
-    "confusion": ["confusion", "altered mental status", "mental confusion"],
-    "jaundice": ["jaundice", "yellowing skin", "yellow eyes"],
-    "dark urine": ["dark urine", "bloody urine"],
-    "bleeding": ["bleeding", "bleeding gums", "nose bleeding", "blood stool", "blood vomit"],
-    "mouth ulcers": ["mouth ulcers", "oral thrush", "white patches in mouth"],
-    "loss of appetite": ["loss appetite", "loss of appetite", "no appetite", "poor appetite"],
-    "swollen glands": ["swollen glands", "swollen lymph nodes"],
-    "pain behind eyes": ["pain behind eyes", "pain behind the eyes"],
-}
+# The symptom vocabulary is shared with the dataset builder and the rule engine
+# via app/data/symptom_lexicon.json. It used to be a second, subtly different
+# copy maintained here by hand: this file said "pain behind eyes" where the
+# dataset said "pain behind the eyes", so the same symptom had two names
+# depending on which half of the system you asked.
+SYMPTOM_TERMS: dict[str, tuple[str, ...]] = cleaned_forms()
 
 DISEASE_TERMS = {
     "malaria": ["malaria", "paludisme"],
@@ -87,33 +57,67 @@ DISCLAIMER = (
 )
 
 
+@dataclass(frozen=True)
+class Analysis:
+    """The result of analysing one note, before it is persisted or serialised.
+
+    Deliberately not an ``AnalyzeResponse``: the response also needs a
+    consultation id and a session id, and those belong to the request handler,
+    not to the analysis.
+    """
+
+    original_text: str
+    cleaned_text: str
+    entities: ExtractedEntities
+    decision: EngineDecision
+    recommended_actions: list[str]
+    recommended_medicines: list[MedicationRecommendation]
+    disclaimer: str = DISCLAIMER
+
+    def to_decision_schema(self) -> Decision:
+        return Decision(
+            predicted_disease=self.decision.predicted_disease,
+            confidence=self.decision.confidence,
+            decided_by=self.decision.decided_by,
+            policy=self.decision.policy,
+            policy_reason=self.decision.policy_reason,
+            abstained=self.decision.abstained,
+        )
+
+
 class NLPService:
     def __init__(self) -> None:
         self.predictor = DiseasePredictionService()
         self.recommendations = RecommendationService()
 
-    def analyze(self, text: str, model_key: str = "classical") -> AnalyzeResponse:
+    def analyze(self, text: str, model_key: str = "classical") -> Analysis:
         cleaned_text = clean_text(text)
         entities = self.extract_entities(cleaned_text)
-        predicted_disease, confidence, model_used = self.predictor.predict(cleaned_text, model_key=model_key)
-        recommendation = self.recommendations.get_recommendation(predicted_disease)
+        decision = self.predictor.predict(text, model_key=model_key)
+        recommendation = self.recommendations.get_recommendation(decision.predicted_disease)
+        actions = list(recommendation["actions"])
 
-        if entities.diseases and entities.diseases[0] != predicted_disease:
-            recommendation["actions"].insert(
+        if decision.abstained:
+            actions.insert(
                 0,
-                f"You mentioned {entities.diseases[0]}; compare this with clinical tests because symptom-only prediction suggested {predicted_disease}.",
+                "No engine was confident enough to suggest a condition, so none is being claimed. "
+                "Describe the symptoms to a clinician instead of relying on this result.",
             )
 
-        return AnalyzeResponse(
+        if entities.diseases and entities.diseases[0] != decision.predicted_disease:
+            actions.insert(
+                0,
+                f"You mentioned {entities.diseases[0]}; compare this with clinical tests because "
+                f"symptom-only prediction suggested {decision.predicted_disease}.",
+            )
+
+        return Analysis(
             original_text=text,
             cleaned_text=cleaned_text,
-            extracted_entities=entities,
-            predicted_disease=predicted_disease,
-            confidence=confidence,
-            model_used=model_used,
-            recommended_actions=recommendation["actions"],
+            entities=entities,
+            decision=decision,
+            recommended_actions=actions,
             recommended_medicines=recommendation["medications"],
-            disclaimer=DISCLAIMER,
         )
 
     def extract_entities(self, cleaned_text: str) -> ExtractedEntities:

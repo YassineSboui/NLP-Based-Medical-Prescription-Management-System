@@ -5,3 +5,10 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 *.log
+
+# Local consultation store (SQLite). Generated at runtime, never committed:
+# it holds whatever text users typed into the analyser.
+data/
+*.db
+*.db-wal
+*.db-shm

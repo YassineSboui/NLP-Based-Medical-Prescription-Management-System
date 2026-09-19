@@ -1,170 +1,199 @@
+"""Arbitration between the prediction engines.
+
+The policy is named, versioned and written down, because the previous behaviour
+was none of those things: a hidden rule engine won whenever a made-up confidence
+number came out at least as high as the classifier's probability, and the
+response still reported the classifier's name and the classifier's accuracy.
+
+Policy ``primary_model_with_rule_fallback_v1``
+----------------------------------------------
+1. Run the requested statistical engine (``classical``, or ``advanced`` when it
+   is installed). This is the primary.
+2. Run the symptom-profile rule engine as well, always, so its opinion is on
+   the record whether or not it is used.
+3. If the primary's probability is at or above ``MODEL_CONFIDENCE_FLOOR``, the
+   primary decides.
+4. Otherwise, if the rule engine has an opinion, it decides, and the response
+   says so.
+5. Otherwise the ensemble abstains: the label is ``unknown`` and the knowledge
+   base returns its generic "see a clinician" guidance.
+
+The rule engine is a *fallback*, never an override. It speaks only where the
+primary has already admitted it does not know, so the two confidence numbers --
+which are on different scales and are not comparable -- are never compared.
+
+Whatever happens, ``Decision.decided_by`` names the engine that actually
+produced the answer and carries that engine's own measured metrics.
+"""
+
 from __future__ import annotations
 
-import json
-import importlib.util
+from dataclasses import dataclass
 
-import joblib
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
-
-from app.core.paths import (
-    ADVANCED_LABEL_ENCODER_PATH,
-    ADVANCED_METADATA_PATH,
-    ADVANCED_MODEL_PATH,
-    ADVANCED_TOKENIZER_PATH,
-    CLASSICAL_METADATA_PATH,
-    CLASSICAL_MODEL_PATH,
-    DATASET_PATH,
-    LEGACY_MODEL_PATH,
+from app.core.paths import ENGINE_METRICS_PATH
+from app.models.schemas import EngineInfo, EngineMetrics, EngineOpinion
+from app.services.prediction_engines import (
+    CLASSICAL_ENGINE,
+    SEQUENCE_ENGINE,
+    SYMPTOM_PROFILE_ENGINE,
+    ClassicalModelEngine,
+    EngineOutcome,
+    PredictionEngine,
+    SequenceModelEngine,
+    SymptomProfileEngine,
 )
-from app.models.schemas import PredictionModelInfo
 from app.utils.text_cleaning import clean_text
+
+ENSEMBLE_POLICY = "primary_model_with_rule_fallback_v1"
+
+# Below this probability the primary model is treated as not knowing.
+#
+# Not a guess. backend/scripts/train_model.py sweeps candidate floors on the
+# validation split, scored by a model fit on the training split only, and writes
+# the table into models/classical/metrics.txt. At the time of writing:
+#
+#   floor  accuracy  macro_f1  rule_used  abstain
+#    0.00     0.895     0.869          0        0     <- model only
+#    0.20     0.903     0.875          3        0     <- chosen
+#    0.30     0.903     0.799         15        2
+#    0.40     0.839     0.740         35        2
+#
+# 0.20 is the only floor that improves on model-only for both accuracy and macro
+# F1. Above it the rule engine starts answering cases the model would have got
+# right, and macro F1 falls off a cliff. Re-run the sweep after retraining; if
+# no floor beats 0.00 any more, the honest move is to set this to 0.0 and let the
+# rule engine be an advisory opinion only.
+MODEL_CONFIDENCE_FLOOR = 0.20
+
+UNKNOWN_LABEL = "unknown"
+
+STATISTICAL_ENGINE_KEYS = (CLASSICAL_ENGINE, SEQUENCE_ENGINE)
+
+
+@dataclass(frozen=True)
+class Decision:
+    predicted_disease: str
+    confidence: float
+    decided_by: EngineInfo
+    policy: str
+    policy_reason: str
+    abstained: bool
+    opinions: list[EngineOpinion]
 
 
 class DiseasePredictionService:
     def __init__(self) -> None:
-        self.pipeline = self._load_or_train_pipeline()
-        self.advanced_model = None
-        self.advanced_tokenizer = None
-        self.advanced_label_encoder = None
-        self.advanced_metadata = self._load_json(ADVANCED_METADATA_PATH)
-        self.classical_metadata = self._load_json(CLASSICAL_METADATA_PATH)
-
-    def predict(self, text: str, model_key: str = "classical") -> tuple[str, float, PredictionModelInfo]:
-        cleaned = clean_text(text)
-        normalized_model_key = model_key if model_key in {"classical", "advanced"} else "classical"
-
-        if normalized_model_key == "advanced" and self._advanced_available():
-            prediction, confidence = self._predict_advanced(cleaned)
-            return prediction, confidence, self.get_model_info("advanced")
-
-        probabilities = self.pipeline.predict_proba([cleaned])[0]
-        classes = self.pipeline.classes_
-        best_index = int(probabilities.argmax())
-        ml_prediction = str(classes[best_index])
-        ml_confidence = float(probabilities[best_index])
-
-        rule_prediction, rule_confidence = self._predict_from_symptom_profiles(cleaned)
-        if rule_prediction and rule_confidence >= ml_confidence:
-            return rule_prediction, round(rule_confidence, 3), self.get_model_info("classical")
-
-        return ml_prediction, round(ml_confidence, 3), self.get_model_info("classical")
-
-    def list_models(self) -> list[PredictionModelInfo]:
-        return [self.get_model_info("classical"), self.get_model_info("advanced")]
-
-    def get_model_info(self, model_key: str) -> PredictionModelInfo:
-        if model_key == "advanced":
-            return PredictionModelInfo(
-                key="advanced",
-                name=str(self.advanced_metadata.get("best_model", "Advanced LSTM")),
-                family="LSTM sequence model",
-                accuracy=self.advanced_metadata.get("accuracy"),
-                macro_f1=self.advanced_metadata.get("macro_f1"),
-                description="Advanced neural sequence model trained with Keras. Included for comparison; classical remains the default.",
-                is_default=False,
-                is_available=self._advanced_available(),
-            )
-
-        return PredictionModelInfo(
-            key="classical",
-            name=str(self.classical_metadata.get("best_model", "TF-IDF classifier")),
-            family="TF-IDF + classical ML",
-            accuracy=self.classical_metadata.get("accuracy"),
-            macro_f1=self.classical_metadata.get("macro_f1"),
-            description="Default production model used by the app because it has the best validation score and is explainable.",
-            is_default=True,
-            is_available=True,
-        )
-
-    def _advanced_available(self) -> bool:
-        return (
-            importlib.util.find_spec("tensorflow") is not None
-            and ADVANCED_MODEL_PATH.exists()
-            and ADVANCED_TOKENIZER_PATH.exists()
-            and ADVANCED_LABEL_ENCODER_PATH.exists()
-        )
-
-    def _load_advanced_artifacts(self) -> None:
-        from tensorflow.keras.models import load_model
-        from tensorflow.keras.preprocessing.sequence import pad_sequences
-
-        if self.advanced_model is None:
-            self.advanced_model = load_model(ADVANCED_MODEL_PATH)
-        if self.advanced_tokenizer is None:
-            self.advanced_tokenizer = joblib.load(ADVANCED_TOKENIZER_PATH)
-        if self.advanced_label_encoder is None:
-            self.advanced_label_encoder = joblib.load(ADVANCED_LABEL_ENCODER_PATH)
-
-    def _predict_advanced(self, cleaned_text: str) -> tuple[str, float]:
-        from tensorflow.keras.preprocessing.sequence import pad_sequences
-
-        self._load_advanced_artifacts()
-        max_sequence_length = int(self.advanced_metadata.get("max_sequence_length", 48))
-        sequence = self.advanced_tokenizer.texts_to_sequences([cleaned_text])
-        padded = pad_sequences(sequence, maxlen=max_sequence_length, padding="post", truncating="post")
-        probabilities = self.advanced_model.predict(padded, verbose=0)[0]
-        best_index = int(probabilities.argmax())
-        prediction = str(self.advanced_label_encoder.inverse_transform([best_index])[0])
-        return prediction, round(float(probabilities[best_index]), 3)
-
-    @staticmethod
-    def _load_json(path) -> dict:
-        if path.exists():
-            return json.loads(path.read_text(encoding="utf-8"))
-        return {}
-
-    def _load_or_train_pipeline(self) -> Pipeline:
-        if CLASSICAL_MODEL_PATH.exists():
-            return joblib.load(CLASSICAL_MODEL_PATH)
-        if LEGACY_MODEL_PATH.exists():
-            return joblib.load(LEGACY_MODEL_PATH)
-
-        dataset = pd.read_csv(DATASET_PATH)
-        dataset["cleaned_text"] = dataset["text"].apply(clean_text)
-
-        pipeline = Pipeline(
-            steps=[
-                ("tfidf", TfidfVectorizer(ngram_range=(1, 3), min_df=1, sublinear_tf=True)),
-                ("classifier", LogisticRegression(max_iter=1500, class_weight="balanced")),
-            ]
-        )
-        pipeline.fit(dataset["cleaned_text"], dataset["disease"])
-        return pipeline
-
-    @staticmethod
-    def _predict_from_symptom_profiles(text: str) -> tuple[str | None, float]:
-        profiles = {
-            "malaria": {"fever", "chills", "sweating", "headache", "body pain", "weakness"},
-            "typhoid fever": {"fever", "abdominal pain", "diarrhea", "constipation", "headache", "appetite"},
-            "tuberculosis": {"persistent cough", "cough", "night sweats", "weight loss", "chest pain", "blood"},
-            "hiv": {"fever", "rash", "mouth ulcers", "oral thrush", "weight loss", "recurrent infections"},
-            "flu": {"fever", "sore throat", "body pain", "cough", "chills", "fatigue"},
-            "common cold": {"runny nose", "blocked nose", "sneezing", "sore throat", "mild cough"},
-            "gastroenteritis": {"diarrhea", "vomiting", "abdominal pain", "nausea", "cramps", "stomach pain"},
-            "covid-like illness": {"fever", "dry cough", "shortness breath", "loss taste", "loss smell", "fatigue"},
-            "dengue": {"high fever", "severe headache", "pain behind eyes", "joint pain", "muscle pain", "rash", "bleeding"},
-            "cholera": {"watery diarrhea", "acute watery diarrhea", "dehydration", "unsafe water", "severe diarrhea", "thirst"},
-            "pneumonia": {"chest pain", "cough", "shortness breath", "fever", "chills", "confusion"},
-            "meningitis": {"fever", "headache", "stiff neck", "light sensitivity", "confusion", "vomiting"},
-            "hepatitis b": {"jaundice", "dark urine", "tired", "nausea", "vomiting", "abdominal pain"},
-            "measles": {"high fever", "cough", "runny nose", "red watery eyes", "koplik spots", "rash"},
+        self.engines: dict[str, PredictionEngine] = {
+            CLASSICAL_ENGINE: ClassicalModelEngine(),
+            SEQUENCE_ENGINE: SequenceModelEngine(),
+            SYMPTOM_PROFILE_ENGINE: SymptomProfileEngine(),
         }
 
-        scores: dict[str, int] = {}
-        for disease, symptoms in profiles.items():
-            scores[disease] = sum(1 for symptom in symptoms if symptom in text)
+    # -- public API --------------------------------------------------------
 
-        if "watery diarrhea" in text and any(term in text for term in ["dehydration", "unsafe water", "thirst"]):
-            scores["cholera"] += 2
+    def predict(self, text: str, model_key: str = CLASSICAL_ENGINE) -> Decision:
+        cleaned = clean_text(text)
+        primary_key = self.resolve_primary(model_key)
 
-        best_disease = max(scores, key=scores.get)
-        best_score = scores[best_disease]
-        if best_score < 2:
-            return None, 0.0
+        primary = self.engines[primary_key]
+        rule = self.engines[SYMPTOM_PROFILE_ENGINE]
 
-        profile_size = len(profiles[best_disease])
-        confidence = min(0.92, 0.35 + (best_score / profile_size))
-        return best_disease, confidence
+        primary_outcome = primary.predict(cleaned)
+        rule_outcome = rule.predict(cleaned)
+        opinions = [self._to_opinion(primary_outcome), self._to_opinion(rule_outcome)]
+
+        primary_confidence = primary_outcome.confidence or 0.0
+
+        if primary_outcome.disease is not None and primary_confidence >= MODEL_CONFIDENCE_FLOOR:
+            return Decision(
+                predicted_disease=primary_outcome.disease,
+                confidence=primary_confidence,
+                decided_by=self.engine_info(primary_key),
+                policy=ENSEMBLE_POLICY,
+                policy_reason=(
+                    f"The {primary_key} engine reported {primary_confidence:.3f}, at or above the "
+                    f"{MODEL_CONFIDENCE_FLOOR} confidence floor, so it decided."
+                ),
+                abstained=False,
+                opinions=opinions,
+            )
+
+        if rule_outcome.disease is not None:
+            return Decision(
+                predicted_disease=rule_outcome.disease,
+                confidence=rule_outcome.confidence or 0.0,
+                decided_by=self.engine_info(SYMPTOM_PROFILE_ENGINE),
+                policy=ENSEMBLE_POLICY,
+                policy_reason=(
+                    f"The {primary_key} engine reported {primary_confidence:.3f}, below the "
+                    f"{MODEL_CONFIDENCE_FLOOR} confidence floor, so the symptom-profile rule "
+                    f"engine answered instead. The confidence shown is that engine's match "
+                    f"share, not a probability."
+                ),
+                abstained=False,
+                opinions=opinions,
+            )
+
+        return Decision(
+            predicted_disease=UNKNOWN_LABEL,
+            confidence=primary_confidence,
+            decided_by=self.engine_info(primary_key),
+            policy=ENSEMBLE_POLICY,
+            policy_reason=(
+                f"The {primary_key} engine reported {primary_confidence:.3f}, below the "
+                f"{MODEL_CONFIDENCE_FLOOR} confidence floor, and no symptom profile matched. "
+                f"The ensemble abstained rather than guess."
+            ),
+            abstained=True,
+            opinions=opinions,
+        )
+
+    def resolve_primary(self, model_key: str) -> str:
+        """Which statistical engine actually runs, given what was requested."""
+        if model_key in STATISTICAL_ENGINE_KEYS and self.engines[model_key].is_available():
+            return model_key
+        return CLASSICAL_ENGINE
+
+    def list_engines(self) -> list[EngineInfo]:
+        return [self.engine_info(key) for key in self.engines]
+
+    def engine_info(self, key: str) -> EngineInfo:
+        engine = self.engines[key]
+        measured = engine.metrics()
+        return EngineInfo(
+            key=engine.key,
+            name=engine.name,
+            family=engine.family,
+            description=engine.description,
+            confidence_meaning=engine.confidence_meaning,
+            is_available=engine.is_available(),
+            is_default=engine.key == CLASSICAL_ENGINE,
+            accuracy=measured.get("accuracy"),
+            macro_f1=measured.get("macro_f1"),
+            metrics=EngineMetrics(
+                accuracy=measured.get("accuracy"),
+                accuracy_ci_95=measured.get("accuracy_ci_95"),
+                macro_f1=measured.get("macro_f1"),
+                external_use_case_accuracy=measured.get("external_use_case_accuracy"),
+                cross_source_transfer_recall=measured.get("cross_source_transfer_recall"),
+                basis=measured.get(
+                    "basis",
+                    "not evaluated; run backend/scripts/evaluate_engines.py",
+                ),
+                evaluated_at=measured.get("evaluated_at"),
+                source_file=str(ENGINE_METRICS_PATH.name),
+            ),
+        )
+
+    # -- helpers -----------------------------------------------------------
+
+    @staticmethod
+    def _to_opinion(outcome: EngineOutcome) -> EngineOpinion:
+        return EngineOpinion(
+            engine=outcome.engine_key,
+            disease=outcome.disease,
+            confidence=outcome.confidence,
+            available=outcome.available,
+            detail=outcome.detail,
+            matched_symptoms=list(outcome.matched_symptoms),
+        )

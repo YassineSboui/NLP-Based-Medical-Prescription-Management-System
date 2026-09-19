@@ -14,10 +14,17 @@ DATASET_PATH = DATA_DIR / "symptoms_dataset.csv"
 DATASET_SOURCES_PATH = DATA_DIR / "dataset_sources.json"
 SCRAPED_SOURCES_PATH = DATA_DIR / "scraped_medical_sources.json"
 KNOWLEDGE_BASE_PATH = DATA_DIR / "medication_knowledge_base.json"
+SYMPTOM_LEXICON_PATH = DATA_DIR / "symptom_lexicon.json"
 
 MODEL_ROOT_DIR = PROJECT_DIR / "models"
 CLASSICAL_MODEL_DIR = MODEL_ROOT_DIR / "classical"
 ADVANCED_MODEL_DIR = MODEL_ROOT_DIR / "advanced"
+EVALUATION_DIR = MODEL_ROOT_DIR / "evaluation"
+
+# Every engine's metrics, measured on one shared held-out split, in one file.
+# The API reads an engine's numbers from here so that it can never report one
+# engine's score for another engine's answer.
+ENGINE_METRICS_PATH = EVALUATION_DIR / "engine_metrics.json"
 
 CLASSICAL_MODEL_PATH = CLASSICAL_MODEL_DIR / "trained_model.joblib"
 CLASSICAL_VECTORIZER_PATH = CLASSICAL_MODEL_DIR / "vectorizer.joblib"

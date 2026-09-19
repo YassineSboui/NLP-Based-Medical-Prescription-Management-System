@@ -350,6 +350,65 @@ def cross_source_transfer(dataset: pd.DataFrame, vectorizer_config: dict, classi
     return results
 
 
+def confidence_floor_sweep(
+    train: pd.DataFrame,
+    validation: pd.DataFrame,
+    vectorizer_config: dict,
+    classifier,
+) -> list[dict]:
+    """Choose the ensemble's confidence floor on validation, honestly.
+
+    This has to happen here rather than in evaluate_engines.py: the shipped
+    artifact is fit on train+validation, so asking it about validation rows
+    returns its own training data and every floor scores 1.000. The sweep needs
+    a model that has only seen ``train``.
+
+    Simulates the arbitration policy rather than calling it, so the deciding
+    engine at each floor is visible.
+    """
+    from app.services.prediction_engines import SymptomProfileEngine
+
+    pipeline = build_pipeline(vectorizer_config, classifier)
+    pipeline.fit(train["cleaned_text"], train["disease"])
+    probabilities = pipeline.predict_proba(validation["cleaned_text"])
+    classes = pipeline.classes_
+
+    # Profiles from training rows only, for the same reason.
+    rule_engine = SymptomProfileEngine(profile_source=train)
+    rule_outcomes = [rule_engine.predict(text) for text in validation["cleaned_text"]]
+    actual = list(validation["disease"])
+
+    rows: list[dict] = []
+    for floor in (0.0, 0.15, 0.20, 0.25, 0.30, 0.40, 0.50, 0.60, 0.70):
+        predictions: list[str] = []
+        decided_by_rule = 0
+        abstentions = 0
+
+        for index, outcome in enumerate(rule_outcomes):
+            best = int(probabilities[index].argmax())
+            model_confidence = float(probabilities[index][best])
+            if model_confidence >= floor:
+                predictions.append(str(classes[best]))
+            elif outcome.disease is not None:
+                predictions.append(outcome.disease)
+                decided_by_rule += 1
+            else:
+                predictions.append("unknown")
+                abstentions += 1
+
+        rows.append(
+            {
+                "floor": floor,
+                "accuracy": round(float(accuracy_score(actual, predictions)), 3),
+                "macro_f1": round(float(f1_score(actual, predictions, average="macro", zero_division=0)), 3),
+                "decided_by_rule_engine": decided_by_rule,
+                "abstentions": abstentions,
+            }
+        )
+
+    return rows
+
+
 def external_use_case_check(pipeline: Pipeline, labels: set[str]) -> dict:
     cases = load_use_cases(labels=labels)
     if not cases:
@@ -470,6 +529,7 @@ def main() -> None:
     # 5. Diagnostics.
     external = external_use_case_check(final_pipeline, set(labels))
     transfer = cross_source_transfer(dataset, best["vectorizer"], best["classifier"])
+    floor_sweep = confidence_floor_sweep(train, validation, best["vectorizer"], best["classifier"])
 
     cv_accuracy_ci = t_interval(cv_accuracies)
     cv_macro_f1_ci = t_interval(cv_macro_f1s)
@@ -530,6 +590,14 @@ def main() -> None:
         },
         "external_use_cases": external,
         "cross_source_transfer": transfer,
+        "confidence_floor_sweep": {
+            "measured_on": (
+                "validation split, scored by a model fit on the training split only, so the "
+                "floor is not chosen against data the scoring model has seen"
+            ),
+            "used_by": "MODEL_CONFIDENCE_FLOOR in app/services/disease_prediction_service.py",
+            "rows": floor_sweep,
+        },
     }
 
     # 6. Artifacts.
@@ -608,6 +676,17 @@ def main() -> None:
             report_lines.append(f"    {label:22s} {entry['mean_recall_on_held_out_passage']}")
         else:
             report_lines.append(f"    {label:22s} not evaluable ({entry.get('reason', 'n/a')})")
+
+    report_lines += [
+        "",
+        "ENSEMBLE CONFIDENCE FLOOR SWEEP (validation, train-only model)",
+        f"    {'floor':>6s} {'accuracy':>9s} {'macro_f1':>9s} {'rule_used':>10s} {'abstain':>8s}",
+    ]
+    for row in floor_sweep:
+        report_lines.append(
+            f"    {row['floor']:6.2f} {row['accuracy']:9.3f} {row['macro_f1']:9.3f} "
+            f"{row['decided_by_rule_engine']:10d} {row['abstentions']:8d}"
+        )
 
     report_lines += [
         "",

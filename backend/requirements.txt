@@ -1,11 +1,30 @@
+# Runtime + training dependencies. Everything here works offline; nothing in
+# this file talks to a paid or authenticated service.
 fastapi==0.115.6
 uvicorn[standard]==0.34.0
+pydantic==2.10.4
+
+# Persistence: SQLite through SQLAlchemy. No database server to run.
+SQLAlchemy==2.0.36
+
+# Modelling and evaluation.
 pandas==2.2.3
 scikit-learn==1.7.2
 joblib==1.4.2
-pydantic==2.10.4
+numpy==2.1.3
+
+# Dataset sourcing (backend/scripts/scrape_medical_sources.py).
 requests==2.32.3
 beautifulsoup4==4.12.3
-streamlit==1.41.1
+
+# Evaluation plots written to models/.
 matplotlib==3.10.0
 seaborn==0.13.2
+
+# Demo frontend.
+streamlit==1.41.1
+
+# Tests. `pytest` was previously not a dependency at all, while tests/ held a
+# text file of examples that nothing executed.
+pytest==8.3.4
+httpx==0.28.1

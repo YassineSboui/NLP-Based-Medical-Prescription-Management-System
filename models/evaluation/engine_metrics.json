@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-09-19T02:08:39.357266+00:00",
+  "methodology": "Every engine is run standalone over the same group-aware held-out test split produced by app.core.evaluation.three_way_group_split, and over the hand-written scenarios in tests/use_case_tests.txt. An engine that declines to answer is scored as wrong, not skipped. The ensemble row is the full arbitration policy end to end.",
+  "split": {
+    "train_rows": 369,
+    "validation_rows": 124,
+    "test_rows": 123
+  },
+  "engines": {
+    "classical": {
+      "available": true,
+      "accuracy": 0.894,
+      "accuracy_ci_95": [
+        0.828,
+        0.937
+      ],
+      "macro_f1": 0.888,
+      "rows": 123,
+      "external_use_case_accuracy": 1.0,
+      "external_use_case_rows": 14,
+      "basis": "held-out test set of 123 rows, group-aware split, engine run standalone with no arbitration",
+      "evaluated_at": "2026-09-19T02:08:22.365537+00:00",
+      "cross_source_transfer_recall": 0.524
+    },
+    "advanced": {
+      "available": true,
+      "accuracy": 0.846,
+      "accuracy_ci_95": [
+        0.771,
+        0.899
+      ],
+      "macro_f1": 0.836,
+      "rows": 123,
+      "external_use_case_accuracy": 0.786,
+      "external_use_case_rows": 14,
+      "basis": "held-out test set of 123 rows, group-aware split, engine run standalone with no arbitration",
+      "evaluated_at": "2026-09-19T02:08:38.552452+00:00"
+    },
+    "symptom_profile": {
+      "available": true,
+      "accuracy": 0.724,
+      "accuracy_ci_95": [
+        0.639,
+        0.795
+      ],
+      "macro_f1": 0.652,
+      "rows": 123,
+      "external_use_case_accuracy": 0.857,
+      "external_use_case_rows": 14,
+      "basis": "held-out test set of 123 rows, group-aware split, engine run standalone with no arbitration",
+      "evaluated_at": "2026-09-19T02:08:38.769754+00:00"
+    }
+  },
+  "ensemble": {
+    "accuracy": 0.894,
+    "accuracy_ci_95": [
+      0.828,
+      0.937
+    ],
+    "macro_f1": 0.886,
+    "rows": 123,
+    "external_use_case_accuracy": 1.0,
+    "policy_confidence_floor": 0.2,
+    "basis": "full arbitration policy over the held-out test set"
+  },
+  "confidence_floor_note": "The sweep that chooses MODEL_CONFIDENCE_FLOOR lives in train_model.py and is recorded under evaluation.confidence_floor_sweep in models/classical/model_metadata.json. It cannot run here: the shipped artifact is fit on train+validation, so scoring it against validation returns its own training data and every floor looks perfect."
+}

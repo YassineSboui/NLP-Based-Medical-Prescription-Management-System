@@ -38,6 +38,18 @@ CROSS-SOURCE TRANSFER (train without one source passage, test on it)
     tuberculosis           0.897
     typhoid fever          0.853
 
+ENSEMBLE CONFIDENCE FLOOR SWEEP (validation, train-only model)
+     floor  accuracy  macro_f1  rule_used  abstain
+      0.00     0.895     0.869          0        0
+      0.15     0.895     0.869          0        0
+      0.20     0.903     0.875          3        0
+      0.25     0.903     0.799          8        1
+      0.30     0.903     0.799         15        2
+      0.40     0.839     0.740         35        2
+      0.50     0.831     0.735         47        2
+      0.60     0.806     0.714         57        4
+      0.70     0.758     0.661         71        4
+
 PER-CLASS ON TEST SET (recall with 95% Wilson interval)
     label                    n   prec   rec    f1  recall 95% CI
     cholera                 11  1.000 1.000 1.000  [0.741, 1.000]

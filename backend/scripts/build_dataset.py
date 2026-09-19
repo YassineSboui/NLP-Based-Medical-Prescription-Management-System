@@ -56,6 +56,7 @@ from pathlib import Path
 BACKEND_DIR = Path(__file__).resolve().parents[1]
 sys.path.append(str(BACKEND_DIR))
 
+from app.core.lexicon import source_forms  # noqa: E402
 from app.core.paths import DATASET_PATH, SCRAPED_SOURCES_PATH  # noqa: E402
 
 # Deterministic output: the same evidence base must always produce the same CSV.
@@ -98,89 +99,11 @@ SYMPTOM_SENTENCE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-# canonical symptom -> surface forms as they actually appear in CDC/WHO prose.
-# Order inside a tuple does not matter; matching always prefers the longest
-# surface form so "severe acute watery diarrhoea" wins over "diarrhoea".
-SYMPTOM_LEXICON: dict[str, tuple[str, ...]] = {
-    "fever": ("high fever", "prolonged high fever", "prolonged fever", "feeling feverish", "feverish", "fever"),
-    "chills": ("chills", "shivering"),
-    "headache": ("severe headache", "headaches", "headache"),
-    "muscle pain": ("muscle and joint pains", "muscle and joint pain", "muscle aches", "muscle pain", "myalgia", "aching muscles"),
-    "joint pain": ("joint pains", "joint pain"),
-    "fatigue": ("fatigue", "tiredness", "feeling tired", "very tired", "malaise", "weakness", "weak"),
-    "nausea": ("nausea", "feeling sick"),
-    "vomiting": ("persistent vomiting", "vomiting", "vomit"),
-    # Both spellings matter: CDC writes "diarrhea", WHO writes "diarrhoea", and
-    # "watery diarrhea" is the term that actually separates cholera from
-    # ordinary gastroenteritis, so the specific forms are listed first.
-    "diarrhea": (
-        "severe acute watery diarrhoea",
-        "acute watery diarrhoea",
-        "acute watery diarrhea",
-        "severe watery diarrhea",
-        "watery diarrhoea",
-        "watery diarrhea",
-        "rice-water stools",
-        "severe diarrhoea",
-        "severe diarrhea",
-        "loose or liquid stools",
-        "loose stools",
-        "diarrhoea",
-        "diarrhea",
-    ),
-    "abdominal pain": ("severe abdominal pain", "abdominal pain", "stomach pain", "pain in the abdomen", "stomach cramps"),
-    "constipation": ("constipation",),
-    "cough": ("prolonged cough", "persistent cough", "coughing", "cough"),
-    "chest pain": ("chest pain",),
-    "shortness of breath": (
-        "shortness of breath",
-        "difficulty breathing",
-        "trouble breathing",
-        "breathing problems",
-        "rapid breathing",
-        "fast breathing",
-    ),
-    "night sweats": ("night sweats", "sweating at night"),
-    "weight loss": ("unexplained weight loss", "weight loss", "losing weight"),
-    "loss of appetite": ("loss of appetite", "no appetite", "not wanting to eat"),
-    "sore throat": ("sore throat",),
-    "runny nose": ("runny nose", "coryza"),
-    "nasal congestion": ("nasal congestion", "stuffy nose", "congestion"),
-    "sneezing": ("sneezing",),
-    "loss of taste": ("loss of taste", "new loss of taste"),
-    "loss of smell": ("loss of smell", "new loss of smell"),
-    "rash": ("non-blanching rash", "skin rash", "rash"),
-    "red watery eyes": ("red watery eyes", "red, watery eyes", "conjunctivitis"),
-    "koplik spots": ("koplik spots", "white spots inside the mouth", "white spots in the mouth"),
-    "stiff neck": ("neck stiffness", "stiff neck"),
-    "light sensitivity": ("sensitivity to light", "photophobia"),
-    "confusion": ("altered mental status", "mental confusion", "confusion"),
-    "jaundice": ("yellowing of the skin and eyes", "yellowing of the skin", "jaundice", "yellow eyes"),
-    "dark urine": ("dark urine",),
-    "bleeding": ("bleeding gums or nose", "bleeding gums", "blood in vomit or stool", "blood in stool", "bleeding"),
-    "blood in sputum": ("sometimes with blood", "coughing up blood", "blood in sputum", "coughing blood"),
-    "dehydration": (
-        "life-threatening dehydration",
-        "severe dehydration",
-        "dehydration",
-        "dehydrated",
-        "excessive thirst",
-        "thirst",
-    ),
-    "swollen glands": ("swollen lymph nodes", "swollen glands"),
-    "pain behind the eyes": ("pain behind the eyes", "pain behind eyes"),
-    "mouth ulcers": ("mouth ulcers", "oral thrush"),
-    "sweating": ("sweating", "sweats"),
-    "seizures": ("seizures",),
-    "restlessness": ("restlessness", "restless"),
-    "ear infection": ("ear infections", "ear infection"),
-    "fast heart rate": ("fast heart rate", "rapid heart rate"),
-    "body pain": ("body aches", "body ache"),
-    "muscle cramps": ("leg cramps", "muscle cramps", "stomach cramps"),
-    "dry mouth": ("dry mucous membranes", "dry mouth"),
-    "low blood pressure": ("low blood pressure",),
-    "irritability": ("restlessness or irritability", "irritability"),
-}
+# The symptom vocabulary lives in app/data/symptom_lexicon.json so that the
+# dataset builder, the entity extractor and the rule engine cannot drift apart.
+# Matching always prefers the longest surface form, so "severe acute watery
+# diarrhoea" wins over "diarrhoea".
+SYMPTOM_LEXICON: dict[str, tuple[str, ...]] = source_forms()
 
 # Lexical variants used only by paraphrase rows.
 #
