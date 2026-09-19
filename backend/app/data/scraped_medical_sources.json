@@ -3,9 +3,12 @@
     "disease": "cholera",
     "source_name": "WHO Cholera Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/cholera",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Cholera",
-    "fetched_at": "2026-05-16T13:33:49.020036+00:00",
+    "fetched_at": "2026-09-19T01:39:17.397146+00:00",
+    "attempted_at": "2026-09-19T01:39:17.397146+00:00",
+    "content_sha256": "3efdd4ba26972455dde125309f32040f60913197b8532e3d53abf57acf0b55ec",
     "extracted_sections": [
       {
         "heading": "Key facts",
@@ -48,9 +51,12 @@
     "disease": "common cold",
     "source_name": "CDC Common Cold About",
     "source_url": "https://www.cdc.gov/common-cold/about/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "About Common Cold",
-    "fetched_at": "2026-05-16T13:33:52.123544+00:00",
+    "fetched_at": "2026-09-19T01:39:17.771091+00:00",
+    "attempted_at": "2026-09-19T01:39:17.771091+00:00",
+    "content_sha256": "123487af5c434803c5f75c17fbc95c3a8e1df8270db8796ce83016f491ad1e8d",
     "extracted_sections": [
       {
         "heading": "Signs and symptoms",
@@ -66,9 +72,12 @@
     "disease": "common cold",
     "source_name": "CDC Flu Signs and Symptoms",
     "source_url": "https://www.cdc.gov/flu/signs-symptoms/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Signs and Symptoms of Flu",
-    "fetched_at": "2026-05-16T13:33:53.163292+00:00",
+    "fetched_at": "2026-09-19T01:39:18.162850+00:00",
+    "attempted_at": "2026-09-19T01:39:18.162850+00:00",
+    "content_sha256": "fa63771ba17ae3359afdb13cb15ead88350c90829d1a45e74d6a199a7f66bd13",
     "extracted_sections": [
       {
         "heading": "Symptoms",
@@ -87,9 +96,12 @@
     "disease": "covid-like illness",
     "source_name": "CDC COVID Symptoms",
     "source_url": "https://www.cdc.gov/covid/signs-symptoms/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Symptoms of COVID-19",
-    "fetched_at": "2026-05-16T13:33:54.712543+00:00",
+    "fetched_at": "2026-09-19T01:39:18.525908+00:00",
+    "attempted_at": "2026-09-19T01:39:18.525908+00:00",
+    "content_sha256": "45738d0732dd8ba74a4a6cf001833448109520270222442ad22b8b6c3d91246c",
     "extracted_sections": [
       {
         "heading": "Signs and Symptoms",
@@ -106,12 +118,67 @@
     ]
   },
   {
+    "disease": "covid-like illness",
+    "source_name": "WHO COVID-19 Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/coronavirus-disease-(covid-19)",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Coronavirus disease (COVID-19)",
+    "fetched_at": "2026-09-19T01:39:18.868952+00:00",
+    "attempted_at": "2026-09-19T01:39:18.868952+00:00",
+    "content_sha256": "ce5b8c085f202f23703e6438ff2fa1261a103115edcb65407407660929118b46",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "COVID-19 is a disease caused by the SARS-CoV-2 coronavirus. There are a range of signs and symptoms, but hte most common symptoms reported for currently-circulating variants are fever, chills, and sore throat.",
+          "Most people make a full recovery without needing treatment. People with severe disease or at risk of developing severe disease should seek medical care as soon as possible.",
+          "Over 13.64 billion COVID-19 vaccine doses had been administered by the end of 2024. WHO continues to recommend COVID-19 vaccination using a risk-based approach. WHO recommends a single dose for persons who have not yet received a COVID-19 vaccine. For those at high risk of severe COVID-19, revaccination may be needed 6-12 months after the most recent dose."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "Because of increasing immunity from past infections and/or vaccination, most people recover without treatment. About 6% develop post COVID-19 condition (PCC, or long COVID), however, which can cause lasting symptoms such as memory issues, fatigue or breathing difficulties. PCC an affect daily life and requires individualized care.",
+          "Vaccination remains a key preventive measure against severe disease. COVID-19 vaccines continue to provide strong protection against severe illness and death.",
+          "fever",
+          "chills",
+          "severe fatigue or tiredness",
+          "headache",
+          "new and persistent cough",
+          "tight chest or chest pain",
+          "appetite loss, nausea, vomiting, abdominal pain or diarrhoea",
+          "difficulty breathing, especially at rest, or unable to speak in sentences",
+          "persistent pain or pressure in the chest",
+          "people with high blood pressure, diabetes, obesity, chronic lung, heart, liver and/or kidney disaeses, cancer or dementia;",
+          "The potential consequences of severe COVID-19 include respiratory failure, sepsis, thromboembolism (blood clots), and multiorgan failure, including injury of the heart, liver or kidneys, and death.",
+          "Some people who have had COVID-19, whether they needed hospitalization or not, continue to experience symptoms long after the infectious period has ended. These long-term effects are called post COVID-19 condition (PCC, or long COVID). The most common symptoms include fatigue, aches and pains in muscles or joints, breathlessness, headaches, and difficulty in thinking or concentrating. Post COVID-19 condition can affect a person’s ability to perform daily activities such as work or household tasks."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "Medical treatment exists for COVID-19, although most people recover from mild illness without needing treatment. For those who need treatment, health-care professionals suggest treatments for COVID-19 based on the severity of the disease and the risk of it getting worse. They consider the person’s age, symptoms, any coexisting health conditions, and individual factors which might interfere with specific treatments."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "cover your mouth and nose with a bent elbow or tissue when you cough or sneeze, and dispose of used tissues right away and clean your hands;"
+        ]
+      }
+    ]
+  },
+  {
     "disease": "dengue",
     "source_name": "WHO Dengue Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Dengue",
-    "fetched_at": "2026-05-16T13:33:57.482219+00:00",
+    "fetched_at": "2026-09-19T01:39:19.252754+00:00",
+    "attempted_at": "2026-09-19T01:39:19.252754+00:00",
+    "content_sha256": "6db5bc43cded918a4c3af3915ed71ad0cedb28d09437c5307b9e263b7a3f53f3",
     "extracted_sections": [
       {
         "heading": "Key facts",
@@ -168,12 +235,92 @@
     ]
   },
   {
+    "disease": "flu",
+    "source_name": "CDC Flu Signs and Symptoms",
+    "source_url": "https://www.cdc.gov/flu/signs-symptoms/index.html",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Signs and Symptoms of Flu",
+    "fetched_at": "2026-09-19T01:39:19.260768+00:00",
+    "attempted_at": "2026-09-19T01:39:19.260768+00:00",
+    "content_sha256": "fa63771ba17ae3359afdb13cb15ead88350c90829d1a45e74d6a199a7f66bd13",
+    "extracted_sections": [
+      {
+        "heading": "Symptoms",
+        "items": [
+          "fever* or feeling feverish/chills",
+          "cough",
+          "headaches",
+          "fatigue (tiredness)",
+          "some people may have vomiting and diarrhea, though this is more common in children than adults.",
+          "*It's important to note that not everyone with flu will have a fever."
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "flu",
+    "source_name": "WHO Influenza (Seasonal) Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/influenza-(seasonal)",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Influenza (seasonal)",
+    "fetched_at": "2026-09-19T01:39:19.639984+00:00",
+    "attempted_at": "2026-09-19T01:39:19.639984+00:00",
+    "content_sha256": "8423d296723513305f6b2198aef4f443d392aa3d4be4c4aedd5dc832d60b7f1f",
+    "extracted_sections": [
+      {
+        "heading": "Overview",
+        "items": [
+          "Seasonal influenza (the flu) is an acute respiratory infection caused by influenza viruses. It is common in all parts of the world. Most people recover without treatment.",
+          "Influenza spreads easily between people when they cough or sneeze. Vaccination is the best way to prevent the disease.",
+          "Symptoms of influenza include acute onset of fever, cough, sore throat, body aches and fatigue.",
+          "Treatment should aim to relieve symptoms. People with the flu should rest and drink plenty of liquids. Most people will recover on their own within a week. Medical care may be needed in severe cases and for people with risk factors."
+        ]
+      },
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "sudden onset of fever",
+          "cough (usually dry)",
+          "headache",
+          "muscle and joint pain",
+          "The cough can be severe and can last 2 weeks or more.",
+          "Most people recover from fever and other symptoms within a week without requiring medical attention. However, influenza can cause severe illness or death, especially in people at high risk."
+        ]
+      },
+      {
+        "heading": "Diagnosis",
+        "items": [
+          "Collection of appropriate respiratory samples and the application of a laboratory diagnostic test is required to establish a definitive diagnosis. Proper collection, storage and transport of respiratory specimens is the essential first step for laboratory detection of influenza virus infections. Laboratory confirmation is commonly performed using direct antigen detection, virus isolation, or detection of influenza-specific RNA by reverse transcriptase-polymerase chain reaction (RT-PCR). Various guidance on the laboratory techniques is published and updated by WHO ."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "treat other symptoms such as fever"
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "Safe and effective vaccines have been used for more than 60 years. Immunity from vaccination goes away over time so annual vaccination is recommended to protect against influenza.",
+          "The vaccine may be less effective in older people, but it will make the illness less severe and reduces the chance of complications and death.",
+          "cover your mouth and nose when coughing or sneezing"
+        ]
+      }
+    ]
+  },
+  {
     "disease": "gastroenteritis",
     "source_name": "CDC Norovirus About",
     "source_url": "https://www.cdc.gov/norovirus/about/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "About Norovirus",
-    "fetched_at": "2026-05-16T13:33:59.764844+00:00",
+    "fetched_at": "2026-09-19T01:39:20.015961+00:00",
+    "attempted_at": "2026-09-19T01:39:20.015961+00:00",
+    "content_sha256": "fe880b6c2582b27b40ebd1c15509167831c771cf5e1f8c79ffb4da4435658d24",
     "extracted_sections": [
       {
         "heading": "Signs and symptoms",
@@ -194,9 +341,12 @@
     "disease": "gastroenteritis",
     "source_name": "WHO Diarrhoeal Disease Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/diarrhoeal-disease",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Diarrhoeal disease",
-    "fetched_at": "2026-05-16T13:34:02.234926+00:00",
+    "fetched_at": "2026-09-19T01:39:20.408685+00:00",
+    "attempted_at": "2026-09-19T01:39:20.408685+00:00",
+    "content_sha256": "259bbde1287593e1158820c6a08e2147896239f5a5d95dfaf14a3a715d3e1c17",
     "extracted_sections": [
       {
         "heading": "Key facts",
@@ -239,9 +389,12 @@
     "disease": "hepatitis b",
     "source_name": "WHO Hepatitis B Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/hepatitis-b",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Hepatitis B",
-    "fetched_at": "2026-05-16T13:34:04.475828+00:00",
+    "fetched_at": "2026-09-19T01:39:20.771238+00:00",
+    "attempted_at": "2026-09-19T01:39:20.771238+00:00",
+    "content_sha256": "705fe049d0fc8a965334bbb70b22b585046cd161e2aa497aaedb5c0ed0b1ea6a",
     "extracted_sections": [
       {
         "heading": "Key facts",
@@ -253,26 +406,36 @@
       {
         "heading": "Overview",
         "items": [
-          "It can spread through contact with infected body fluids like blood, saliva, vaginal fluids and semen. It can also be passed from a mother to her baby.",
-          "Hepatitis B can be prevented with a safe and effective vaccine. The vaccine is usually given soon after birth with boosters a few weeks later. It offers nearly 100% protection against the virus."
+          "It can spread through contact with infected body fluids like blood, vaginal fluids, semen and saliva in the presence of open cuts and sores. It can also be passed from a mother to her baby.",
+          "Hepatitis B can be prevented with a safe and effective vaccine. The vaccine is usually given soon after birth with boosters a few weeks later. It offers nearly 100% protection against the virus.",
+          "According to latest WHO estimates, the proportion of children under 5 years of age chronically infected with hepatitis B dropped to just under 1% in 2019 down from around 5% in the pre-vaccine era ranging from the 1980s to the early 2000s."
+        ]
+      },
+      {
+        "heading": "Symptoms",
+        "items": [
+          "yellowing of the skin and eyes (jaundice)",
+          "nausea",
+          "vomiting",
+          "pain in the abdomen."
         ]
       },
       {
         "heading": "Diagnosis",
         "items": [
           "It is not possible on clinical grounds to differentiate hepatitis B from hepatitis caused by other viral agents; hence laboratory confirmation of the diagnosis is essential. Several blood tests are available to diagnose and monitor people with hepatitis B. Some laboratory tests can be used to distinguish acute and chronic infections, whilst other can assess and monitor the severity of liver disease. Physical examination, ultrasound and elastography can also be performed to assess degree of liver fibrosis and scarring and monitor progression of liver disease. WHO recommends that all blood donations be tested for hepatitis B to ensure blood safety and avoid accidental transmission.",
-          "As of 2022, 13% of all people estimated to be living with hepatitis B were aware of their infection, while 3% (7 million) of the people living with chronic hepatitis B were on treatment. According to latest WHO estimates, the proportion of children under five years of age chronically infected with HBV dropped to just under 1% in 2019 down from around 5% in the pre-vaccine era ranging from the 1980s to the early 2000s.",
-          "In settings with intermediate and high Hepatitis B surface antigen (HBsAg) seroprevalence in the general population (defined as > 2% HBsAg seroprevalence), WHO recommends that all adults have access to and be offered HBsAg testing with linkage to prevention and care and treatment services as needed. WHO also recommends targeted testing, in all settings, of people with suspicions of liver disease, blood donors, and all pregnant women, the latter in order to provide the opportunity to institute measures for prevention of mother-to-child transmission (MTCT). In addition, WHO recommends testing among specific high-risk groups, including migrants from endemic regions, partners or family members of infected persons, health-care workers, people who inject drugs (PWID), people in prisons and other closed settings, men who have sex with men (MSM) sex workers, transgender people and people living with HIV."
+          "In settings with intermediate and high Hepatitis B surface antigen (HBsAg) seroprevalence in the general population (defined as >2% HBsAg seroprevalence), WHO recommends that all adults have access to and be offered HBsAg testing with linkage to prevention and care and treatment services as needed. WHO also recommends targeted testing, in all settings, of people with suspicions of liver disease, blood donors, and all pregnant women, the latter in order to provide the opportunity to institute measures for prevention of mother-to-child transmission (MTCT). In addition, WHO recommends testing among specific high-risk groups, including migrants from endemic regions, partners or family members of infected persons, health-care workers, people who inject drugs (PWID), people in prisons and other closed settings, men who have sex with men (MSM) sex workers, transgender people and people living with HIV."
         ]
       },
       {
         "heading": "Treatment",
         "items": [
           "There is no specific treatment for acute hepatitis B. Chronic hepatitis B can be treated with antiviral medications.",
-          "Care for people with acute hepatitis B should focus on managing sympoms. They should eat a healthy diet and drink plenty of liquids to prevent dehydration from vomiting and diarrhoea.",
+          "Care for people with acute hepatitis B should focus on managing symptoms. They should eat a healthy diet and drink plenty of liquids to prevent dehydration from vomiting and diarrhoea.",
           "Chronic hepatitis B infection can be treated with oral medicines, including tenofovir or entecavir.",
           "Treatment can",
           "Most people who start hepatitis B treatment must continue it for life.",
+          "In 2024 only 10 million people were on antiviral treatment, this being equivalent to 4.3% of all people living with chronic hepatitis B.",
           "With the updated Guidelines for the prevention, diagnosis, care and treatment for people with chronic hepatitis B infection , released in 2024, it is estimated that more than 50% of people with chronic hepatitis B infection will require treatment, depending on setting and eligibility criteria.",
           "In low-income settings, most people with liver cancer present late in the course of the disease and die within months of diagnosis. In high-income countries, patients present to hospital earlier in the course of the disease and have access to surgery and chemotherapy, which can prolong life for several months to a few years. Liver transplantation is sometimes used in people with cirrhosis or liver cancer in technologically advanced countries, with varying success."
         ]
@@ -295,9 +458,12 @@
     "disease": "hiv",
     "source_name": "CDC HIV About",
     "source_url": "https://www.cdc.gov/hiv/about/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "About HIV",
-    "fetched_at": "2026-05-16T13:34:06.573373+00:00",
+    "fetched_at": "2026-09-19T01:39:21.099901+00:00",
+    "attempted_at": "2026-09-19T01:39:21.099901+00:00",
+    "content_sha256": "16fd26ebe5d63c95c8e824072b2c5cf1e3cedb01c6be92a8340e40b8f6d6bb6c",
     "extracted_sections": [
       {
         "heading": "Overview",
@@ -331,9 +497,12 @@
     "disease": "hiv",
     "source_name": "WHO HIV and AIDS Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/hiv-aids",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "HIV and AIDS",
-    "fetched_at": "2026-05-16T13:34:08.688020+00:00",
+    "fetched_at": "2026-09-19T01:39:21.446184+00:00",
+    "attempted_at": "2026-09-19T01:39:21.446184+00:00",
+    "content_sha256": "0238d9f4b9c8dba10a5dc70db9443574ee66edef514e803e70cc6088755be279",
     "extracted_sections": [
       {
         "heading": "Key facts",
@@ -369,7 +538,7 @@
       {
         "heading": "Prevention",
         "items": [
-          "People taking antiretroviral therapy (ART) and who have no evidence of virus in the blood will not pass HIV to their sexual partners. Access to testing and ART is an important part of preventing HIV."
+          "People taking ART and who have no evidence of virus in the blood will not pass HIV to their sexual partners. Access to testing and ART is an important part of preventing HIV."
         ]
       },
       {
@@ -386,9 +555,12 @@
     "disease": "malaria",
     "source_name": "CDC Malaria About",
     "source_url": "https://www.cdc.gov/malaria/about/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "About Malaria",
-    "fetched_at": "2026-05-16T13:34:10.454954+00:00",
+    "fetched_at": "2026-09-19T01:39:21.823247+00:00",
+    "attempted_at": "2026-09-19T01:39:21.823247+00:00",
+    "content_sha256": "1f4145f8418216d1dceda764a6ea6bc67e61b52e49ff37be7c7c801c5a91d600",
     "extracted_sections": [
       {
         "heading": "Symptoms",
@@ -418,9 +590,12 @@
     "disease": "malaria",
     "source_name": "WHO Malaria Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/malaria",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Malaria",
-    "fetched_at": "2026-05-16T13:34:12.754850+00:00",
+    "fetched_at": "2026-09-19T01:39:22.199483+00:00",
+    "attempted_at": "2026-09-19T01:39:22.199483+00:00",
+    "content_sha256": "28b88530fc3015769ad29026439b7206d85c90e129aa5918fd1746b20a3ff8e4",
     "extracted_sections": [
       {
         "heading": "Overview",
@@ -467,9 +642,12 @@
     "disease": "measles",
     "source_name": "CDC Measles Symptoms",
     "source_url": "https://www.cdc.gov/measles/signs-symptoms/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Measles Symptoms and Complications",
-    "fetched_at": "2026-05-16T13:34:14.711176+00:00",
+    "fetched_at": "2026-09-19T01:39:22.544597+00:00",
+    "attempted_at": "2026-09-19T01:39:22.544597+00:00",
+    "content_sha256": "556cbb583bab295f924d7e74f1949f45a976da600b95223769f640e0a14de3d4",
     "extracted_sections": [
       {
         "heading": "Signs and symptoms",
@@ -494,12 +672,76 @@
     ]
   },
   {
+    "disease": "measles",
+    "source_name": "WHO Measles Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/measles",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Measles",
+    "fetched_at": "2026-09-19T01:39:22.905542+00:00",
+    "attempted_at": "2026-09-19T01:39:22.905542+00:00",
+    "content_sha256": "33e03728a907ceceb5cd36059ebcc24dc2a63a26a5057a578ac72c10a8e11448",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "Even though a safe and cost-effective vaccine is available, in 2024, there were an estimated 95 000 measles deaths globally, mostly among unvaccinated or under vaccinated children under the age of 5 years.",
+          "The proportion of children receiving a first dose of measles vaccine was 84% in 2025, slightly below the 2019 level of 86%."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "Measles is a highly contagious disease caused by a virus. It spreads easily when an infected person breathes, coughs or sneezes. It can cause severe disease, complications, and even death.",
+          "Measles infects the respiratory tract and then spreads throughout the body. Symptoms include a high fever, cough, runny nose and a rash all over the body.",
+          "Being vaccinated is the best way to prevent getting sick with measles or spreading it to other people. The vaccine is safe and helps your body fight off the virus.",
+          "Before the introduction of measles vaccine in 1963 and widespread vaccination, major epidemics occurred approximately every two to three years and caused an estimated 2.6 million deaths each year.",
+          "An estimated 95 000 people died from measles in 2024 – mostly children under the age of five years, despite the availability of a safe and cost-effective vaccine."
+        ]
+      },
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "Symptoms of measles usually begin 7–14 days after exposure to the virus. A prominent rash is the most visible symptom.",
+          "fever",
+          "cough",
+          "The rash appears 3 to 5 days after the first symptoms, usually on the face and upper neck. It spreads over about 3 days, eventually downward to the trunk, arms, legs and feet. It usually lasts 4–8 days before fading.",
+          "severe diarrhoea and related dehydration",
+          "severe breathing problems including pneumonia."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "There is no specific treatment for measles. Caregiving should focus on relieving symptoms, making the person comfortable and preventing complications.",
+          "Drinking enough water and treatments for dehydration can replace fluids lost to diarrhoea or vomiting. Eating a healthy diet is also important.",
+          "Doctors may use antibiotics to treat pneumonia and ear and eye infections.",
+          "Two doses of vitamin A are recommended for all suspected measles cases in children under 5 years of age, immediately on diagnosis and repeated the next day, according to the dosing indicated by the health practitioner. A third dose is recommended for any clinical signs of vitamin A deficiency with eye complications and should be given 4–6 weeks later. This restores low levels of vitamin A that occur even in well-nourished children. It can help prevent other complications from measles, including eye damage and blindness. Vitamin A supplements may also reduce the number of measles deaths."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "Community-wide vaccination is the most effective way to prevent measles. All children should be vaccinated against measles. The vaccine is safe, effective and inexpensive.",
+          "Children should receive two doses of the vaccine to ensure they are immune. The first dose is usually given at 9 months of age in countries where measles is common and 12–15 months in other countries. A second dose should be given later in childhood, usually at 15–18 months.",
+          "The measles vaccine is given alone or often combined with vaccines for mumps, rubella and/or varicella.",
+          "Routine measles vaccination, combined with mass immunization campaigns in countries with high case rates are crucial for reducing global measles deaths. The measles vaccine has been in use for about 60 years and costs less than US$ 1 per child. The measles vaccine is also used in emergencies to stop outbreaks from spreading. The risk of measles outbreaks is particularly high amongst refugees, who should be vaccinated as soon as possible.",
+          "Combining vaccines slightly increases the cost but allows for shared delivery and administration costs and importantly, adds the benefit of protection against rubella, the most common vaccine preventable infection that can infect babies in the womb.",
+          "In 2025, 77% of children received both doses of the measles vaccine, and about 84% of the world's children received one dose of measles vaccine by their first birthday. Two doses of the vaccine are recommended to ensure immunity and prevent outbreaks, as not all children develop immunity from the first dose."
+        ]
+      }
+    ]
+  },
+  {
     "disease": "meningitis",
     "source_name": "CDC Meningitis About",
     "source_url": "https://www.cdc.gov/meningitis/about/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "About Meningitis",
-    "fetched_at": "2026-05-16T13:34:16.679957+00:00",
+    "fetched_at": "2026-09-19T01:39:23.266909+00:00",
+    "attempted_at": "2026-09-19T01:39:23.266909+00:00",
+    "content_sha256": "68320b16c1fb9d08f784ff61f268756311eb3db1a5651ee3d31cff4efbc2d8b8",
     "extracted_sections": [
       {
         "heading": "Symptoms",
@@ -519,12 +761,70 @@
     ]
   },
   {
+    "disease": "meningitis",
+    "source_name": "WHO Meningitis Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/meningitis",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Meningitis",
+    "fetched_at": "2026-09-19T01:39:23.612571+00:00",
+    "attempted_at": "2026-09-19T01:39:23.612571+00:00",
+    "content_sha256": "ded67dbd12d2095133b73484c78b6f1ff78c89e688d58c4a258313da6449cba9",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "Vaccines are the most effective way to deliver long-lasting protection."
+        ]
+      },
+      {
+        "heading": "Signs and symptoms",
+        "items": [
+          "Common symptoms of meningitis are fever, neck stiffness, confusion or altered mental status, headache, sensitivity to light, nausea and vomiting. Less frequent symptoms include seizures, coma and neurological deficits, such as weakness of the limbs.",
+          "Some bacterial pathogens may also account for other symptoms as a result of bloodstream infection, which can quickly lead to sepsis, including cold hands and feet, fast breathing and low blood pressure. A characteristic, non-blanching skin rash may appear with meningococcal sepsis."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "Vaccines offer the best protection against common types of bacterial meningitis.",
+          "Vaccines can prevent meningitis caused by:",
+          "Maternal Group B streptococcus vaccines to prevent invasive GBS disease in infants are in the final stages of clinical development.",
+          "talk to your doctor or nurse about taking antibiotics (in case of bacterial meningitis)"
+        ]
+      },
+      {
+        "heading": "2. Antibiotics for prevention (chemoprophylaxis)",
+        "items": [
+          "Post-exposure prophylaxis with antibiotics is given to close contacts of individuals with meningococcal disease to eradicate asymptomatic meningococcal carriage in the nose and decrease the risk of transmission."
+        ]
+      },
+      {
+        "heading": "Diagnosis",
+        "items": [
+          "To diagnose meningitis, a lumbar puncture is needed to examine the cerebrospinal fluid (CSF). This should be done before starting antibiotics; however, if bacterial meningitis is suspected based on the signs and symptoms, a lumbar puncture should never delay antibiotic treatment.",
+          "Laboratories will then perform specific tests with CSF or blood to identify the pathogen causing the infection. The tests will also help identify the treatments needed, and specifically for bacterial infections the susceptibility to types of antibiotics, as well as identify the strain(s) of the pathogen responsible and inform public health responses."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "Antibiotic treatment should be started as soon as possible when bacterial meningitis is suspected. The first dose of antibiotic treatment should not be delayed until the results of the lumbar puncture are available. The choice of antibiotic treatment should consider the age of the patient, presence of immunosuppression, and local prevalence of antimicrobial resistance patterns. In non-epidemic settings, intravenous corticosteroids (e.g., dexamethasone) are initiated with the first dose of antibiotics to reduce the inflammatory response and the risk of neurological sequelae and death,",
+          "Those who have lived through meningitis can have complications such as deafness, learning impairment or behavioural problem and require long-term treatment and care. The ongoing psychosocial impacts of disability from meningitis can have medical, educational, social and human rights-based implications. Access to both services and support for these conditions is often insufficient, especially in low- and middle-income countries."
+        ]
+      }
+    ]
+  },
+  {
     "disease": "pneumonia",
     "source_name": "CDC Pneumonia About",
     "source_url": "https://www.cdc.gov/pneumonia/about/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "About Pneumonia",
-    "fetched_at": "2026-05-16T13:34:18.731317+00:00",
+    "fetched_at": "2026-09-19T01:39:23.959332+00:00",
+    "attempted_at": "2026-09-19T01:39:23.959332+00:00",
+    "content_sha256": "dcf9683a23f55d7b422b2f8dd34af8c9a472f5fbebefd4c729cd78ea3bcc5a85",
     "extracted_sections": [
       {
         "heading": "Symptoms",
@@ -539,12 +839,52 @@
     ]
   },
   {
+    "disease": "pneumonia",
+    "source_name": "WHO Pneumonia Fact Sheet",
+    "source_url": "https://www.who.int/news-room/fact-sheets/detail/pneumonia",
+    "fetch_status": "ok",
+    "status_code": 200,
+    "title": "Pneumonia in children",
+    "fetched_at": "2026-09-19T01:39:24.303443+00:00",
+    "attempted_at": "2026-09-19T01:39:24.303443+00:00",
+    "content_sha256": "9a0327b5cf708a3cc13cba081a5aff2d17e5c40de6a78f14b467d8f1ed42a113",
+    "extracted_sections": [
+      {
+        "heading": "Key facts",
+        "items": [
+          "Pneumonia caused by bacteria can be treated with antibiotics, but only one third of children with pneumonia receive the antibiotics they need."
+        ]
+      },
+      {
+        "heading": "Overview",
+        "items": [
+          "Pneumonia is a form of acute respiratory infection that affects the lungs. The lungs are made up of small sacs called alveoli, which fill with air when a healthy person breathes. When an individual has pneumonia, the alveoli are filled with pus and fluid, which makes breathing painful and limits oxygen intake."
+        ]
+      },
+      {
+        "heading": "Treatment",
+        "items": [
+          "Pneumonia should be treated with antibiotics. The antibiotic of choice for first line treatment is amoxicillin dispersible tablets. Most cases of pneumonia require oral antibiotics, which are often prescribed at a health centre. These cases can also be diagnosed and treated with inexpensive oral antibiotics at the community level by trained community health workers. Hospitalization is recommended only for severe cases of pneumonia."
+        ]
+      },
+      {
+        "heading": "Prevention",
+        "items": [
+          "Preventing pneumonia in children is an essential component of a strategy to reduce child mortality. Immunization against Hib, pneumococcus, measles and whooping cough (pertussis) is the most effective way to prevent pneumonia."
+        ]
+      }
+    ]
+  },
+  {
     "disease": "tuberculosis",
     "source_name": "CDC TB Signs and Symptoms",
     "source_url": "https://www.cdc.gov/tb/signs-symptoms/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Signs and Symptoms of Tuberculosis",
-    "fetched_at": "2026-05-16T13:34:20.657524+00:00",
+    "fetched_at": "2026-09-19T01:39:24.643276+00:00",
+    "attempted_at": "2026-09-19T01:39:24.643276+00:00",
+    "content_sha256": "e6890cafb59973326cda4ffafc617fd45d97b0328e080e7083f690c20e16c5e3",
     "extracted_sections": [
       {
         "heading": "Do you have symptoms of active TB disease?",
@@ -558,9 +898,12 @@
     "disease": "tuberculosis",
     "source_name": "WHO Tuberculosis Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/tuberculosis",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Tuberculosis",
-    "fetched_at": "2026-05-16T13:34:22.671602+00:00",
+    "fetched_at": "2026-09-19T01:39:25.182886+00:00",
+    "attempted_at": "2026-09-19T01:39:25.182886+00:00",
+    "content_sha256": "e83bf57dada5cc21ce144b8359e7ae5294305324d12795294bdf4bfe8ec5594d",
     "extracted_sections": [
       {
         "heading": "Key facts",
@@ -617,9 +960,12 @@
     "disease": "typhoid fever",
     "source_name": "CDC Typhoid Symptoms",
     "source_url": "https://www.cdc.gov/typhoid-fever/signs-symptoms/index.html",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Symptoms of Typhoid Fever and Paratyphoid Fever",
-    "fetched_at": "2026-05-16T13:34:25.358853+00:00",
+    "fetched_at": "2026-09-19T01:39:25.936350+00:00",
+    "attempted_at": "2026-09-19T01:39:25.936350+00:00",
+    "content_sha256": "db4bee0deda3c0a586a47f5cf2461d4ecaadf61202889294967922fb991b58ee",
     "extracted_sections": [
       {
         "heading": "Signs and symptoms",
@@ -647,9 +993,12 @@
     "disease": "typhoid fever",
     "source_name": "WHO Typhoid Fact Sheet",
     "source_url": "https://www.who.int/news-room/fact-sheets/detail/typhoid",
+    "fetch_status": "ok",
     "status_code": 200,
     "title": "Typhoid",
-    "fetched_at": "2026-05-16T13:34:27.300765+00:00",
+    "fetched_at": "2026-09-19T01:39:26.738315+00:00",
+    "attempted_at": "2026-09-19T01:39:26.738315+00:00",
+    "content_sha256": "96d865b2084e70f76714235817c7723c79e82d7ff5e5bad693099cc1d958396e",
     "extracted_sections": [
       {
         "heading": "Key facts",
